@@ -11,6 +11,7 @@ class Main {
     // seus respectivos arquivos, passando por parametro e dados (caso houver)
     public function index(){
         
+        
         Store::Layout([
             'layouts/html_header',
             'layouts/header',

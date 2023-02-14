@@ -2,7 +2,7 @@
 
 //Configurações do Sistema
 
-DEFINE('APP_NAME', 'Projeto Loja');
+DEFINE('APP_NAME', 'Projeto Hamnurgueria');
 DEFINE("APP_VERSION", "1.0.0");
 
 DEFINE("ROUTE_MAIN", "index");
