@@ -1,0 +1,12 @@
+
+.produto-container{
+    border: 2px solid red;
+}
+
+.produto-img{
+    width: 200px;
+}
+
+.produto-img img{
+    width: 100%;
+}

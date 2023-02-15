@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Product;
 use App\Models\Store;
 
 class Main {
@@ -10,16 +11,21 @@ class Main {
     //chamo a classe estatica Layout no Store, montando o layout com 
     // seus respectivos arquivos, passando por parametro e dados (caso houver)
     public function index(){
-        
-        
+
+        $p = new Product;
+        $produtos = $p->listar_produtos_disponiveis();
+
+        // Store::printData($produtos);
+    
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
             'home',
             'layouts/footer',
             'layouts/html_footer'
-        ]);
+        ], ["produtos" => $produtos]);
     }
+
     public function dashboard(){
         
         Store::Layout([

@@ -1,4 +1,30 @@
-.menu-container{
+#menu-container{
     background-color: #b11414;
     height: 70px;
+    display: flex;
+    justify-content: space-between;
 }
+
+.logo{
+    width: 80px;
+    margin-left: 10px;
+}
+
+.logo img{
+    width: 100%;
+}
+
+.menu-container{
+    display: flex;
+}
+
+.menu-container ul{
+    display: flex;
+}
+
+.menu-container li{
+    display: flex;
+}
+
+
+

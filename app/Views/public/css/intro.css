@@ -1,5 +1,11 @@
 #introMain .carousel-inner, #introMain .carousel-item{
-    max-height: 90vh;
+    height: 90vh;
+}
+
+@media (max-width: 760px){
+    #introMain .carousel-inner, #introMain .carousel-item{
+       height: auto; 
+    }
 }
 /* 
 #introMain img{

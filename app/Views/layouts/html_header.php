@@ -11,6 +11,8 @@
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/global.css"/>
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/intro.css"/>
+    <link rel="stylesheet" type="text/css" href="app/Views/public/css/home/index.css"/>
+    <link rel="stylesheet" type="text/css" href="app/Views/public/css/card_produtos/index.css"/>
 
     <!-- fonts.googleapis -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

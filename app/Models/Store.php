@@ -42,5 +42,6 @@ class Store {
             echo '<pre>';
             echo($data);
         }
+        die("Finish...");
     }
 }
