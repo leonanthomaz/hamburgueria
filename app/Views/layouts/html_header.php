@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/intro.css"/>
     <link rel="stylesheet" type="text/css" href="app/Views/public/css/home/index.css"/>
-    <link rel="stylesheet" type="text/css" href="app/Views/public/css/card_produtos/index.css"/>
+    <link rel="stylesheet" type="text/css" href="app/Views/public/css/components/products.css"/>
 
     <!-- fonts.googleapis -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     
     <script src="app/Views/public/js/global.js"></script>
+    <script src="app/Views/public/js/menu.js"></script>
 
 </head>
 <body>

@@ -1,8 +1,10 @@
-#menu-container{
+#menu{
     background-color: #b11414;
     height: 70px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .logo{
@@ -18,12 +20,60 @@
     display: flex;
 }
 
-.menu-container ul{
+.menu-wrapper{
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.menu-container li{
-    display: flex;
+.menu-wrapper > li{
+    list-style: none;
+    margin: 10px;
+}
+
+.menu-wrapper > li > a{
+    color: white;
+    text-decoration: none;
+}
+
+.menu-social{
+    display: block;
+}
+
+#icon{
+    display: none;
+}
+
+@media(max-width: 760px){
+    .menu-social{
+        display: none;
+    }
+    
+    #icon{
+        display: block;
+    }
+
+    .menu-wrapper{
+        display: block;
+        position: absolute;
+        width: 300px;
+        top: 70px;
+        right: -300px;
+        background: #e7e7e7;
+        transition: 0.6s;
+        z-index: 1000;
+        /* height: 0px; */
+        visibility: hidden;
+        overflow-y: hidden;
+    }
+
+    #menu.active .menu-wrapper {
+        /* height: calc(100vh - 70px); */
+        visibility: visible;
+        overflow-y: auto;
+        right: 0px;
+        background: #b11414;
+    }
 }
 
 

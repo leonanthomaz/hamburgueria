@@ -1,6 +1,3 @@
-// $(document).ready(function(){
-//     alert("aewew")
-// })
 
 const addCart = (id) => {
     
@@ -15,3 +12,4 @@ const addCart = (id) => {
         }
     });
 }
+
