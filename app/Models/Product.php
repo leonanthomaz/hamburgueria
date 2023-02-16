@@ -6,17 +6,17 @@ use App\Models\Connect;
 
 class Product {
 
-    public function listar_produtos()
+    public function product_list()
     {
-        $banco = new Connect;
-        $produtos = $banco->select("SELECT * FROM produtos");
-        return $produtos;
+        $database = new Connect;
+        $products = $database->select("SELECT * FROM produtos");
+        return $products;
     }
 
-    public function listar_produtos_disponiveis()
+    public function product_list_available()
     {
-        $banco = new Connect;
-        $produtos = $banco->select("SELECT * FROM produtos WHERE p_disponivel = '1'");
-        return $produtos;
+        $database = new Connect;
+        $products = $database->select("SELECT * FROM produtos WHERE p_disponivel = '1'");
+        return $products;
     }
 }

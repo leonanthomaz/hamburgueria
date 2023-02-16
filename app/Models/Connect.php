@@ -8,15 +8,15 @@ use PDOException;
 
 class Connect {
 
-    private $conexao;
+    private $conn;
 
-    public function conectar(){
-        $this->conexao = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME.";charset=".DB_CHARSET, DB_USER, DB_PASS, array(PDO::ATTR_PERSISTENT => true));
-        $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    public function connect(){
+        $this->conn = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME.";charset=".DB_CHARSET, DB_USER, DB_PASS, array(PDO::ATTR_PERSISTENT => true));
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
 
-    public function desconectar(){
-        $this->conexao = null;
+    public function disconnect(){
+        $this->conn = null;
     }
 
     public function select($sql, $param = null){
@@ -27,17 +27,17 @@ class Connect {
             throw new Exception('Não é uma instrução SELECT');
         }
 
-        $this->conectar();
+        $this->connect();
 
         $results = null;
 
         try{
             if(!empty($param)){
-                $stmt = $this->conexao->prepare($sql);
+                $stmt = $this->conn->prepare($sql);
                 $stmt->execute($param);
                 $results =  $stmt->fetchAll(PDO::FETCH_CLASS);
             }else{
-                $stmt = $this->conexao->prepare($sql);
+                $stmt = $this->conn->prepare($sql);
                 $stmt->execute();
                 $results =  $stmt->fetchAll(PDO::FETCH_CLASS);
             }
@@ -46,8 +46,119 @@ class Connect {
             return false;
         }
 
-        $this->desconectar();
+        $this->disconnect();
 
         return $results;
+    }
+
+    public function insert($sql, $param = null){
+        $sql = trim($sql);
+
+        if(!preg_match('/^INSERT/i', $sql)){
+            throw new Exception('Não é uma instrução INSERT');
+            //die('Não é uma instrução SELECT');
+
+        }
+
+        $this->connect();
+
+        try{
+            if(!empty($param)){
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute($param);
+            }else{
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute();
+            }
+
+        }catch(PDOException $e){
+            return false;
+        }
+
+        $this->disconnect();
+    }
+
+    public function update($sql, $param = null){
+
+        $sql = trim($sql);
+
+        if(!preg_match('/^UPDATE/i', $sql)){
+            throw new Exception('Não é uma instrução UPDATE');
+            //die('Não é uma instrução SELECT');
+
+        }
+
+        $this->connect();
+
+        try{
+            if(!empty($param)){
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute($param);
+            }else{
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute();
+            }
+
+        }catch(PDOException $e){
+            return false;
+        }
+
+        $this->disconnect();
+    }
+
+    public function delete($sql, $param = null){
+
+        $sql = trim($sql);
+
+        if(!preg_match('/^DELETE/i', $sql)){
+            throw new Exception('Não é uma instrução DELETE');
+            //die('Não é uma instrução SELECT');
+
+        }
+
+        $this->connect();
+
+        try{
+            if(!empty($param)){
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute($param);
+            }else{
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute();
+            }
+
+        }catch(PDOException $e){
+            return false;
+        }
+
+        $this->disconnect();
+    }
+
+    public function statement($sql, $param = null){
+
+        $sql = trim($sql);
+
+        if(preg_match('/^(SELECT|INSERT|UPDATE|DELETE)/i', $sql)){
+            throw new Exception('Instrução inválida!');
+            //die('Não é uma instrução SELECT');
+
+        }
+
+        $this->connect();
+
+        try{
+            if(!empty($param)){
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute($param);
+            }else{
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute();
+            }
+
+        }catch(PDOException $e){
+            return false;
+        }
+
+        $this->disconnect();
     }
 }

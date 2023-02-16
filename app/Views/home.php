@@ -1,34 +1,28 @@
 
 <?php include_once "app/Views/includes/carousel.php"; ?>
 
-<?php 
-foreach($produtos as $produto):
-?>
+
 
 <div class="container">
-    <div class="col-12 text-center">
-        <div class="row">
-            <div class="col">
-                <div class="produto-container">
-                    <?php echo $produto->p_nome ?>
-                    <div class="produto-img">
-                        <img src="app/Views/public/img/<?php echo $produto->p_imagem.".jpg" ?>" alt="">
-                    </div>
-                </div>
+  <div class="row">
+    <?php 
+    foreach($products as $product):
+    ?>
+    <div class="col-sm">
+        <div class="produto-item">
+            <?php echo $product->p_nome ?>
+            <div class="produto-img">
+                <img src="app/Views/public/img/<?php echo $product->p_imagem.".jpg" ?>" alt="">
             </div>
-            <div class="col">A</div>
-            <div class="col">A</div>
-        </div>
-        <div class="row">
-            <div class="col">A</div>
-            <div class="col">A</div>
-            <div class="col">A</div>
+            <button onclick="addCart(<?php echo $product->p_id ?>)">Adicionar ao carrinho</button>
+            <div id="resposta"></div>
         </div>
     </div>
+    <?php endforeach; ?>
+  </div>
 </div>
 
 <div id="especialidade" class="container-fluid">
 
 </div>
 
-<?php endforeach; ?>

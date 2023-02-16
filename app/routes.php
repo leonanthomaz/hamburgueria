@@ -1,37 +1,45 @@
 <?php
 
 //Definindo bloco de classes predefinidas para montagem da logica a partir da URL
-$rotas = [
+$routes = [
+
+    //Principal
     "index" => "main@index",
-    "dashboard" => "main@dashboard"
+    "dashboard" => "main@dashboard",
+    "login" => "main@login",
+
+    //Carrinho
+    "cart" => "cart@cart",
+    "addCart" => "cart@addCart",
+
 ];
 
 //Definindo rota padrão
-$acao = "index";
+$action = "index";
 
 //Verificação da rota passada por URL
 if(isset($_GET['a'])){
-    if(!key_exists($_GET['a'], $rotas)){
-        $acao = 'index';
+    if(!key_exists($_GET['a'], $routes)){
+        $action = 'index';
     }else{
-        $acao = $_GET['a'];
+        $action = $_GET['a'];
     }
 }
 
-//Desestruturação da rota, dividindo em duas partes
-$partes = explode('@', $rotas[$acao]);
+//Desestruturação da rota, dividindo em duas parts
+$parts = explode('@', $routes[$action]);
 
-//O controlador recebe o caminho da classe, especificando a primeira parte
-$controlador = 'App\\Controllers\\'.ucfirst($partes[0]);
+//O controller recebe o caminho da classe, especificando a primeira parte
+$controller = 'App\\Controllers\\'.ucfirst($parts[0]);
 
 //Especificando a parte dois como método
-$metodo = $partes[1];
+$method = $parts[1];
 
-//Instanciando a classe controladora, com a primeira parte definida
-$ctr = new $controlador();
+//Instanciando a classe controllera, com a primeira parte definida
+$ctr = new $controller();
 
-//Chamando o metodo também definido
-$ctr->$metodo();
+//Chamando o method também definido
+$ctr->$method();
 
 
 

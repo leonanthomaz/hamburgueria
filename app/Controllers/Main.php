@@ -13,7 +13,7 @@ class Main {
     public function index(){
 
         $p = new Product;
-        $produtos = $p->listar_produtos_disponiveis();
+        $products = $p->product_list_available();
 
         // Store::printData($produtos);
     
@@ -23,7 +23,7 @@ class Main {
             'home',
             'layouts/footer',
             'layouts/html_footer'
-        ], ["produtos" => $produtos]);
+        ], ["products" => $products]);
     }
 
     public function dashboard(){
@@ -32,6 +32,17 @@ class Main {
             'layouts/html_header',
             'layouts/header',
             'dashboard',
+            'layouts/footer',
+            'layouts/html_footer'
+        ]);
+    }
+
+    public function login(){
+
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'login',
             'layouts/footer',
             'layouts/html_footer'
         ]);

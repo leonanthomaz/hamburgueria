@@ -4,9 +4,15 @@
     </div>
     <nav class="menu">
         <ul class="menu-container">
-            <li class="menu-link">Home</li>
-            <li class="menu-link">Home</li>
-            <li class="menu-link">Home</li>
+            <li class="menu-link">
+                <a href="?a=index">Início</a>
+            </li>
+            <li class="menu-link">
+                <a href="?a=login">Login</a>
+            </li>
+            <li class="menu-link">
+                <a href="?a=cart">Carrinho</a>
+            </li>
         </ul>
     </nav>
 </header>
