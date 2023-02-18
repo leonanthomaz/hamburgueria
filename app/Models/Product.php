@@ -6,14 +6,14 @@ use App\Models\Connect;
 
 class Product {
 
-    public function product_list()
+    public function productList()
     {
         $database = new Connect;
         $products = $database->select("SELECT * FROM produtos");
         return $products;
     }
 
-    public function product_list_available()
+    public function productListAvailable()
     {
         $database = new Connect;
         $products = $database->select("SELECT * FROM produtos WHERE p_disponivel = '1'");

@@ -6,9 +6,6 @@ use Exception;
 
 class Store {
 
-    //Montagem da estrutura de arquivos para construção do layout,
-    //passando structure (arquivos) e data, como arrays de produtos para views por ex.
-    //Estes arquivos são passados por parametros, uma vez que for chamado o metodo na classe Main.
     public static function Layout($structures, $data = null){
         if(!is_array($structures)){
             throw new Exception('Operação inválida inválida');
@@ -25,13 +22,11 @@ class Store {
         }
     }
 
-
     //Metodo de Redirecionamento
     public static function redirect($route = ''){
         //Redirecionamento chamando a URL + a route
-        header('Location:'.BASE_URL.'?a='.$route);
+        header('Location: ?a='.$route);
     }
-
 
     //Metodo debug
     public static function printData($data){
@@ -42,6 +37,5 @@ class Store {
             echo '<pre>';
             echo($data);
         }
-        die("Finish...");
     }
 }

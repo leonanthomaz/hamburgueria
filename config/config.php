@@ -1,15 +1,14 @@
 <?php
 
 //Configurações do Sistema
-
-DEFINE('APP_NAME', 'Projeto Hamnurgueria');
+DEFINE('APP_NAME', 'Projeto Hamburgueria');
 DEFINE("APP_VERSION", "1.0.0");
+DEFINE("APP_DESCRIPTION", "A melhor Hamburgueria da cidade!");
+DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 
+//Controle de rotas
 DEFINE("ROUTE_MAIN", "index");
-
-DEFINE('BASE_URL', __DIR__.'app/views');
-
-//Configurações Gerais
+DEFINE("ROUTE_MAINTENANCE", "maintenance");
 
 //Configurações do Banco de Dados
 DEFINE("DB_SERVER", "localhost");

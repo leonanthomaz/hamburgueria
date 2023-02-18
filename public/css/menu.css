@@ -1,14 +1,15 @@
 #menu{
     background-color: #b11414;
-    height: 70px;
+    height: 80px;
     display: flex;
     align-items: center;
+    flex-direction: row;
     justify-content: space-between;
     padding: 10px;
 }
 
 .logo{
-    width: 80px;
+    width: 100px;
     margin-left: 10px;
 }
 
@@ -38,26 +39,44 @@
 
 .menu-social{
     display: block;
+    color: white;
+    font-size: 20px;
+    margin: 10px;
 }
 
 #icon{
     display: none;
+    cursor: pointer;
 }
 
 @media(max-width: 760px){
+    #menu{
+        flex-direction: row-reverse;
+    }
     .menu-social{
         display: none;
     }
     
     #icon{
         display: block;
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    #icon-open{
+        cursor: pointer;
+    }
+
+    #icon-close{
+        cursor: pointer;
     }
 
     .menu-wrapper{
         display: block;
         position: absolute;
         width: 300px;
-        top: 70px;
+        top: 80px;
         right: -300px;
         background: #e7e7e7;
         transition: 0.6s;

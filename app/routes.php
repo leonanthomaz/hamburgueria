@@ -4,18 +4,27 @@
 $routes = [
 
     //Principal
+    "maintenance" => "main@maintenance",
     "index" => "main@index",
     "dashboard" => "main@dashboard",
-    "login" => "main@login",
 
     //Carrinho
     "cart" => "cart@cart",
     "addCart" => "cart@addCart",
 
+    //Usuários
+    "login" => "user@login",
+    "register" => "user@register",
+    "cep" => "user@cep",
+
+    //metodos - usuarios
+    "insert_user" => "user@insert_user",
+    "success_new_user" => "user@success_new_user",
+
 ];
 
 //Definindo rota padrão
-$action = "index";
+$action = ROUTE_MAIN;
 
 //Verificação da rota passada por URL
 if(isset($_GET['a'])){

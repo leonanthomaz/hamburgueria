@@ -6,6 +6,15 @@ use App\Models\Product;
 use App\Models\Store;
 
 class Main {
+
+    public function maintenance(){
+        
+        Store::Layout([
+            'layouts/html_header',
+            'maintenance',
+            'layouts/html_footer'
+        ]);
+    }
     
     //Metodo de execução, vindo do arquivo de rotas. Recebo o metodo da url e
     //chamo a classe estatica Layout no Store, montando o layout com 
@@ -13,7 +22,7 @@ class Main {
     public function index(){
 
         $p = new Product;
-        $products = $p->product_list_available();
+        $products = $p->productListAvailable();
 
         // Store::printData($produtos);
     
@@ -37,14 +46,4 @@ class Main {
         ]);
     }
 
-    public function login(){
-
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'login',
-            'layouts/footer',
-            'layouts/html_footer'
-        ]);
-    }
 }

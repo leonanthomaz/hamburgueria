@@ -12,7 +12,7 @@
         <div class="produto-item">
             <?php echo $product->p_nome ?>
             <div class="produto-img">
-                <img src="app/Views/public/img/<?php echo $product->p_imagem.".jpg" ?>" alt="">
+                <img src="public/img/<?php echo $product->p_imagem.".jpg" ?>" alt="">
             </div>
             <button onclick="addCart(<?php echo $product->p_id ?>)">Adicionar ao carrinho</button>
             <div id="resposta"></div>
