@@ -19,7 +19,7 @@ Projeto [Hamburgueria ](https://leonanthomaz.vercel.app/) criado por [Leonan Tho
 
 ## 🚀 Sobre o projeto
 
-Projeto de uma hamnurgueria online. Em construção.
+Projeto de uma Hamburgueria online. Em construção.
 
 
   

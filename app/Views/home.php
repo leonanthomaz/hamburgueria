@@ -1,5 +1,5 @@
 
-<?php include_once "app/Views/includes/carousel.php"; ?>
+<!-- <?php include_once "app/Views/includes/carousel.php"; ?> -->
 
 
 

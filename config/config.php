@@ -8,7 +8,8 @@ DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 
 //Controle de rotas
 DEFINE("ROUTE_MAIN", "index");
-DEFINE("ROUTE_MAINTENANCE", "maintenance");
+// DEFINE("ROUTE_MAIN", "maintenance");
+// DEFINE("ROUTE_MAINTENANCE", "maintenance");
 
 //Configurações do Banco de Dados
 DEFINE("DB_SERVER", "localhost");

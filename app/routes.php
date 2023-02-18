@@ -28,8 +28,13 @@ $action = ROUTE_MAIN;
 
 //Verificação da rota passada por URL
 if(isset($_GET['a'])){
+
+    if($action === "maintenance"){
+        $routes = ["maintenance" => "main@maintenance"];
+    }
+
     if(!key_exists($_GET['a'], $routes)){
-        $action = 'index';
+        $action = ROUTE_MAIN;
     }else{
         $action = $_GET['a'];
     }
