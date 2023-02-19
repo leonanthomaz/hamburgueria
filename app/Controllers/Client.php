@@ -2,64 +2,37 @@
 
 namespace App\Controllers;
 
+use App\Models\Client as MC;
 use App\Models\Connect;
 use App\Models\Product;
 use App\Models\Store;
 
 class Client {
 
-    // *** Páginas ****
+    // *** Logout ****
 
-    public function login(){
+    public function logout(){
 
-        // verifica se já existe um utilizador logado
-        if ($this->logged()) {
+        // remove as variáveis da sessão
+        unset($_SESSION['client']);
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+
+        // redireciona para o início da loja
+        Store::redirect();
+    }
+
+    //**** Register ***/
+    //inserindo novo cliente
+    public function register_submit(){
+
+        if (Store::logged()) {
             Store::redirect();
             return;
         }
 
-        // apresentação do formulário de login
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'login',
-            'layouts/footer',
-            'layouts/html_footer',
-        ]);
-    }
-
-    public function register(){
-        
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'register',
-            'layouts/footer',
-            'layouts/html_footer'
-        ]);
-    }
-
-    // *** Metodos ****
-
-    //Verificar se existe cliente logado
-    public static function logged(){
-        // verifica se existe um cliente com sessao
-        return isset($_SESSION['logged']);
-    }
-
-    //inserindo novo cliente
-    public function insert_client(){
-
-        // die(print_r($_POST));
-
-        if ($this->logged()) {
-            Store::redirect("index");
-            return;
-        }
-
-
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            Store::redirect("index");
+            Store::redirect();
             return;
         }     
         
@@ -88,20 +61,21 @@ class Client {
 
         
         // verifica na base de dados se existe cliente com mesmo email
-        if ($this->verify_email($_POST['c_email'])) {
+        $c = new MC;
+        if ($c->db_verify_email($_POST['c_email'])) {
 
             $_SESSION['erro'] = 'Já existe um cliente com o mesmo email.';
-            $this->register();
+            Store::redirect("register");            
             return;
         }
 
-
         // inserir novo cliente na base de dados e devolver o purl
         $email = strtolower(trim($_POST['c_email']));
-        $purl = $this->register_client();
+        $c = new MC;
+        $purl = $c->register_validate();
 
         // envio do email para o cliente
-        $e = new EnviarEmail();
+        $e = new Email();
         $results = $e->confirmation_email_new_client($email, $purl);
 
         if ($results) {
@@ -120,169 +94,11 @@ class Client {
         }
     }
 
-    //Registrando cliente no banco
-    public function register_client(){
-
-        // regista o novo cliente na base de dados
-        $db = new Connect();
-
-        // cria uma hash para o registo do cliente
-        $purl = Store::criarHash();
-
-        // parametros
-        $params = [
-           ':c_nome' => trim($_POST['c_nome']),
-           ':c_email' => strtolower(trim($_POST['c_email'])),
-           ':c_telefone' => trim($_POST['c_telefone']),
-           ':c_senha' => password_hash(trim($_POST['c_senha']), PASSWORD_BCRYPT),
-           ':c_cep' => trim($_POST['c_cep']),
-           ':c_logradouro' => trim($_POST['c_logradouro']),
-           ':c_bairro' => trim($_POST['c_bairro']),
-           ':c_purl' => $purl,
-           ':c_ativo' => 0,
-
-       ];
-
-       $db->insert("INSERT INTO clientes VALUES(
-            NULL,
-            :c_nome,
-            :c_email,
-            :c_telefone,
-            :c_senha, 
-            :c_cep,
-            :c_logradouro,
-            :c_bairro, 
-            :c_purl,
-            :c_ativo,
-            NOW(),
-            NOW(),
-            NULL
-        )", $params);
-
-       // retorna o purl criado
-       return $purl;
-    }
-
-    //Confirmar email por link
-    public function confirm_email()
-    {
-
-        if ($this->logged()) {
-            Store::redirect("index");
-            return;
-        }
-
-        // verificar se existe na query string um purl
-        if (!isset($_GET['purl'])) {
-            Store::redirect("index");
-            return;
-        }
-
-        $purl = $_GET['purl'];
-
-        // verifica se o purl é válido
-        if (strlen($purl) != 12) {
-            Store::redirect("index");
-            return;
-        }
-
-        $cliente = new Client();
-        $result = $cliente->validate_email($purl);
-
-        if ($result) {
-
-            // apresenta o layout para informar a conta foi confirmada com sucesso
-            Store::Layout([
-                'layouts/html_header',
-                'layouts/header',
-                'success_confirm_email',
-                'layouts/footer',
-                'layouts/html_footer',
-            ]);
-            return;
-        } else {
-
-            // redirecionar para a página inicial
-            Store::redirect();
-        }
-    }
-
-    //Verificar senha com o banco
-    public function password_verify($c_id, $password){
-
-        // verifica se a senha atual está correta (de acordo com o que está na base de dados)
-        $params = [
-            ':c_id' => $c_id            
-        ];
-
-        $db = new Connect();
-
-        $password_db = $db->select("
-            SELECT c_senha 
-            FROM clientes 
-            WHERE c_id = :c_id
-        ", $params)[0]->c_senha;
-
-        // verificar se a senha corresponde à senha atualmente na bd
-        return password_verify($password, $password_db);
-        
-    }
-
-    //Verificar email com o banco
-    public function verify_email($email){
-
-         // verifica se já existe outra conta com o mesmo email
-         $bd = new Connect();
-         $params = [
-             ':c_email' => strtolower(trim($email))
-         ];
-         $results = $bd->select("
-             SELECT c_email FROM clientes WHERE c_email = :c_email
-         ", $params);
- 
-         // se o cliente já existe...
-         if (count($results) != 0) {
-             return true;
-         } else {
-             return false;
-         }
-    }
-
-    //Validar email e resetar purl
-    public function validate_email($purl)
-    {
-
-        // validar o email do novo cliente
-        $db = new Connect();
-        $params = [
-            ':c_purl' => $purl
-        ];
-
-        $results = $db->select("SELECT * FROM clientes WHERE c_purl = :c_purl", $params);
-
-        // verifica se foi encontrado o cliente
-        if (count($results) != 1) {
-            return false;
-        }
-
-        // foi encontrado este cliente com o purl indicado
-        $client_id = $results[0]->c_id;
-
-        // atualizar os dados do cliente
-        $params = [
-            ':c_id' => $client_id
-        ];
-
-        $db->update("UPDATE clientes SET c_purl = NULL, c_ativo = 1, c_updated_at = NOW() WHERE c_id = :c_id", $params);
-
-        return true;
-    }
-
-
+    //**** login ***/
     //Validar login
     public function login_submit()
     {
-        if ($this->logged()) {
+        if (Store::logged()) {
             Store::redirect();
             return;
         }
@@ -317,7 +133,8 @@ class Client {
         $senha = trim($_POST['c_senha']);
 
         // carrega o model e verifica se login é válido
-        $result = $this->validar_login($email, $senha);
+        $c = new MC;
+        $result = $c->login_validate($email, $senha);
 
         // analisa o resultado
         if(is_bool($result)){
@@ -350,39 +167,57 @@ class Client {
         }
     }
 
-    //Validar Login
-    public function validar_login($email, $senha)
+    //**** email ***/
+    //Confirmar email por link
+    public function email_link_confirm()
     {
 
-        // verificar se o login é válido
-        $params = [
-            ':c_email' => $email
-        ];
+        if (Store::logged()) {
+            Store::redirect();
+            return;
+        }
 
-        $db = new Connect();
-        $results = $db->select("SELECT * FROM clientes WHERE c_email = :c_email AND c_ativo = 1 AND c_deleted_at IS NULL", $params);
-        // Store::printData($results[0]);
+        // verificar se existe na query string um purl
+        if (!isset($_GET['purl'])) {
+            Store::redirect();
+            return;
+        }
 
-        if (count($results) != 1) {
+        $purl = $_GET['purl'];
 
-            // não existe usuário
-            return false;
+        // verifica se o purl é válido
+        if (strlen($purl) != 12) {
+            Store::redirect();
+            return;
+        }
+
+        $c = new MC;
+        $result = $c->email_validate_purl($purl);
+
+        if ($result) {
+
+            // apresenta o layout para informar a conta foi confirmada com sucesso
+            Store::Layout([
+                'layouts/html_header',
+                'layouts/header',
+                'success_email_link_confirm',
+                'layouts/footer',
+                'layouts/html_footer',
+            ]);
+            return;
         } else {
-            // temos usuário. Vamos ver a sua password
-            $usuario = $results[0];
 
-            // die("Senha: ".$senha." Senha do banco: ".$usuario->c_senha);
-            // verificar a password
-            if (!password_verify($senha, $usuario->c_senha)) {
-
-                // password inválida
-                return false;
-            } else {
-
-                // login válido
-                return $usuario;
-            }
+            // redirecionar para a página inicial
+            Store::redirect();
         }
     }
+
+
+
+
+
+
+
+
 
 }

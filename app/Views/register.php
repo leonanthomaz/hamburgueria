@@ -3,7 +3,7 @@
 
 <div class="container w-50 p-3 mt-5">
 
-<form action="?a=insert_client" method="POST">
+<form action="?a=register_submit" method="POST">
 
   <!-- Email input -->
   <div class="form-outline mb-4">

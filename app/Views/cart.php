@@ -38,6 +38,9 @@ print_r($cart);
         </div>
     </div>
 
+    <!-- <button onclick="delete_cart()" class="btn btn-sm btn-primary">Limpar carrinho</button> -->
+
+    <a href="?a=delete_cart">Limpar carrinho</a>
     <?php endif; ?>
 
 </div>

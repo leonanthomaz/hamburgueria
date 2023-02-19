@@ -1,7 +1,10 @@
 
 <!-- <?php include_once "app/Views/includes/carousel.php"; ?> -->
 
-<?php print_r($_COOKIE)  ?>
+<?php 
+// echo $_SESSION['email'];
+// echo $_SESSION['name'];
+?>
 
 <div class="container">
   <?php include "includes/alerts.php" ?>

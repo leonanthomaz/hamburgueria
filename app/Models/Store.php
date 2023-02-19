@@ -40,6 +40,12 @@ class Store {
         return substr(str_shuffle($chars), 0, $num_caracteres);
     }
 
+    //Verificar se existe cliente logado
+    public static function logged(){
+        // verifica se existe um cliente com sessao
+        return isset($_SESSION['client']);
+    }
+
     //Metodo debug
     public static function printData($data){
         if(is_array($data) || is_object($data)){

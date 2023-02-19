@@ -6,21 +6,22 @@ $routes = [
     //Principal
     "maintenance" => "main@maintenance",
     "index" => "main@index",
-    "dashboard" => "main@dashboard",
+    "login" => "main@login",
+    "register" => "main@register",
 
     //Carrinho
     "cart" => "cart@cart",
     "addCart" => "cart@addCart",
+    "delete_cart" => "cart@delete_cart",
 
     //Clientes
-    "login" => "client@login",
     "login_submit" => "client@login_submit",
-    "register" => "client@register",
     "cep" => "client@cep",
     'confirm_email' => 'client@confirm_email',
+    "logout" => "client@logout",
 
     //metodos - usuarios
-    "insert_client" => "client@insert_client",
+    "register_submit" => "client@register_submit",
     "success_new_client" => "client@success_new_client",
 
 ];

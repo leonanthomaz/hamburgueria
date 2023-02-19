@@ -7,6 +7,8 @@ use App\Models\Store;
 
 class Main {
 
+    // *** Páginas ****
+
     public function maintenance(){
         
         Store::Layout([
@@ -16,9 +18,6 @@ class Main {
         ]);
     }
     
-    //Metodo de execução, vindo do arquivo de rotas. Recebo o metodo da url e
-    //chamo a classe estatica Layout no Store, montando o layout com 
-    // seus respectivos arquivos, passando por parametro e dados (caso houver)
     public function index(){
 
         $p = new Product;
@@ -35,12 +34,30 @@ class Main {
         ], ["products" => $products]);
     }
 
-    public function dashboard(){
+    public function login(){
+
+        // verifica se já existe um utilizador logado
+        if (Store::logged()) {
+            Store::redirect();
+            return;
+        }
+
+        // apresentação do formulário de login
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'login',
+            'layouts/footer',
+            'layouts/html_footer',
+        ]);
+    }
+
+    public function register(){
         
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
-            'dashboard',
+            'register',
             'layouts/footer',
             'layouts/html_footer'
         ]);

@@ -32,6 +32,7 @@
     <script src="public/js/global.js"></script>
     <script src="public/js/menu.js"></script>
     <script src="public/js/user.js"></script>
+    <script src="public/js/cart.js"></script>
 
 </head>
 <body>

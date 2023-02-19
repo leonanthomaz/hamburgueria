@@ -101,14 +101,19 @@ class Cart {
 
         $_SESSION['cart'] = $cart;
 
-        $total = 0;
-
-        foreach($cart as $qtd){
-            $total += $qtd;
-        }
+        $total = count($cart);
 
         echo $total;
         
+    }
+
+    public function delete_cart()
+    {
+
+        // limpa o carrinho de todos os produtos
+        unset($_SESSION['cart']);
+        // refrescar a página do carrinho
+        Store::redirect("cart");
     }
     
 }

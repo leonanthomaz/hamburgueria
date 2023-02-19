@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class EnviarEmail{
+class Email{
 
     // ===============================================================
     public function confirmation_email_new_client($email_cliente, $purl){
