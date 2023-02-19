@@ -12,14 +12,16 @@ $routes = [
     "cart" => "cart@cart",
     "addCart" => "cart@addCart",
 
-    //Usuários
-    "login" => "user@login",
-    "register" => "user@register",
-    "cep" => "user@cep",
+    //Clientes
+    "login" => "client@login",
+    "login_submit" => "client@login_submit",
+    "register" => "client@register",
+    "cep" => "client@cep",
+    'confirm_email' => 'client@confirm_email',
 
     //metodos - usuarios
-    "insert_user" => "user@insert_user",
-    "success_new_user" => "user@success_new_user",
+    "insert_client" => "client@insert_client",
+    "success_new_client" => "client@success_new_client",
 
 ];
 

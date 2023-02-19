@@ -23,9 +23,21 @@ class Store {
     }
 
     //Metodo de Redirecionamento
-    public static function redirect($route = ''){
+    public static function redirect($route = null){
         //Redirecionamento chamando a URL + a route
-        header('Location: ?a='.$route);
+        if(!empty($route)){
+            header('Location: ?a='.$route);
+        }else{
+            header('Location: ?a=index');
+        }
+    }
+
+    // ===========================================================
+    public static function criarHash($num_caracteres = 12){
+
+        // criar hashes
+        $chars = '01234567890123456789abcdefghijklmnopqrstuwxyzabcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZABCDEFGHIJKLMNOPQRSTUWXYZ';
+        return substr(str_shuffle($chars), 0, $num_caracteres);
     }
 
     //Metodo debug
@@ -37,5 +49,6 @@ class Store {
             echo '<pre>';
             echo($data);
         }
+        die("Terminado");
     }
 }

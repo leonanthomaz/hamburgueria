@@ -19,4 +19,11 @@ class Product {
         $products = $database->select("SELECT * FROM produtos WHERE p_disponivel = '1'");
         return $products;
     }
+
+    public function productsById($ids)
+    {
+        $database = new Connect;
+        $products = $database->select("SELECT * FROM produtos WHERE p_id IN ($ids)");
+        return $products;
+    }
 }

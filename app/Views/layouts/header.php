@@ -19,6 +19,12 @@
             <li class="menu-link" role="menuitem">
                 <a href="?a=register">Cadastro</a>
             </li>
+            <li class="menu-link" role="menuitem">
+                <a href="?a=cart">Carrinho</a>
+            </li>
+            <li class="menu-link" role="menuitem">
+                <a href="?a=cart">Ver Cardapio</a>
+            </li>
         </ul>
     </nav>
     <div class="menu-social">
