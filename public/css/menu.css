@@ -39,9 +39,14 @@
 
 .menu-social{
     display: block;
-    color: white;
     font-size: 20px;
     margin: 10px;
+}
+
+.menu-social > a{
+    margin: 3px;
+    color: white;
+    text-decoration: none;
 }
 
 #icon{
@@ -53,9 +58,9 @@
     #menu{
         flex-direction: row-reverse;
     }
-    .menu-social{
+    /* .menu-social{
         display: none;
-    }
+    } */
     
     #icon{
         display: block;

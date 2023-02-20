@@ -40,6 +40,16 @@ class Store {
         return substr(str_shuffle($chars), 0, $num_caracteres);
     }
 
+    // ===========================================================
+    public static function generate_purchase_code(){
+        // gerar um código de encomenda
+        $code = "";
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $code .= substr(str_shuffle($chars),0,2);
+        $code .= rand(100000,999999);
+        return $code;
+    }
+
     //Verificar se existe cliente logado
     public static function logged(){
         // verifica se existe um cliente com sessao

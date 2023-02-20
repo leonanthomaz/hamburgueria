@@ -8,21 +8,25 @@ $routes = [
     "index" => "main@index",
     "login" => "main@login",
     "register" => "main@register",
+    "cart" => "main@cart",
+
+    //Boas vindas
+    "register_submit" => "client@register_submit",
+    "success_new_client" => "client@success_new_client",
 
     //Carrinho
-    "cart" => "cart@cart",
-    "addCart" => "cart@addCart",
+    "add_cart" => "cart@add_cart",
     "delete_cart" => "cart@delete_cart",
+    "minus_cart" => "cart@minus_cart",
+    "plus_cart" => "cart@plus_cart",
+    "checkout_cart" => "cart@checkout_cart",
+    "checkout" => "main@checkout",
 
     //Clientes
     "login_submit" => "client@login_submit",
     "cep" => "client@cep",
     'confirm_email' => 'client@confirm_email',
     "logout" => "client@logout",
-
-    //metodos - usuarios
-    "register_submit" => "client@register_submit",
-    "success_new_client" => "client@success_new_client",
 
 ];
 

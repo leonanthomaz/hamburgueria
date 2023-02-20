@@ -156,4 +156,25 @@ class Client {
 
         return true;
     }
+
+    // ===========================================================
+    public function search_client($id_cliente){
+
+        $parametros = [
+            ':c_id' => $id_cliente
+        ];
+
+        $bd = new Connect();
+        $resultados = $bd->select("SELECT 
+                c_nome,
+                c_email,
+                c_telefone,
+                c_cep,
+                c_logradouro,
+                c_bairro 
+            FROM clientes 
+            WHERE c_id = :c_id
+        ", $parametros);
+        return $resultados[0];
+    }
 }

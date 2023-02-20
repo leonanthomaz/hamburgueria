@@ -10,7 +10,6 @@ DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 DEFINE("BASE_URL", "http://localhost/sistema/hamburgueria/");
 DEFINE("ROUTE_MAIN", "index");
 // DEFINE("ROUTE_MAIN", "maintenance");
-// DEFINE("ROUTE_MAINTENANCE", "maintenance");
 
 //Configurações do Banco de Dados
 DEFINE("DB_SERVER", "localhost");
@@ -21,7 +20,7 @@ DEFINE("DB_CHARSET", "UTF8");
 
 // Mail
 DEFINE('EMAIL_HOST', 'smtp.gmail.com');
-DEFINE('EMAIL_FROM', 'leonanthomaz.projetos@gmail.com');
-DEFINE('EMAIL_PASS', 'bkktbxzvppxnsbqc');
+DEFINE('EMAIL_FROM', '');
+DEFINE('EMAIL_PASS', '');
 DEFINE('EMAIL_PORT', '587');
 DEFINE('EMAIL_CHARSET', 'UTF-8');
