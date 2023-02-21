@@ -232,4 +232,21 @@ class Main {
         ], $data);
 
     }
+
+    public function products(){
+
+        $id = 0;
+
+        $p = new Product;
+        $products = $p->products_by_category($id);
+
+
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'products',
+            'layouts/footer',
+            'layouts/html_footer',
+        ], ["products" => $products]);
+    }
 }

@@ -13,7 +13,7 @@
         </div>
         <ul class="menu-wrapper">
             <li class="menu-link" role="menuitem">
-                <a href="?a=index">Ver Cardapio</a>
+                <a href="?a=products">Ver Cardapio</a>
             </li>
            
             <li class="menu-link" role="menuitem">

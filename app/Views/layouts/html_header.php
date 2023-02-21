@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="public/css/intro.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/cart-modal.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/home/index.css"/>
+    <link rel="stylesheet" type="text/css" href="public/css/products.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/components/products.css"/>
 
     <!-- fonts.googleapis -->

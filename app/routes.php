@@ -6,6 +6,7 @@ $routes = [
     //Principal
     "maintenance" => "main@maintenance",
     "index" => "main@index",
+    "products" => "main@products",
     "login" => "main@login",
     "register" => "main@register",
     "cart" => "main@cart",
