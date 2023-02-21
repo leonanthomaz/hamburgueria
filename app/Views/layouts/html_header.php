@@ -14,14 +14,14 @@
     <link rel="stylesheet" type="text/css" href="public/css/global.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/intro.css"/>
+    <link rel="stylesheet" type="text/css" href="public/css/cart-modal.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/home/index.css"/>
     <link rel="stylesheet" type="text/css" href="public/css/components/products.css"/>
 
     <!-- fonts.googleapis -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Roboto:wght@300;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Nunito:wght@300;600;900&display=swap" rel="stylesheet">
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 

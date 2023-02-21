@@ -1,9 +1,10 @@
 #menu{
     background-color: #b11414;
-    height: 80px;
+    height: 100px;
     display: flex;
     align-items: center;
     flex-direction: row;
+    justify-content: center;
     justify-content: space-between;
     padding: 10px;
 }
@@ -17,8 +18,10 @@
     width: 100%;
 }
 
-.menu-container{
+#menu-container{
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .menu-wrapper{
@@ -55,12 +58,6 @@
 }
 
 @media(max-width: 760px){
-    #menu{
-        flex-direction: row-reverse;
-    }
-    /* .menu-social{
-        display: none;
-    } */
     
     #icon{
         display: block;
@@ -81,7 +78,7 @@
         display: block;
         position: absolute;
         width: 100%;
-        top: 70px;
+        top: 100px;
         right: 0px;
         background: #e7e7e7;
         transition: 0.6s;
@@ -98,3 +95,4 @@
         background: #b11414;
     }
 }
+

@@ -9,6 +9,7 @@ $routes = [
     "login" => "main@login",
     "register" => "main@register",
     "cart" => "main@cart",
+    "checkout" => "main@checkout",
 
     //Boas vindas
     "register_submit" => "client@register_submit",
@@ -20,7 +21,9 @@ $routes = [
     "minus_cart" => "cart@minus_cart",
     "plus_cart" => "cart@plus_cart",
     "checkout_cart" => "cart@checkout_cart",
-    "checkout" => "main@checkout",
+    "get_total" => "cart@get_total",
+    "delete_item_cart" => "cart@delete_item_cart",
+    "coupon" => "cart@coupon",
 
     //Clientes
     "login_submit" => "client@login_submit",

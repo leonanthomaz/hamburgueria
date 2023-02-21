@@ -4,8 +4,22 @@
 }
 
 body{
-    /* background-color: black; */
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito', sans-serif;
+}
+
+h1{
+    font-family: 'Lobster', cursive;
+    font-weight: 900;
 }
 
 
+.container-main {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 20px;
+}
 
+.footer{
+    background-color: #b11414;
+}

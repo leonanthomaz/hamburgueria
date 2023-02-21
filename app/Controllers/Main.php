@@ -122,9 +122,17 @@ class Main {
             foreach ($data_temp as $item) {
                 $total += $item['subtotal'];
             }
+
+                       // foreach ($data_temp as $item) {
+            //     if(isset($_SESSION['discount_coupon'])){
+            //         $total += $item['subtotal'] - 10;
+            //     }else{
+            //         $total += $item['subtotal'];
+            //     }
+            // }
             
             // colocar o preço total na sessao
-            $_SESSION['total'] = $total;
+            $_SESSION['total'] = isset($_SESSION['discount_coupon']) ? $total -10 : $total;
 
             $data = [
                 'cart' => $data_temp            
@@ -137,7 +145,6 @@ class Main {
             'layouts/html_header',
             'layouts/header',
             'cart',
-            'layouts/footer',
             'layouts/html_footer'
         ], $data);
 
@@ -197,15 +204,6 @@ class Main {
                 }
             }
         }
-
-
-        // calcular o total
-        $total = 0;
-        foreach ($data_temp as $item) {
-            $total += $item['subtotal'];
-        }
-
-        array_push($data_temp, $total);
 
         // preparar os dados da view
         $data = [];
