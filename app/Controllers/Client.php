@@ -264,4 +264,29 @@ class Client {
 
     // }
 
+    //Página de perfil do usuário
+    public function login_google_validate(){
+
+        if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
+            $_SESSION['erro'] = 'Credenciais nao encontradas...';
+            Store::redirect();
+            return;
+        }else{
+            $_SESSION['client_google_token'] = $_POST['credential'];
+            Store::redirect();
+        }
+            
+        $cookie = $_COOKIE['g_csrf_token'] ?? "";
+            
+        if($_POST['g_csrf_token'] != $cookie){
+            $_SESSION['erro'] = 'Credenciais nao encontradas...';
+            Store::redirect();
+            return;
+        }else{
+            $_SESSION['client_google_cookie'] = $cookie;
+            Store::redirect();
+        }
+
+    }
+
 }

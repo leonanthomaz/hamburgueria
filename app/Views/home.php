@@ -3,7 +3,7 @@
 
 <main role="main">
   <?php include "includes/alerts.php" ?>
-
+  
   <div class="container marketing">
 
     <h1>Destaques</h1>

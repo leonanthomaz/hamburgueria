@@ -61,7 +61,7 @@
             <button type="button" class="btn btn-link btn-floating mx-1">
             <div id="g_id_onload"
                 data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
-                data-login_uri="http://localhost/sistema/hamburgueria/?a=checkout"
+                data-login_uri="http://localhost/sistema/hamburgueria/?a=login_google_validate"
                 data-auto_prompt="false">
             </div>
             <div class="g_id_signin"
@@ -78,7 +78,7 @@
             <button type="button" class="btn btn-link btn-floating mx-1">
             <div id="g_id_onload"
                 data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
-                data-login_uri="http://localhost/sistema/hamburgueria/?a=checkout"
+                data-login_uri="http://localhost/sistema/hamburgueria/?a=login_google_validate"
                 data-auto_prompt="false">
             </div>
             <div class="g_id_signin"
@@ -87,7 +87,7 @@
                 data-theme="outline"
                 data-text="sign_in_with"
                 data-shape="rectangular"
-                data-logo_alignment="left">
+                data-logo_alignment="right">
             </div>
             </button>
         </div>

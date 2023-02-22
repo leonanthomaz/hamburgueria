@@ -8,6 +8,17 @@
 // print_r($data);
 // echo "********";
 
+// echo "<pre>";
+// print_r($client);
+// echo "********";
+
+// isset($_SESSION['client_google_token']) ? $client = $_SESSION['client_google_token'] : $client;
+
+ 
+// echo "<pre>";
+// print_r($client);
+// echo "********";
+
 if(isset($_SESSION['total'])){
     $total = $_SESSION['total'];
 }
@@ -70,14 +81,14 @@ if(isset($_SESSION['discount_coupon'])){
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName">Nome</label>
-                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo $client->c_nome ?>" required>
+                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo $_SESSION['client_google_token'] ? $client["name"] : $client->c_nome ?>" required>
                   <div class="invalid-feedback">
                     Nome requerido
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="lastName">Telefone</label>
-                  <input type="text" class="form-control" id="telefone" name="c_telefone" placeholder="" value="<?php echo $client->c_telefone ?>" required>
+                  <input type="text" class="form-control" id="telefone" name="c_telefone" placeholder=""  required>
                   <div class="invalid-feedback">
                     Telefone requerido
                   </div>
@@ -86,7 +97,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo $client->c_email ?>">
+                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo $_SESSION['client_google_token'] ? $client["email"] : $client->c_email ?>">
                 <div class="invalid-feedback">
                   Insira um email válido
                 </div>
@@ -94,7 +105,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="col-md-3 mb-3">
                   <label for="zip">CEP</label>
-                  <input type="text" class="form-control" id="cep_checkout" name="c_cep" placeholder="" value="<?php echo $client->c_cep ?>" required>
+                  <input type="text" class="form-control" id="cep_checkout" name="c_cep" placeholder=""  required>
                   <div class="invalid-feedback">
                     Insira um CEP válido
                   </div>
@@ -103,7 +114,7 @@ if(isset($_SESSION['discount_coupon'])){
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="address">Endereço</label>
-                  <input type="text" class="form-control" id="logradouro_checkout" name="c_logradouro" placeholder="Main St" required value="<?php echo $client->c_logradouro ?>">
+                  <input type="text" class="form-control" id="logradouro_checkout" name="c_logradouro" placeholder="Main St" required >
                   <div class="invalid-feedback">
                     Insira um Endereço válido
                   </div>
@@ -119,14 +130,13 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="email">Bairro</label>
-                <input type="text" class="form-control" id="bairro_checkout" name="c_bairro" placeholder="you@example.com" value="<?php echo $client->c_bairro ?>">
+                <input type="text" class="form-control" id="bairro_checkout" name="c_bairro" placeholder="you@example.com" >
                 <div class="invalid-feedback">
                   Insira seu Bairro
                 </div>
               </div>
 
               <hr class="mb-4">
-              
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="ofertas" name="c_ofertas">
                 <label class="custom-control-label" for="same-address">Receber ofertas e promoções por email</label>

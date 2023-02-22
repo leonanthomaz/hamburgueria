@@ -30,8 +30,8 @@ DEFINE("DB_CHARSET", "UTF8");
 
 // Email - insira seu email e senha. No caso aqui, inserir email e senha do Gmail.
 DEFINE('EMAIL_HOST', 'smtp.gmail.com');
-DEFINE('EMAIL_FROM', '');
-DEFINE('EMAIL_PASS', '');
+DEFINE('EMAIL_FROM', 'leonanthomaz.projetos@gmail.com');
+DEFINE('EMAIL_PASS', 'bkktbxzvppxnsbqc');
 DEFINE('EMAIL_PORT', '587');
 DEFINE('EMAIL_CHARSET', 'UTF-8');
 
@@ -45,8 +45,8 @@ DEFINE('CART_COUPON', 'BURGER10');
 //**************/
 
 // Login com Google - insira suas chaves Google Client e Secret Key
-DEFINE('GOOGLE_CLIENT_ID', '');
-DEFINE('GOOGLE_SECRET_KEY', '');
+DEFINE('GOOGLE_CLIENT_ID', '518266344837-dv27qhckkimnv6pe7vrplj9u12shquvs.apps.googleusercontent.com');
+DEFINE('GOOGLE_SECRET_KEY', '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');
 
 DEFINE('FACEBOOK_LOGIN', [
     'FB_ID'          => '',

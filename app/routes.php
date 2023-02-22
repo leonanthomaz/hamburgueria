@@ -12,7 +12,6 @@ $routes = [
     "register" => "main@register",
     "cart" => "main@cart",
     "checkout" => "main@checkout",
-    "profile" => "main@profile",
 
     //Boas vindas
     "success_new_client" => "client@success_new_client",
@@ -37,6 +36,7 @@ $routes = [
     'email_link_confirm' => 'client@email_link_confirm',
     "logout" => "client@logout",
     "login_google" => "client@login_google",
+    "login_google_validate" => "client@login_google_validate",
 
 ];
 

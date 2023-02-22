@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use App\Factorys\Store;
-use App\Models\Client;
+use App\Controllers\Client;
 use App\Models\Connect;
 
 class Cart {
@@ -105,9 +105,9 @@ class Cart {
     //Validação para rota do checkout. Bloqueio para usuário deslogado.
     public function checkout_cart()
     {
-        // Store::printData($_SESSION['client']);
+
         // verifica se existe cliente logado
-        if (!isset($_SESSION['client'])) {
+        if (!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])) {
 
             // coloca na sessão um referrer temporário
             $_SESSION['tmp_cart'] = true;
