@@ -3,10 +3,13 @@
 namespace App\Controllers;
 
 use App\Models\Product;
-use App\Models\Store;
+use App\Factorys\Store;
+use App\Models\Client;
+use App\Models\Connect;
 
 class Cart {
 
+    //Adicionar ao Carrinho
     public function add_cart(){
 
         $id = $_GET['id'];
@@ -30,6 +33,7 @@ class Cart {
         echo $total;
     }
 
+    //Diminuir quantidade de item do Carrinho
     public function minus_cart()
     {
 
@@ -51,6 +55,7 @@ class Cart {
         echo $total;
     }
 
+    //Acrescentar quantidade de item do Carrinho
     public function plus_cart()
     {
 
@@ -68,6 +73,7 @@ class Cart {
         echo $total;
     }
 
+    //Deletar item do Carrinho
     public function delete_item_cart()
     {
 
@@ -78,12 +84,14 @@ class Cart {
 
         if(key_exists($id, $cart)){
             unset($cart[$id]);
+            unset($_SESSION['total']);
         }
 
         $_SESSION['cart'] = $cart;
         
     }
 
+    //Deletar todos os itens do Carrinho
     public function delete_cart()
     {
 
@@ -94,6 +102,7 @@ class Cart {
         Store::redirect("cart");
     }
 
+    //Validação para rota do checkout. Bloqueio para usuário deslogado.
     public function checkout_cart()
     {
         // Store::printData($_SESSION['client']);
@@ -110,71 +119,169 @@ class Cart {
         }
     }
 
+    //Pegar total do carrinho
     public function get_total()
     {
-        if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
-            $data = [
-                'total' => null
-            ];
-        }else{
+        $ids = [];
+        $cart = $_SESSION['cart'];
+        foreach ($cart as $product_id => $qtd) {
+            array_push($ids, $product_id);
+        }
 
-            $ids = [];
-            foreach ($_SESSION['cart'] as $p_id => $qtd) {
-                array_push($ids, $p_id);
-            }
+        $ids = implode(",", $ids);
+        $p = new Product;
+        $results = $p->products_by_id($ids);
 
-            $ids = implode(",", $ids);
-            $p = new Product;
-            $results = $p->products_by_id($ids);
+        $data_temp = [];
 
-            $data_temp = [];
+        foreach($cart as $product_id => $qtd_cart){
 
-            foreach($_SESSION['cart'] as $p_id => $qtd_cart){
+            // imagem do produto
+            foreach ($results as $product_id_by_db) {
 
-                // imagem do produto
-                foreach ($results as $product) {
+                if ($product_id_by_db->p_id == $product_id) {
 
-                    if ($product->p_id == $p_id) {
+                    $qtd = $qtd_cart;
+                    $subtotal = $product_id_by_db->p_preco * $qtd;
 
-                        $qtd = $qtd_cart;
-                        $subtotal = $product->p_preco * $qtd;
-                        
-                        // colocar o produto na coleção
-                        array_push($data_temp, [
-                            'subtotal' => $subtotal
-                        ]);
+                    // colocar o produto na coleção
+                    array_push($data_temp, [
+                        'subtotal' => $subtotal
+                    ]);
 
-                        break;
-                    }
+                    break;
                 }
             }
-
-            // calcular o total
-            $total = 0;
-            foreach ($data_temp as $item) {
-                $total += $item['subtotal'];
-            }
-
-            $data = [
-                'total' => $total            
-            ];
         }
+
+        // calcular o total
+        $total = 0;
+        foreach ($data_temp as $item) {
+            $total += $item['subtotal'];
+        }
+        
+        // colocar o preço total na sessao
+        $_SESSION['total'] = isset($_SESSION['discount_coupon']) ? $total - COUPON_PRICE : $total;
+        // $_SESSION['total'] = $total;
+
+        $data = [
+            'total' => isset($_SESSION['discount_coupon']) ? $total - COUPON_PRICE : $total  
+            // 'total' => $total                        
+        ];
 
         echo json_encode($data);    
     }
 
-    public function coupon(){
+    public function get_products_by_cart()
+    {
+        $ids = [];
+        $cart = $_SESSION['cart'];
+        foreach ($cart as $product_id => $qtd) {
+            array_push($ids, $product_id);
+        }
 
-        if($_POST['coupon'] !== CART_COUPON){
+        $ids = implode(",", $ids);
+        $p = new Product;
+        $results = $p->products_by_id($ids);
+
+        $data_temp = [];
+
+        foreach($cart as $product_id => $qtd_cart){
+
+            // imagem do produto
+            foreach ($results as $product_id_by_db) {
+
+                if ($product_id_by_db->p_id == $product_id) {
+
+                    $product_id = $product_id_by_db->p_id;
+                    $p_nome = $product_id_by_db->p_nome;
+                    $p_imagem = $product_id_by_db->p_imagem;
+                    $qtd = $qtd_cart;
+                    $subtotal = $product_id_by_db->p_preco * $qtd;
+
+                    // colocar o produto na coleção
+                    array_push($data_temp, [
+                        'p_id' => $product_id,
+                        'p_nome' => $p_nome,
+                        'p_imagem' => $p_imagem,
+                        'qtd' => $qtd,
+                        'p_preco' => $product_id_by_db->p_preco,
+                        'subtotal' => $subtotal
+                    ]);
+
+                    break;
+                }
+            }
+        }
+
+        // calcular o total
+        $total = 0;
+        foreach ($data_temp as $item) {
+            $total += $item['subtotal'];
+        }
+        
+        // colocar o preço total na sessao
+        $_SESSION['total'] = isset($_SESSION['discount_coupon']) ? $total - COUPON_PRICE : $total;
+        // $_SESSION['total'] = $total;
+
+        $data = [
+            'cart' => $data_temp            
+        ];
+
+        return $data;
+    }
+
+    //Cupom de desconto
+    public function coupon()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            Store::redirect();
+            return;
+        }   
+
+        $coupon = trim(strtoupper($_POST['coupon']));
+
+        if($coupon !== CART_COUPON){
             $_SESSION['erro'] = 'Cupom inválido!';
             Store::redirect('cart');
             return;
-        }else{
-            $_SESSION['discount_coupon'] = $_POST['coupon'];
-            Store::redirect('cart');
         }
+
+        $_SESSION['discount_coupon'] = $coupon;
+        Store::redirect('cart');
+    }
+
+    public function send_order()
+    {
+        // Store::printData($_POST);
+        // $products = $this->get_products_by_cart();
+        // Store::printData($_SESSION);
+        $_SESSION['cart'];
+       
+
+        $data_order = [];
         
-        // return $result;
-        // Store::printData($_POST['coupon']);
+        echo "********";
+        echo "<pre>";
+        print_r($data_order);
+        echo "********";
+        // echo "<pre>";
+        // print_r($_POST);
+        // echo "********";
+
+        Store::redirect($data_order);
+
+        // $cm = new Client;
+        // $result = $cm->update_client($_SESSION['client']);
+
+        // if(!$result){
+            // $_SESSION['erro'] = 'Falha ao concluir pedido! Tente mais tarde...';
+            // Store::redirect('checkout');
+            // return;
+        // }
+
+
+        
     }
 }

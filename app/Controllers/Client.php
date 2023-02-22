@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Client as MC;
-use App\Models\Connect;
-use App\Models\Product;
-use App\Models\Store;
+use App\Factorys\Store;
+use App\Factorys\Email;
+
 
 class Client {
 
@@ -46,6 +46,72 @@ class Client {
                         || $_POST['c_senha'] 
                         || $_POST['c_confirmar_senha']
                         )){
+
+            $_SESSION['erro'] = 'Campos vazios';
+            Store::redirect("register");
+            return;
+        }
+
+        if ($_POST['c_senha'] !== $_POST['c_confirmar_senha']) {
+
+            $_SESSION['erro'] = 'As senhas não estão iguais.';
+            Store::redirect("register");
+            return;
+        }
+
+        
+        // verifica na base de dados se existe cliente com mesmo email
+        $c = new MC;
+        if ($c->db_verify_email($_POST['c_email'])) {
+
+            $_SESSION['erro'] = 'Já existe um cliente com o mesmo email.';
+            Store::redirect("register");            
+            return;
+        }
+
+        // inserir novo cliente na base de dados e devolver o purl
+        $email = strtolower(trim($_POST['c_email']));
+        $c = new MC;
+        $purl = $c->register_validate();
+
+        // envio do email para o cliente
+        $e = new Email();
+        $results = $e->confirmation_email_new_client($email, $purl);
+
+        if ($results) {
+
+            // apresenta o layout para informar o envio do email
+            Store::Layout([
+                'layouts/html_header',
+                'layouts/header',
+                'success_new_client',
+                'layouts/footer',
+                'layouts/html_footer',
+            ]);
+            return;
+        } else {
+            echo 'Aconteceu um erro';
+        }
+    }
+
+    //teste CRIANDO UMA NOVA FORMA DE REGISTRO
+    public function register_submit_teste(){
+
+        if (Store::logged()) {
+            Store::redirect();
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            Store::redirect();
+            return;
+        }     
+        
+        if(empty($_POST['c_nome'] 
+        || $_POST['c_email']  
+        || $_POST['c_senha'] 
+        || $_POST['c_confirmar_senha']
+        )){
 
             $_SESSION['erro'] = 'Campos vazios';
             Store::redirect("register");
@@ -210,6 +276,50 @@ class Client {
             // redirecionar para a página inicial
             Store::redirect();
         }
+    }
+
+    //Login com o Google
+    public function login_google(){
+
+        // if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
+        //     $_SESSION['erro'] = 'Credenciais nao encontradas...';
+        //     Store::redirect();
+        //     return;
+        // }
+          
+        // $cookie = $_COOKIE['g_csrf_token'] ?? "";
+          
+        // if($_POST['g_csrf_token'] != $cookie){
+        //     $_SESSION['erro'] = 'Credenciais nao encontradas...';
+        //     Store::redirect();
+        //     return;
+        // }
+
+
+        // $id_token = $_POST['credential'];
+        // $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+        // $httpClient = new \GuzzleHttp\Client([
+        //     'base_uri' => 'http://localhost',
+        //     'verify' => false
+        // ]);
+        // $client->setHttpClient($httpClient);
+        
+        // $payload = $client->verifyIdToken($id_token);
+
+        // if(isset($payload)){
+        //     Store::Layout([
+        //         'layouts/html_header',
+        //         'layouts/header',
+        //         'profile',
+        //         'layouts/footer',
+        //         'layouts/html_footer',
+        //     ], [ "payload" => $payload]);
+        // }else{
+        //     $_SESSION['erro'] = 'Credenciais jamais encontradas...';
+        //     Store::redirect();
+        //     return;
+        // }
+
     }
 
 }

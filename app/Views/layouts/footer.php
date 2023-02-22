@@ -1,7 +1,8 @@
 
 <!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted">
-  <!-- Section: Social media -->
+<footer class="text-center text-lg-start text-muted">
+  <div class="footer text-light">
+    <!-- Section: Social media -->
   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
     <!-- Left -->
     <div class="me-5 d-none d-lg-block">
@@ -119,5 +120,6 @@
     <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Desenvolvido por Leonan Thomaz</a>
   </div>
   <!-- Copyright -->
+  </div>
 </footer>
 <!-- Footer -->

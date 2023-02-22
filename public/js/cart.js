@@ -1,7 +1,6 @@
 
 
 const add_cart = (id) => {
-
     $.ajax({
         type: "GET",
         url: `?a=add_cart&id=${id}`,

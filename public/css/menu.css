@@ -1,38 +1,74 @@
 #menu{
-    background-color: #b11414;
-    height: 100px;
+    background-color: #920d0d;
+    height: 80px;
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 2rem;
+}
+
+
+
+.menu-link:hover{
+    border-bottom: 3px solid whitesmoke;
 }
 
 .logo{
     width: 100px;
-    margin-left: 10px;
 }
 
 .logo img{
     width: 100%;
 }
 
+.menu-cart{
+    display: flex;
+    /* border: 2px solid whitesmoke; */
+    border-radius: 20px;
+    padding: 10px;
+}
+
 #menu-container{
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .menu-wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+}
+
+.menu-cart{
+    display: flex;
+
+}
+
+.menu-cart > a, .menu-cart i{
+    color: white;
+    text-decoration: none;
+}
+
+.menu-cart i{
+    font-size: 18px;
+}
+
+#count_cart i, span{
+    color: white;
+    font-weight: bold;
 }
 
 .menu-wrapper > li{
     list-style: none;
     margin: 10px;
+    font-size: 16px;
+
 }
 
 .menu-wrapper > li > a{
@@ -40,16 +76,19 @@
     text-decoration: none;
 }
 
-.menu-social{
+.menu-user{
     display: block;
-    font-size: 20px;
+    font-size: 16px;
     margin: 10px;
 }
 
-.menu-social > a{
+.menu-user > a{
     margin: 3px;
     color: white;
     text-decoration: none;
+    border: 2px solid whitesmoke;
+    border-radius: 20px;
+    padding: 10px;
 }
 
 #icon{
@@ -58,7 +97,36 @@
 }
 
 @media(max-width: 760px){
-    
+
+    #menu{
+        padding: 10px;
+        justify-content: space-around;
+    }
+
+    .logo{
+        width: 80px;
+        margin-left: 45px;
+    }
+
+    .menu-link{
+        border-bottom: 1px solid whitesmoke;
+    }
+
+    .menu-user{
+        font-size: 12px;
+    }
+
+    .menu-user > a{
+        padding: 5px;
+    }
+
+    .menu-user i{
+        border: 2px solid whitesmoke;
+        background-color: whitesmoke;
+        color: black;
+        border-radius: 20px;
+    }
+
     #icon{
         display: block;
         color: white;
@@ -78,7 +146,7 @@
         display: block;
         position: absolute;
         width: 100%;
-        top: 100px;
+        top: 70px;
         right: 0px;
         background: #e7e7e7;
         transition: 0.6s;
@@ -86,6 +154,7 @@
         height: 0px;
         visibility: hidden;
         overflow-y: hidden;
+        padding: 10px;
     }
 
     #menu.active .menu-wrapper {

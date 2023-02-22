@@ -1,12 +1,11 @@
 
-<div class="container">
+<div class="container mt-2">
     <div class="row">
         <div class="col">
-            <nav aria-label="breadcrumb">
+            <nav aria-label="breadcrumb ">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+                    <li class="breadcrumb-item"><a href="?a=index">Início</a></li>
+                    <li class="breadcrumb-item"><a href="?a=products">Categorias</a></li>
                 </ol>
             </nav>
         </div>
@@ -16,7 +15,7 @@
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
-                <div class="card-header bg-danger text-white text-uppercase"><i class="fa fa-list"></i> Categorias</div>
+                <div class="card-header bg-danger text-white text-uppercase "><i class="fa fa-list" onclick="open_products()"></i> Categorias</div>
                 <ul class="list-group category_block">
                     <li class="list-group-item"><a href="category.html">Hamburguer</a></li>
                     <li class="list-group-item"><a href="category.html">Discos</a></li>
@@ -24,7 +23,7 @@
                     <li class="list-group-item"><a href="category.html">Bebidas</a></li>
                 </ul>
             </div>
-            <div class="card bg-light mb-3">
+            <!-- <div class="card bg-light mb-3">
                 <div class="card-header bg-success text-white text-uppercase">Last product</div>
                 <div class="card-body">
                     <img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
@@ -32,7 +31,7 @@
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <p class="bloc_left_price">99.00 $</p>
                 </div>
-            </div>
+            </div> -->
         </div>
        
         <div class="col">
@@ -44,14 +43,15 @@
                     <div class="card">
                         <img class="card-img-top" src="public/img/<?php echo $product->p_imagem.".jpg" ?>" alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title"><a href="product.html" title="View Product">Product title</a></h4>
+                            <h4 class="card-title text-center"><a href="product.html" title="View Product">Product title</a></h4>
+                            <hr class="featurette-divider">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                             <div class="row">
-                                <div class="col">
+                                <!-- <div class="col">
                                     <p class="btn btn-danger btn-block">99.00 $</p>
-                                </div>
-                                <div class="col">
-                                    <a href="#" class="btn btn-success btn-block">Add to cart</a>
+                                </div> -->
+                                <div class="col text-center">
+                                    <a href="#" role="button" onclick="add_cart(<?php echo $product->p_id ?>)" class="btn btn-secondary btn-md btn-block">Add to cart</a>
                                 </div>
                             </div>
                         </div>

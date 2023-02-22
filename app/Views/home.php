@@ -21,8 +21,6 @@
       <?php endforeach; ?>
     </div><!-- /.row -->
 
-    <!-- COMEÇAM AS MENCIONADAS FEATUREZINHAS xD -->
-
     <hr class="featurette-divider">
 
     <h1>Nosso Cardapio</h1>
@@ -62,7 +60,6 @@
 
     <hr class="featurette-divider">
 
-    <!-- /FIM DAS FEATUREZINHAS *-* -->
   </div>
 </main>
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Factorys;
 
 use Exception;
 
 class Store {
 
+    //Criação do Layout
     public static function Layout($structures, $data = null){
         if(!is_array($structures)){
             throw new Exception('Operação inválida inválida');
@@ -32,7 +33,7 @@ class Store {
         }
     }
 
-    // ===========================================================
+    //Criação do Hash (purl)
     public static function criarHash($num_caracteres = 12){
 
         // criar hashes
@@ -40,7 +41,7 @@ class Store {
         return substr(str_shuffle($chars), 0, $num_caracteres);
     }
 
-    // ===========================================================
+    //Gerando código de compra
     public static function generate_purchase_code(){
         // gerar um código de encomenda
         $code = "";
@@ -56,7 +57,7 @@ class Store {
         return isset($_SESSION['client']);
     }
 
-    //Metodo debug
+    //Metodo de depuração
     public static function printData($data){
         if(is_array($data) || is_object($data)){
             echo '<pre>';

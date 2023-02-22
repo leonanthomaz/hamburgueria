@@ -10,16 +10,22 @@ class Connect {
 
     private $conn;
 
-    public function connect(){
+    //Conexão
+    public function connect()
+    {
         $this->conn = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME.";charset=".DB_CHARSET, DB_USER, DB_PASS, array(PDO::ATTR_PERSISTENT => true));
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
 
-    public function disconnect(){
+    //Desconecta
+    public function disconnect()
+    {
         $this->conn = null;
     }
 
-    public function select($sql, $param = null){
+    //Instrução Select
+    public function select($sql, $param = null)
+    {
 
         $sql = trim($sql);
 
@@ -51,7 +57,9 @@ class Connect {
         return $results;
     }
 
-    public function insert($sql, $param = null){
+    //Instrução Insert
+    public function insert($sql, $param = null)
+    {
         $sql = trim($sql);
 
         if(!preg_match('/^INSERT/i', $sql)){
@@ -78,7 +86,9 @@ class Connect {
         $this->disconnect();
     }
 
-    public function update($sql, $param = null){
+    //Instrução Update
+    public function update($sql, $param = null)
+    {
 
         $sql = trim($sql);
 
@@ -106,7 +116,9 @@ class Connect {
         $this->disconnect();
     }
 
-    public function delete($sql, $param = null){
+    //Instrução Delete
+    public function delete($sql, $param = null)
+    {
 
         $sql = trim($sql);
 
@@ -134,7 +146,9 @@ class Connect {
         $this->disconnect();
     }
 
-    public function statement($sql, $param = null){
+    //Instrução para qualquer uma fora o CRUD
+    public function statement($sql, $param = null)
+    {
 
         $sql = trim($sql);
 

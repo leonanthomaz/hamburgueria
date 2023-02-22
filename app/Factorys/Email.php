@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Factorys;
 
 use PDOException;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Email{
 
-    // ===============================================================
+    //Criação do email para envio
     public function confirmation_email_new_client($email_cliente, $purl){
 
         // envia um email para o novo cliente no sentido de confirmar o email

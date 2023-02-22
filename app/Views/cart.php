@@ -28,6 +28,7 @@ if(isset($_SESSION['total'])){
 <?php else : ?>
 
 <section class="h-100 h-custom" style="background-color: #e7e7e7;">
+  <?php include "includes/alerts.php" ?>
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12">
@@ -79,9 +80,10 @@ if(isset($_SESSION['total'])){
                   <hr class="my-4">
 
                   <div class="pt-5">
-                    <h6 class="mb-0"><a href="?a=index" class="text-body"><i
+                    <h6 class="mb-0"><a href="?a=index" class="text-body mb-3"><i
                           class="fas fa-long-arrow-alt-left me-2"></i>Voltar ao início</a></h6>
                   </div>
+
                 </div>
               </div>
               <div class="col-lg-4 bg-grey">
@@ -100,13 +102,23 @@ if(isset($_SESSION['total'])){
                   <?php if(!isset($coupon)): ?>
                   <div class="mb-5">
                     <div class="form-outline">
-                        <form action="?a=coupon" method="POST">
+                        <!-- <form action="?a=coupon" method="POST">
                             <input type="text" id="form3Examplea2" class="form-control form-control-lg" name="coupon" />
                             <button type="submit" class="btn btn-dark btn-sm mt-2">Enviar</button>
+                        </form> -->
+                        <form class="card p-2" action="?a=coupon" method="POST">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Código" name="coupon">
+                            <div class="input-group-append">
+                              <button type="submit" class="btn btn-secondary btn-sm text-uppercase">Enviar</button>
+                            </div>
+                          </div>
                         </form>
                       <label class="form-label" for="form3Examplea2">Insira seu código</label>
                     </div>
                   </div>
+                  <?php else: ?>
+                    <h5 class="text-uppercase mb-3"><?php echo isset($coupon) ? $coupon : "" ?></h5>
                   <?php endif; ?>
 
                   <hr class="my-4">
@@ -116,7 +128,7 @@ if(isset($_SESSION['total'])){
                     <h5 id="total_cart" class="text-uppercase"><?php echo 'R$ '.number_format($total,2,',','.')?></h5>
                   </div>
 
-                  <a class="btn btn-dark btn-block btn-lg" href="?a=checkout_cart">Finalizar</a>
+                  <a class="btn btn-dark btn-block btn-lg" href="?a=checkout_cart">Checkout</a>
 
                 </div>
               </div>

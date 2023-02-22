@@ -4,12 +4,13 @@ namespace App\Controllers;
 
 use App\Models\Client;
 use App\Models\Product;
-use App\Models\Store;
+use App\Factorys\Store;
 
 class Main {
 
     // *** Páginas ****
 
+    //Página de manutenção
     public function maintenance(){
         
         Store::Layout([
@@ -19,6 +20,7 @@ class Main {
         ]);
     }
     
+    //Página Inicial
     public function index(){
 
         $p = new Product;
@@ -35,6 +37,7 @@ class Main {
         ], ["products" => $products]);
     }
 
+    //Página de Login
     public function login(){
 
         // verifica se já existe um utilizador logado
@@ -48,11 +51,11 @@ class Main {
             'layouts/html_header',
             'layouts/header',
             'login',
-            'layouts/footer',
             'layouts/html_footer',
         ]);
     }
 
+    //Página de Registro
     public function register(){
         
         // verifica se já existe um utilizador logado
@@ -70,87 +73,27 @@ class Main {
         ]);
     }
 
+    //Página do Carrinho
     public function cart(){
-        
+
         if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
             $data = [
                 'cart' => null
             ];
         }else{
-
-            $ids = [];
-            foreach ($_SESSION['cart'] as $p_id => $qtd) {
-                array_push($ids, $p_id);
-            }
-
-            $ids = implode(",", $ids);
-            $p = new Product;
-            $results = $p->products_by_id($ids);
-
-            $data_temp = [];
-
-            foreach($_SESSION['cart'] as $p_id => $qtd_cart){
-
-                // imagem do produto
-                foreach ($results as $product) {
-
-                    if ($product->p_id == $p_id) {
-
-                        $p_id = $product->p_id;
-                        $p_nome = $product->p_nome;
-                        $p_imagem = $product->p_imagem;
-                        $qtd = $qtd_cart;
-                        $subtotal = $product->p_preco * $qtd;
-
-                        // colocar o produto na coleção
-                        array_push($data_temp, [
-                            'p_id' => $p_id,
-                            'p_nome' => $p_nome,
-                            'p_imagem' => $p_imagem,
-                            'qtd' => $qtd,
-                            'p_preco' => $product->p_preco,
-                            'subtotal' => $subtotal
-                        ]);
-
-                        break;
-                    }
-                }
-            }
-
-            // calcular o total
-            $total = 0;
-            foreach ($data_temp as $item) {
-                $total += $item['subtotal'];
-            }
-
-                       // foreach ($data_temp as $item) {
-            //     if(isset($_SESSION['discount_coupon'])){
-            //         $total += $item['subtotal'] - 10;
-            //     }else{
-            //         $total += $item['subtotal'];
-            //     }
-            // }
-            
-            // colocar o preço total na sessao
-            $_SESSION['total'] = isset($_SESSION['discount_coupon']) ? $total -10 : $total;
-
-            $data = [
-                'cart' => $data_temp            
-            ];
+            $cart = new Cart;
+            $data = $cart->get_products_by_cart();
         }
-
-        // Store::printData($data);
-
+        
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
             'cart',
             'layouts/html_footer'
         ], $data);
-
-        
     }
 
+    //Página de Checkout
     public function checkout(){
 
         // verifica se existe cliente logado
@@ -233,6 +176,7 @@ class Main {
 
     }
 
+    //Página de listagem de todos os produtos
     public function products(){
 
         $id = 0;
@@ -248,5 +192,48 @@ class Main {
             'layouts/footer',
             'layouts/html_footer',
         ], ["products" => $products]);
+    }
+
+    //Página de perfil do usuário
+    public function profile(){
+
+        if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
+            $_SESSION['erro'] = 'Credenciais nao encontradas...';
+            Store::redirect();
+            return;
+        }
+          
+        $cookie = $_COOKIE['g_csrf_token'] ?? "";
+          
+        if($_POST['g_csrf_token'] != $cookie){
+            $_SESSION['erro'] = 'Credenciais nao encontradas...';
+            Store::redirect();
+            return;
+        }
+
+
+        $id_token = $_POST['credential'];
+        $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+        $httpClient = new \GuzzleHttp\Client([
+            'base_uri' => 'http://localhost',
+            'verify' => false
+        ]);
+        $client->setHttpClient($httpClient);
+        
+        $payload = $client->verifyIdToken($id_token);
+
+        if(isset($payload)){
+            Store::Layout([
+                'layouts/html_header',
+                'layouts/header',
+                'profile',
+                'layouts/footer',
+                'layouts/html_footer',
+            ], [ "payload" => $payload]);
+        }else{
+            $_SESSION['erro'] = 'Credenciais jamais encontradas...';
+            Store::redirect();
+            return;
+        }
     }
 }

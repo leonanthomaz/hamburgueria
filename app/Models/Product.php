@@ -6,6 +6,7 @@ use App\Models\Connect;
 
 class Product {
 
+    //Listar todos os produtos
     public function product_list()
     {
         $database = new Connect;
@@ -13,6 +14,7 @@ class Product {
         return $products;
     }
 
+    //Listar produtos disponiveis
     public function product_list_available()
     {
         $database = new Connect;
@@ -20,6 +22,7 @@ class Product {
         return $products;
     }
 
+    //Listar produtos por Ids
     public function products_by_id($ids)
     {
         $database = new Connect;
@@ -27,10 +30,18 @@ class Product {
         return $products;
     }
 
+    //Listar produtos por categoria
     public function products_by_category($ct)
     {
         $database = new Connect;
         $products = $database->select("SELECT * FROM produtos WHERE p_categoria IN ($ct)");
         return $products;
     }
+
+    //Listar produtos por destaque
+    public function product_by_top()
+    {
+        
+    }
+
 }

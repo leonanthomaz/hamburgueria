@@ -2,6 +2,7 @@
 
 //Definindo bloco de classes predefinidas para montagem da logica a partir da URL
 $routes = [
+    "teste" => "teste@teste",
 
     //Principal
     "maintenance" => "main@maintenance",
@@ -11,6 +12,7 @@ $routes = [
     "register" => "main@register",
     "cart" => "main@cart",
     "checkout" => "main@checkout",
+    "profile" => "main@profile",
 
     //Boas vindas
     "register_submit" => "client@register_submit",
@@ -25,12 +27,14 @@ $routes = [
     "get_total" => "cart@get_total",
     "delete_item_cart" => "cart@delete_item_cart",
     "coupon" => "cart@coupon",
+    "send_order" => "cart@send_order",
 
-    //Clientes
+    //Cliente
     "login_submit" => "client@login_submit",
     "cep" => "client@cep",
     'confirm_email' => 'client@confirm_email',
     "logout" => "client@logout",
+    "login_google" => "client@login_google",
 
 ];
 

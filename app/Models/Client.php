@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Connect;
+use App\Factorys\Store;
 
 class Client {
 
@@ -88,7 +89,8 @@ class Client {
     }
 
     //Verificar senha com o banco
-    public function db_password_verify($c_id, $password){
+    public function db_password_verify($c_id, $password)
+    {
 
         // verifica se a senha atual está correta (de acordo com o que está na base de dados)
         $params = [
@@ -108,7 +110,8 @@ class Client {
     }
 
     //Verificar email com o banco
-    public function db_verify_email($email){
+    public function db_verify_email($email)
+    {
 
         // verifica se já existe outra conta com o mesmo email
         $bd = new Connect();
@@ -157,8 +160,9 @@ class Client {
         return true;
     }
 
-    // ===========================================================
-    public function search_client($id_cliente){
+    //Procurar cliente especifico no banco
+    public function search_client($id_cliente)
+    {
 
         $parametros = [
             ':c_id' => $id_cliente
@@ -176,5 +180,33 @@ class Client {
             WHERE c_id = :c_id
         ", $parametros);
         return $resultados[0];
+    }
+
+    public function update_client($id_client)
+    {
+        // atualiza o novo cliente na base de dados
+        $db = new Connect();
+
+        // parametros
+        $params = [
+            ':c_nome' => trim($_POST['c_nome']),
+            ':c_email' => strtolower(trim($_POST['c_email'])),
+            ':c_telefone' => trim($_POST['c_telefone']),
+            ':c_cep' => trim($_POST['c_cep']),
+            ':c_logradouro' => trim($_POST['c_logradouro']),
+            ':c_bairro' => trim($_POST['c_bairro']),
+        ];
+
+        $db->update("UPDATE clientes SET 
+        c_nome = :c_nome, 
+        c_email = :c_email, 
+        c_telefone = :c_telefone,
+        c_cep = :c_cep,
+        c_logradouro = :c_logradouro,
+        c_bairro = :c_bairro,
+        WHERE c_id = $id_client", $params);
+
+        return true;
+
     }
 }
