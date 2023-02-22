@@ -56,6 +56,8 @@
 
         <div class="text-center mb-3">
             <p>Login com:</p>
+
+            <!-- Botão Google -->
             <button type="button" class="btn btn-link btn-floating mx-1">
             <div id="g_id_onload"
                 data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
@@ -71,8 +73,22 @@
                 data-logo_alignment="left">
             </div>
             </button>
+
+            <!-- Botão Google -->
             <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-facebook-f"></i>
+            <div id="g_id_onload"
+                data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
+                data-login_uri="http://localhost/sistema/hamburgueria/?a=checkout"
+                data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                data-type="standard"
+                data-size="small"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left">
+            </div>
             </button>
         </div>
 

@@ -97,7 +97,7 @@ if(isset($_SESSION['total'])){
                   </div>
                   
 
-                  <h5 class="text-uppercase mb-3">Cumpom de desconto <?php isset($coupon) ? $coupon : "" ?></h5>
+                  <h5 class="text-uppercase mb-3">Cupom de desconto <?php isset($coupon) ? $coupon : "" ?></h5>
 
                   <?php if(!isset($coupon)): ?>
                   <div class="mb-5">
@@ -122,6 +122,14 @@ if(isset($_SESSION['total'])){
                   <?php endif; ?>
 
                   <hr class="my-4">
+
+                  <!-- <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Taxa de Entrega</h5>
+                    <h5 id="total_cart" class="text-uppercase"><?php echo 'R$ '.number_format($total,2,',','.')?></h5>
+                  </div>
+
+                  <hr class="my-4"> -->
+
 
                   <div class="d-flex justify-content-between mb-5">
                     <h5 class="text-uppercase">Total</h5>

@@ -17,6 +17,7 @@ class Client {
         unset($_SESSION['client']);
         unset($_SESSION['email']);
         unset($_SESSION['name']);
+        unset($_SESSION['discount_coupon']);
 
         // redireciona para o início da loja
         Store::redirect();
@@ -25,77 +26,6 @@ class Client {
     //**** Register ***/
     //inserindo novo cliente
     public function register_submit(){
-
-        if (Store::logged()) {
-            Store::redirect();
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            Store::redirect();
-            return;
-        }     
-        
-        if(empty($_POST['c_nome'] 
-                        || $_POST['c_nome'] 
-                        || $_POST['c_email'] 
-                        || $_POST['c_telefone'] 
-                        || $_POST['c_cep']
-                        || $_POST['c_logradouro'] 
-                        || $_POST['c_bairro'] 
-                        || $_POST['c_senha'] 
-                        || $_POST['c_confirmar_senha']
-                        )){
-
-            $_SESSION['erro'] = 'Campos vazios';
-            Store::redirect("register");
-            return;
-        }
-
-        if ($_POST['c_senha'] !== $_POST['c_confirmar_senha']) {
-
-            $_SESSION['erro'] = 'As senhas não estão iguais.';
-            Store::redirect("register");
-            return;
-        }
-
-        
-        // verifica na base de dados se existe cliente com mesmo email
-        $c = new MC;
-        if ($c->db_verify_email($_POST['c_email'])) {
-
-            $_SESSION['erro'] = 'Já existe um cliente com o mesmo email.';
-            Store::redirect("register");            
-            return;
-        }
-
-        // inserir novo cliente na base de dados e devolver o purl
-        $email = strtolower(trim($_POST['c_email']));
-        $c = new MC;
-        $purl = $c->register_validate();
-
-        // envio do email para o cliente
-        $e = new Email();
-        $results = $e->confirmation_email_new_client($email, $purl);
-
-        if ($results) {
-
-            // apresenta o layout para informar o envio do email
-            Store::Layout([
-                'layouts/html_header',
-                'layouts/header',
-                'success_new_client',
-                'layouts/footer',
-                'layouts/html_footer',
-            ]);
-            return;
-        } else {
-            echo 'Aconteceu um erro';
-        }
-    }
-
-    //teste CRIANDO UMA NOVA FORMA DE REGISTRO
-    public function register_submit_teste(){
 
         if (Store::logged()) {
             Store::redirect();
@@ -118,13 +48,12 @@ class Client {
             return;
         }
 
-        if ($_POST['c_senha'] !== $_POST['c_confirmar_senha']) {
+        if ($_POST['c_senha'] !== $_POST['c_confirma_senha']) {
 
             $_SESSION['erro'] = 'As senhas não estão iguais.';
             Store::redirect("register");
             return;
         }
-
         
         // verifica na base de dados se existe cliente com mesmo email
         $c = new MC;
@@ -136,9 +65,17 @@ class Client {
         }
 
         // inserir novo cliente na base de dados e devolver o purl
-        $email = strtolower(trim($_POST['c_email']));
-        $c = new MC;
-        $purl = $c->register_validate();
+
+        if(!filter_input(INPUT_POST, "c_email", FILTER_VALIDATE_EMAIL)){
+            $_SESSION['erro'] = 'Conta de email inválida. Verifique e tente novamente.';
+            Store::redirect("register");            
+            return;
+        }else{
+            $email = filter_input(INPUT_POST, "c_email", FILTER_VALIDATE_EMAIL);
+            $c = new MC;
+            $purl = $c->register_validate();
+        }
+        
 
         // envio do email para o cliente
         $e = new Email();
@@ -321,5 +258,10 @@ class Client {
         // }
 
     }
+
+    // public function login_facebook()
+    // {
+
+    // }
 
 }

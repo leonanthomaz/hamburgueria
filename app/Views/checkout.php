@@ -126,6 +126,7 @@ if(isset($_SESSION['discount_coupon'])){
               </div>
 
               <hr class="mb-4">
+              
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="ofertas" name="c_ofertas">
                 <label class="custom-control-label" for="same-address">Receber ofertas e promoções por email</label>

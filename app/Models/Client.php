@@ -15,32 +15,29 @@ class Client {
 
         // cria uma hash para o registo do cliente
         $purl = Store::criarHash();
-
+        
         // parametros
         $params = [
             ':c_nome' => trim($_POST['c_nome']),
             ':c_email' => strtolower(trim($_POST['c_email'])),
-            ':c_telefone' => trim($_POST['c_telefone']),
             ':c_senha' => password_hash(trim($_POST['c_senha']), PASSWORD_DEFAULT),
-            ':c_cep' => trim($_POST['c_cep']),
-            ':c_logradouro' => trim($_POST['c_logradouro']),
-            ':c_bairro' => trim($_POST['c_bairro']),
             ':c_purl' => $purl,
             ':c_ativo' => 0,
-
+            ':c_ofertas' => $_POST['c_ofertas'][0] === "sim" ? 1 : 0,
         ];
 
         $db->insert("INSERT INTO clientes VALUES(
             NULL,
             :c_nome,
             :c_email,
-            :c_telefone,
+            NULL,
             :c_senha, 
-            :c_cep,
-            :c_logradouro,
-            :c_bairro, 
+            NULL,
+            NULL,
+            NULL, 
             :c_purl,
             :c_ativo,
+            :c_ofertas,
             NOW(),
             NOW(),
             NULL

@@ -4,7 +4,7 @@
 
 //Configurações do Sistema
 DEFINE('APP_NAME', 'Projeto Hamburgueria');
-DEFINE("APP_VERSION", "1.0.0");
+DEFINE("APP_VERSION", "1.1");
 DEFINE("APP_DESCRIPTION", "A melhor Hamburgueria da cidade!");
 DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 
@@ -47,4 +47,12 @@ DEFINE('CART_COUPON', 'BURGER10');
 // Login com Google - insira suas chaves Google Client e Secret Key
 DEFINE('GOOGLE_CLIENT_ID', '');
 DEFINE('GOOGLE_SECRET_KEY', '');
+
+DEFINE('FACEBOOK_LOGIN', [
+    'FB_ID'          => '',
+    'FB_SECRET'      => '',
+    'FB_REDIRECT'       => BASE_URL,
+    'FB_VERSION'   => '',
+]);
+
 

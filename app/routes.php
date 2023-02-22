@@ -15,8 +15,8 @@ $routes = [
     "profile" => "main@profile",
 
     //Boas vindas
-    "register_submit" => "client@register_submit",
     "success_new_client" => "client@success_new_client",
+    "success_email_link_confirm" => "client@success_email_link_confirm",
 
     //Carrinho
     "add_cart" => "cart@add_cart",
@@ -30,9 +30,11 @@ $routes = [
     "send_order" => "cart@send_order",
 
     //Cliente
-    "login_submit" => "client@login_submit",
     "cep" => "client@cep",
-    'confirm_email' => 'client@confirm_email',
+    "register_submit" => "client@register_submit",
+    "login_submit" => "client@login_submit",
+    'email_validate_purl' => 'client@email_validate_purl',
+    'email_link_confirm' => 'client@email_link_confirm',
     "logout" => "client@logout",
     "login_google" => "client@login_google",
 

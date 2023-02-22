@@ -6,7 +6,11 @@ const add_cart = (id) => {
         url: `?a=add_cart&id=${id}`,
         success: function (response) {
             console.log(response)
-            $("#count_cart").html(response)
+            $("#count_cart").html(
+                `<div id="count_cart">Carrinho
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>${response}</span>
+                </div>`)
         }
     });
 }

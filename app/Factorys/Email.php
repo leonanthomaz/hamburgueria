@@ -15,7 +15,7 @@ class Email{
         // envia um email para o novo cliente no sentido de confirmar o email
 
         // constroi o purl (link para validação do email)
-        $link = BASE_URL."?a=confirm_email&purl=".$purl;
+        $link = BASE_URL."?a=email_link_confirm&purl=".$purl;
 
         $mail = new PHPMailer(true);
 
