@@ -155,18 +155,19 @@ class Main {
         // -------------------------------------------------------
         // buscar informações do cliente
 
-        $id_token = $_SESSION['client_google_token'];
-        $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
-        $httpClient = new \GuzzleHttp\Client([
-            'base_uri' => 'http://localhost',
-            'verify' => false
-        ]);
-        $client->setHttpClient($httpClient);
-        
-        $payload = $client->verifyIdToken($id_token);
+        if(isset($_SESSION['client_google_token'])){
+            $id_token = $_SESSION['client_google_token'];
+            $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+            $httpClient = new \GuzzleHttp\Client([
+                'base_uri' => 'http://localhost',
+                'verify' => false
+            ]);
+            $client->setHttpClient($httpClient);
+            $payload = $client->verifyIdToken($id_token);
+        }
         
         $c = new Client();
-        $data_c = $_SESSION['client_google_token'] ? $payload : $c->search_client($_SESSION['client']);       
+        $data_c = isset($_SESSION['client_google_token']) ? $payload : $c->search_client($_SESSION['client']);       
         $data['client'] =  $data_c;
 
         // -------------------------------------------------------

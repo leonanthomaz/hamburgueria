@@ -29,7 +29,7 @@
         </ul>
     </nav>
     <div class="menu-user">
-        <?php if(!isset($_SESSION['client'])): ?>
+        <?php if(!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])): ?>
         <a href="?a=login" onclick="handleLogin()" data-bs-toggle="modal" data-bs-target="#menuModal">
             <i class="fa-solid fa-user"></i> Acessar
         </a>

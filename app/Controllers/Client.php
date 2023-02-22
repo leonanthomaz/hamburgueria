@@ -18,7 +18,7 @@ class Client {
         unset($_SESSION['email']);
         unset($_SESSION['name']);
         unset($_SESSION['discount_coupon']);
-
+        unset($_SESSION['client_google_token']);
         // redireciona para o início da loja
         Store::redirect();
     }

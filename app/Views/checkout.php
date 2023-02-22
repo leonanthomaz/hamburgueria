@@ -81,7 +81,7 @@ if(isset($_SESSION['discount_coupon'])){
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName">Nome</label>
-                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo $_SESSION['client_google_token'] ? $client["name"] : $client->c_nome ?>" required>
+                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo isset($_SESSION['client_google_token']) ? $client["name"] : $client->c_nome ?>" required>
                   <div class="invalid-feedback">
                     Nome requerido
                   </div>
@@ -97,7 +97,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo $_SESSION['client_google_token'] ? $client["email"] : $client->c_email ?>">
+                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo isset($_SESSION['client_google_token']) ? $client["email"] : $client->c_email ?>">
                 <div class="invalid-feedback">
                   Insira um email válido
                 </div>
