@@ -1,3 +1,9 @@
+<?php include "includes/alerts.php" ?>
+
+<div class="container w-50 p-3 mt-5">
+    <?php include "app/Views/includes/form-login.php" ?>
+</div>
+
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">

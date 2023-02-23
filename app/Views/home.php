@@ -1,9 +1,12 @@
 
+<?php include "includes/alerts.php" ?> 
 <?php include_once "app/Views/includes/carousel.php"; ?>
-
+<?php
+echo "<pre>";
+print_r($_SESSION);
+echo "********";
+?>
 <main role="main">
-  <?php include "includes/alerts.php" ?>
-  
   <div class="container marketing">
 
     <h1>Destaques</h1>

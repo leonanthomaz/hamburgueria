@@ -2,7 +2,6 @@
 
 //Definindo bloco de classes predefinidas para montagem da logica a partir da URL
 $routes = [
-    "teste" => "teste@teste",
 
     //Principal
     "maintenance" => "main@maintenance",
@@ -32,12 +31,10 @@ $routes = [
     "cep" => "client@cep",
     "register_submit" => "client@register_submit",
     "login_submit" => "client@login_submit",
+    "login_google_submit" => "client@login_google_submit",
     'email_validate_purl' => 'client@email_validate_purl',
     'email_link_confirm' => 'client@email_link_confirm',
     "logout" => "client@logout",
-    "login_google" => "client@login_google",
-    "login_google_validate" => "client@login_google_validate",
-
 ];
 
 //Definindo rota padrão

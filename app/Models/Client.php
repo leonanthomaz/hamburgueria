@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Connect;
 use App\Factorys\Store;
+use PDOException;
 
 class Client {
 
@@ -27,6 +28,7 @@ class Client {
         ];
 
         $db->insert("INSERT INTO clientes VALUES(
+            NULL,
             NULL,
             :c_nome,
             :c_email,
@@ -82,6 +84,24 @@ class Client {
                 // login válido
                 return $usuario;
             }
+        }
+    }
+
+    public function login_validate_google($email)
+    {
+        // verificar se o login é válido
+        $params = [
+            ':c_email' => $email
+        ];
+
+        $db = new Connect();
+        $results = $db->select("SELECT * FROM clientes WHERE c_email = :c_email AND c_ativo = 1 AND c_deleted_at IS NULL", $params);
+        // Store::printData($results[0]);
+
+        if (count($results) != 1) {
+
+            // não existe usuário
+            return false;
         }
     }
 
@@ -158,25 +178,31 @@ class Client {
     }
 
     //Procurar cliente especifico no banco
-    public function search_client($id_cliente)
+    public function search_client($email_client)
     {
 
-        $parametros = [
-            ':c_id' => $id_cliente
+        $params = [
+            ':c_email' => $email_client
         ];
 
-        $bd = new Connect();
-        $resultados = $bd->select("SELECT 
-                c_nome,
-                c_email,
-                c_telefone,
-                c_cep,
-                c_logradouro,
-                c_bairro 
+        $db = new Connect();
+
+        $results = $db->select("SELECT 
+            c_id,
+            c_nome,
+            c_id_google,
+            c_email,
+            c_telefone,
+            c_cep,
+            c_logradouro,
+            c_bairro 
             FROM clientes 
-            WHERE c_id = :c_id
-        ", $parametros);
-        return $resultados[0];
+            WHERE c_email = :c_email
+        ", $params);
+
+        // Store::printData($results[0]);
+        return $results[0];
+
     }
 
     public function update_client($id_client)
@@ -206,4 +232,40 @@ class Client {
         return true;
 
     }
+
+    public function insert_client_google()
+    {
+
+        // regista o novo cliente na base de dados
+        $db = new Connect();
+        
+        // parametros
+        $params = [
+            ':c_id_google' => intval($_SESSION['client']),
+            ':c_nome' => $_SESSION['name'],
+            ':c_email' => strtolower(trim($_SESSION['email'])),
+            ':c_ativo' => 1,
+            ':c_ofertas' => 1,
+        ];
+
+        $db->insert("INSERT INTO clientes VALUES(
+            NULL,
+            :c_id_google,
+            :c_nome,
+            :c_email,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            :c_ativo,
+            :c_ofertas,
+            NOW(),
+            NOW(),
+            NULL
+        )", $params);
+       
+    }
+    
 }

@@ -1,21 +1,11 @@
 <?php
-// print_r($cart);
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "********";
-
-
-
 if(isset($_SESSION['discount_coupon'])){
   $coupon = $_SESSION['discount_coupon'];
 }
-
 if(isset($_SESSION['total'])){
   $total = $_SESSION['total'];
 }
-
-
-
+include_once "app/Views/includes/login_modal.php"; 
 ?>
 
 
@@ -102,10 +92,7 @@ if(isset($_SESSION['total'])){
                   <?php if(!isset($coupon)): ?>
                   <div class="mb-5">
                     <div class="form-outline">
-                        <!-- <form action="?a=coupon" method="POST">
-                            <input type="text" id="form3Examplea2" class="form-control form-control-lg" name="coupon" />
-                            <button type="submit" class="btn btn-dark btn-sm mt-2">Enviar</button>
-                        </form> -->
+
                         <form class="card p-2" action="?a=coupon" method="POST">
                           <div class="input-group">
                             <input type="text" class="form-control" placeholder="Código" name="coupon">
@@ -123,21 +110,19 @@ if(isset($_SESSION['total'])){
 
                   <hr class="my-4">
 
-                  <!-- <div class="d-flex justify-content-between mb-5">
-                    <h5 class="text-uppercase">Taxa de Entrega</h5>
-                    <h5 id="total_cart" class="text-uppercase"><?php echo 'R$ '.number_format($total,2,',','.')?></h5>
-                  </div>
-
-                  <hr class="my-4"> -->
-
-
                   <div class="d-flex justify-content-between mb-5">
                     <h5 class="text-uppercase">Total</h5>
                     <h5 id="total_cart" class="text-uppercase"><?php echo 'R$ '.number_format($total,2,',','.')?></h5>
                   </div>
 
-                  <a class="btn btn-dark btn-block btn-lg" href="?a=checkout_cart">Checkout</a>
+                  <a href="?a=checkout_cart" class="btn btn-dark btn-block btn-lg">Checkout</a>
 
+                  <!-- <?php if(isset($_SESSION['client'])): ?>
+                    <a href="?a=checkout_cart" class="btn btn-dark btn-block btn-lg">Checkout</a>
+                  <?php else: ?>
+                    <a onclick="handleLogin()" data-bs-toggle="modal" data-bs-target="#menuModal" class="btn btn-dark btn-block btn-lg">Checkout</a>
+                  <?php endif; ?> -->
+                  
                 </div>
               </div>
             </div>

@@ -23,10 +23,10 @@ class Main {
     //Página Inicial
     public function index(){
 
+        
+
         $p = new Product;
         $products = $p->product_list_available();
-
-        // Store::printData($produtos);
     
         Store::Layout([
             'layouts/html_header',
@@ -39,7 +39,7 @@ class Main {
 
     //Página de Login
     public function login(){
-
+        
         // verifica se já existe um utilizador logado
         if (Store::logged()) {
             Store::redirect();
@@ -96,9 +96,11 @@ class Main {
     //Página de Checkout
     public function checkout(){
 
+    
         // verifica se existe cliente logado
-        if(!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])){
+        if(!isset($_SESSION['client'])){
             Store::redirect();
+            return;
         }
 
         // verifica se pode avançar para a gravação da encomenda
@@ -154,20 +156,9 @@ class Main {
 
         // -------------------------------------------------------
         // buscar informações do cliente
-
-        if(isset($_SESSION['client_google_token'])){
-            $id_token = $_SESSION['client_google_token'];
-            $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
-            $httpClient = new \GuzzleHttp\Client([
-                'base_uri' => 'http://localhost',
-                'verify' => false
-            ]);
-            $client->setHttpClient($httpClient);
-            $payload = $client->verifyIdToken($id_token);
-        }
-        
+        // -------------------------------------------------------
         $c = new Client();
-        $data_c = isset($_SESSION['client_google_token']) ? $payload : $c->search_client($_SESSION['client']);       
+        $data_c = $c->search_client($_SESSION['email']);       
         $data['client'] =  $data_c;
 
         // -------------------------------------------------------

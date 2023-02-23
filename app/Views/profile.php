@@ -8,6 +8,6 @@
 // echo "********";
 
 echo "<pre>";
-print_r($payload);
+print_r($_SESSION);
 echo "********";
 ?>

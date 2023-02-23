@@ -1,32 +1,10 @@
 <?php
-// echo "<pre>";
-// print_r($client);
-// echo "********";
-// echo "<pre>";
-// print_r($cart);
-// echo "<pre>";
-// print_r($data);
-// echo "********";
-
-// echo "<pre>";
-// print_r($client);
-// echo "********";
-
-// isset($_SESSION['client_google_token']) ? $client = $_SESSION['client_google_token'] : $client;
-
- 
-// echo "<pre>";
-// print_r($client);
-// echo "********";
-
 if(isset($_SESSION['total'])){
     $total = $_SESSION['total'];
 }
-
 if(isset($_SESSION['purchase_code'])){
     $purchase_code = $_SESSION['purchase_code'];
 }
-
 if(isset($_SESSION['discount_coupon'])){
   $coupon = $_SESSION['discount_coupon'];
 }
@@ -141,10 +119,7 @@ if(isset($_SESSION['discount_coupon'])){
                 <input type="checkbox" class="custom-control-input" id="ofertas" name="c_ofertas">
                 <label class="custom-control-label" for="same-address">Receber ofertas e promoções por email</label>
               </div>
-              <!-- <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="save-info">
-                <label class="custom-control-label" for="save-info">Save this information for next time</label>
-              </div> -->
+              
               <hr class="mb-4">
 
               <h4 class="mb-3">Pagamento:</h4>

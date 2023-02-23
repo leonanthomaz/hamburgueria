@@ -10,7 +10,6 @@ use App\Factorys\Email;
 class Client {
 
     // *** Logout ****
-
     public function logout(){
 
         // remove as variáveis da sessão
@@ -18,7 +17,7 @@ class Client {
         unset($_SESSION['email']);
         unset($_SESSION['name']);
         unset($_SESSION['discount_coupon']);
-        unset($_SESSION['client_google_token']);
+        unset($_SESSION['google_token']);
         // redireciona para o início da loja
         Store::redirect();
     }
@@ -170,6 +169,81 @@ class Client {
         }
     }
 
+    public function login_google_submit()
+    {
+        if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
+            $_SESSION['erro'] = 'Erro ao validar seu login com Google.!';
+            Store::redirect("login");
+            return;
+        }
+            
+        $cookie = $_COOKIE['g_csrf_token'] ?? "";
+            
+        if($_POST['g_csrf_token'] != $cookie){
+            $_SESSION['erro'] = 'Erro ao validar seu login com Google.!';
+            Store::redirect("login");
+            return;
+        }
+
+        $id_token = $_POST['credential'];
+        $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+        $httpClient = new \GuzzleHttp\Client([
+            'base_uri' => 'http://localhost',
+            'verify' => false
+        ]);
+        
+        $client->setHttpClient($httpClient);
+        $jwt = new \Firebase\JWT\JWT; //Allow for discrepancies between server and auth times
+        $jwt::$leeway = 100;
+        $payload = $client->verifyIdToken($id_token);
+
+        // Store::printData($payload);
+
+        if(!isset($payload)){
+            $_SESSION['erro'] = 'Erro ao processar cliente!';
+            Store::redirect("login");
+            return;
+        }
+
+        // verifica na base de dados se existe cliente com mesmo email
+        $c = new MC;
+
+        if ($c->db_verify_email($payload['email'])) {
+
+            $client = $c->search_client($payload['email']);
+
+            $_SESSION['client'] = $client->c_id;
+            $_SESSION['name'] =  $client->c_nome;
+            $_SESSION['email'] = $client->c_email;
+            $_SESSION['google_token'] = $client->c_id_google;
+
+            Store::redirect();
+        }else{
+
+            $_SESSION['client'] = $payload['iat'];
+            $_SESSION['name'] =  $payload['name'];
+            $_SESSION['email'] = $payload['email'];
+            $_SESSION['google_token'] = $id_token;
+
+            $c->insert_client_google();
+
+            // redirecionar para o local correto
+            if(isset($_SESSION['tmp_cart'])){
+
+                // remove a variável temporária da sessão
+                unset($_SESSION['tmp_cart']);
+                // redireciona para resumo da encomenda
+                Store::redirect('checkout');
+                } else {            
+                $_SESSION['erro'] = 'Falha ao autenticar cliente.';
+                Store::redirect("login");
+                return;
+
+            }
+        }
+        Store::redirect();
+    }
+
     //**** email ***/
     //Confirmar email por link
     public function email_link_confirm()
@@ -213,80 +287,6 @@ class Client {
             // redirecionar para a página inicial
             Store::redirect();
         }
-    }
-
-    //Login com o Google
-    public function login_google(){
-
-        // if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
-        //     $_SESSION['erro'] = 'Credenciais nao encontradas...';
-        //     Store::redirect();
-        //     return;
-        // }
-          
-        // $cookie = $_COOKIE['g_csrf_token'] ?? "";
-          
-        // if($_POST['g_csrf_token'] != $cookie){
-        //     $_SESSION['erro'] = 'Credenciais nao encontradas...';
-        //     Store::redirect();
-        //     return;
-        // }
-
-
-        // $id_token = $_POST['credential'];
-        // $client = new \Google\Client(['client_id' => GOOGLE_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
-        // $httpClient = new \GuzzleHttp\Client([
-        //     'base_uri' => 'http://localhost',
-        //     'verify' => false
-        // ]);
-        // $client->setHttpClient($httpClient);
-        
-        // $payload = $client->verifyIdToken($id_token);
-
-        // if(isset($payload)){
-        //     Store::Layout([
-        //         'layouts/html_header',
-        //         'layouts/header',
-        //         'profile',
-        //         'layouts/footer',
-        //         'layouts/html_footer',
-        //     ], [ "payload" => $payload]);
-        // }else{
-        //     $_SESSION['erro'] = 'Credenciais jamais encontradas...';
-        //     Store::redirect();
-        //     return;
-        // }
-
-    }
-
-    // public function login_facebook()
-    // {
-
-    // }
-
-    //Página de perfil do usuário
-    public function login_google_validate(){
-
-        if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
-            $_SESSION['erro'] = 'Credenciais nao encontradas...';
-            Store::redirect();
-            return;
-        }else{
-            $_SESSION['client_google_token'] = $_POST['credential'];
-            Store::redirect();
-        }
-            
-        $cookie = $_COOKIE['g_csrf_token'] ?? "";
-            
-        if($_POST['g_csrf_token'] != $cookie){
-            $_SESSION['erro'] = 'Credenciais nao encontradas...';
-            Store::redirect();
-            return;
-        }else{
-            $_SESSION['client_google_cookie'] = $cookie;
-            Store::redirect();
-        }
-
     }
 
 }

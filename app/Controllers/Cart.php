@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use App\Factorys\Store;
-use App\Controllers\Client;
+use App\Models\Client;
 use App\Models\Connect;
 
 class Cart {
@@ -107,7 +107,7 @@ class Cart {
     {
 
         // verifica se existe cliente logado
-        if (!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])) {
+        if (!isset($_SESSION['client'])) {
 
             // coloca na sessão um referrer temporário
             $_SESSION['tmp_cart'] = true;
@@ -117,6 +117,44 @@ class Cart {
         } else {
             Store::redirect('checkout');
         }
+    }
+
+    //Pegar total do carrinho
+    public function get_subtotal()
+    {
+        $ids = [];
+        $cart = $_SESSION['cart'];
+        foreach ($cart as $product_id => $qtd) {
+            array_push($ids, $product_id);
+        }
+
+        $ids = implode(",", $ids);
+        $p = new Product;
+        $results = $p->products_by_id($ids);
+
+        $data_temp = [];
+
+        foreach($cart as $product_id => $qtd_cart){
+
+            // imagem do produto
+            foreach ($results as $product_id_by_db) {
+
+                if ($product_id_by_db->p_id == $product_id) {
+
+                    $qtd = $qtd_cart;
+                    $subtotal = $product_id_by_db->p_preco * $qtd;
+
+                    // colocar o produto na coleção
+                    array_push($data_temp, [
+                        'subtotal' => $subtotal
+                    ]);
+
+                    break;
+                }
+            }
+        }
+
+        return $data_temp;    
     }
 
     //Pegar total do carrinho
@@ -254,34 +292,38 @@ class Cart {
 
     public function send_order()
     {
-        // Store::printData($_POST);
-        // $products = $this->get_products_by_cart();
-        // Store::printData($_SESSION);
-        $_SESSION['cart'];
-       
-
-        $data_order = [];
         
         echo "********";
         echo "<pre>";
-        print_r($data_order);
+        print_r($_POST);
         echo "********";
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "********";
 
-        Store::redirect($data_order);
+        // verifica se existe cliente logado
+        if(!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])){
+            Store::redirect();
+        }
 
-        // $cm = new Client;
-        // $result = $cm->update_client($_SESSION['client']);
+        $order = [];
 
-        // if(!$result){
-            // $_SESSION['erro'] = 'Falha ao concluir pedido! Tente mais tarde...';
-            // Store::redirect('checkout');
-            // return;
-        // }
+        foreach($_SESSION['cart'] as $key => $qtd){
+            
+            array_push($order, [
+                "id_cliente" => $_SESSION['client'],
+                "id_produto" => $key,
+                "quantidade" => $qtd,
+                "codigo" => $_SESSION['purchase_code'],
+                "cupom" => isset($_SESSION['discount_coupon']) ? $_SESSION['discount_coupon'] : NULL,
+            ]);
+        }
 
+        Store::printData($order);
 
-        
+        // $c = new Client;
+        // $client = $c->search_client($_SESSION['email']);
+
+        // $c_id = $client->c_id;
+        // $c_nome =  $client->c_nome;
+        // $c_email = $client->c_email;
+
     }
 }
