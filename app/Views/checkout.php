@@ -59,14 +59,14 @@ if(isset($_SESSION['discount_coupon'])){
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName">Nome</label>
-                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo isset($_SESSION['client_google_token']) ? $client["name"] : $client->c_nome ?>" required>
+                  <input type="text" class="form-control" id="nome" name="c_nome" placeholder="" value="<?php echo $client->c_nome ?>" required>
                   <div class="invalid-feedback">
                     Nome requerido
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="lastName">Telefone</label>
-                  <input type="text" class="form-control" id="telefone" name="c_telefone" placeholder=""  required>
+                  <input type="text" class="form-control" id="telefone" name="c_telefone" placeholder="" value="<?php echo $client->c_telefone?>" required>
                   <div class="invalid-feedback">
                     Telefone requerido
                   </div>
@@ -75,7 +75,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo isset($_SESSION['client_google_token']) ? $client["email"] : $client->c_email ?>">
+                <input type="email" class="form-control" id="email" name="c_email" placeholder="you@example.com" value="<?php echo $client->c_email ?>" disabled>
                 <div class="invalid-feedback">
                   Insira um email válido
                 </div>
@@ -83,7 +83,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="col-md-3 mb-3">
                   <label for="zip">CEP</label>
-                  <input type="text" class="form-control" id="cep_checkout" name="c_cep" placeholder=""  required>
+                  <input type="number" class="form-control" id="cep_checkout" name="c_cep" placeholder="" value="<?php echo $client->c_cep?>"  required>
                   <div class="invalid-feedback">
                     Insira um CEP válido
                   </div>
@@ -92,14 +92,14 @@ if(isset($_SESSION['discount_coupon'])){
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="address">Endereço</label>
-                  <input type="text" class="form-control" id="logradouro_checkout" name="c_logradouro" placeholder="Main St" required >
+                  <input type="text" class="form-control" id="logradouro_checkout" name="c_logradouro" placeholder="Seu endereço" value="<?php echo $client->c_logradouro?>" required >
                   <div class="invalid-feedback">
                     Insira um Endereço válido
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="address">Nº</label>
-                  <input type="text" class="form-control" id="numero" name="c_numero" placeholder="1234" required>
+                  <input type="number" class="form-control" id="numero" name="c_numero" placeholder="1234" value="<?php echo $client->c_numero?>" required>
                   <div class="invalid-feedback">
                     Insira um Nº válido
                   </div>
@@ -108,16 +108,10 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="email">Bairro</label>
-                <input type="text" class="form-control" id="bairro_checkout" name="c_bairro" placeholder="you@example.com" >
+                <input type="text" class="form-control" id="bairro_checkout" name="c_bairro" placeholder="Seu bairro" value="<?php echo $client->c_bairro?>" required>
                 <div class="invalid-feedback">
                   Insira seu Bairro
                 </div>
-              </div>
-
-              <hr class="mb-4">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="ofertas" name="c_ofertas">
-                <label class="custom-control-label" for="same-address">Receber ofertas e promoções por email</label>
               </div>
               
               <hr class="mb-4">
@@ -126,15 +120,15 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                  <input id="pix" name="pix" type="radio" class="custom-control-input" checked required>
+                  <input id="pix" value="pix" name="pagamento" type="radio" class="custom-control-input" checked required>
                   <label class="custom-control-label" for="pix">Pix</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="cartao" name="cartao" type="radio" class="custom-control-input" required>
+                  <input id="cartao" value="cartao" name="pagamento" type="radio" class="custom-control-input" required>
                   <label class="custom-control-label" for="cartao">Cartão</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="dinheiro" name="dinheiro" type="radio" class="custom-control-input" required>
+                  <input id="dinheiro" value="dinheiro" name="pagamento" type="radio" class="custom-control-input" required>
                   <label class="custom-control-label" for="dinheiro">Dinheiro</label>
                 </div>
               </div>
@@ -142,7 +136,7 @@ if(isset($_SESSION['discount_coupon'])){
 
               <div class="mb-3">
                 <label for="observacao">Observação</label><span class="text-muted"> (Opcional):</span>
-                <textarea class="form-control" id="bairro_checkout" name="c_bairro" placeholder="Evitar algum tempero, troco para um determinado valor, etc."></textarea>
+                <textarea class="form-control" id="observacao_checkout" name="observacao" placeholder="Evitar algum tempero, troco para um determinado valor, etc."></textarea>
                 <div class="invalid-feedback">
                   Insira uma observação
                 </div>

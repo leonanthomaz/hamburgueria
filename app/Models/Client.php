@@ -37,6 +37,7 @@ class Client {
             NULL,
             NULL,
             NULL, 
+            NULL, 
             :c_purl,
             :c_ativo,
             :c_ofertas,
@@ -195,6 +196,7 @@ class Client {
             c_telefone,
             c_cep,
             c_logradouro,
+            c_numero,
             c_bairro 
             FROM clientes 
             WHERE c_email = :c_email
@@ -205,29 +207,31 @@ class Client {
 
     }
 
-    public function update_client($id_client)
+    public function update_client()
     {
         // atualiza o novo cliente na base de dados
         $db = new Connect();
 
         // parametros
         $params = [
+            ':c_id' => $_SESSION['client'],
             ':c_nome' => trim($_POST['c_nome']),
-            ':c_email' => strtolower(trim($_POST['c_email'])),
             ':c_telefone' => trim($_POST['c_telefone']),
-            ':c_cep' => trim($_POST['c_cep']),
+            ':c_cep' => intval($_POST['c_cep']),
+            ':c_numero' => intval($_POST['c_numero']),
             ':c_logradouro' => trim($_POST['c_logradouro']),
             ':c_bairro' => trim($_POST['c_bairro']),
         ];
 
         $db->update("UPDATE clientes SET 
         c_nome = :c_nome, 
-        c_email = :c_email, 
         c_telefone = :c_telefone,
         c_cep = :c_cep,
+        c_numero = :c_numero,
         c_logradouro = :c_logradouro,
         c_bairro = :c_bairro,
-        WHERE c_id = $id_client", $params);
+        c_updated_at = NOW()
+        WHERE c_id = :c_id", $params);
 
         return true;
 
@@ -259,6 +263,7 @@ class Client {
             NULL,
             NULL,
             NULL,
+            NULL,
             :c_ativo,
             :c_ofertas,
             NOW(),
@@ -266,6 +271,5 @@ class Client {
             NULL
         )", $params);
        
-    }
-    
+    }    
 }

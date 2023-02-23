@@ -162,9 +162,6 @@ class Client {
                 // redireciona para resumo da encomenda
                 Store::redirect('checkout');
 
-            } else {
-                // redirectionamento para a loja
-                Store::redirect();
             }
         }
     }
@@ -220,28 +217,22 @@ class Client {
             Store::redirect();
         }else{
 
-            $_SESSION['client'] = $payload['iat'];
+            $_SESSION['client'] = $payload['sub'];
             $_SESSION['name'] =  $payload['name'];
             $_SESSION['email'] = $payload['email'];
             $_SESSION['google_token'] = $id_token;
 
             $c->insert_client_google();
-
-            // redirecionar para o local correto
-            if(isset($_SESSION['tmp_cart'])){
-
-                // remove a variável temporária da sessão
-                unset($_SESSION['tmp_cart']);
-                // redireciona para resumo da encomenda
-                Store::redirect('checkout');
-                } else {            
-                $_SESSION['erro'] = 'Falha ao autenticar cliente.';
-                Store::redirect("login");
-                return;
-
-            }
         }
-        Store::redirect();
+
+        // redirecionar para o local correto
+        if(isset($_SESSION['tmp_cart'])){
+
+            // remove a variável temporária da sessão
+            unset($_SESSION['tmp_cart']);
+            // redireciona para resumo da encomenda
+            Store::redirect('checkout');
+        }
     }
 
     //**** email ***/

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use App\Factorys\Store;
+use App\Models\Cart as ModelsCart;
 use App\Models\Client;
 use App\Models\Connect;
 
@@ -292,38 +293,68 @@ class Cart {
 
     public function send_order()
     {
-        
-        echo "********";
-        echo "<pre>";
-        print_r($_POST);
-        echo "********";
-
         // verifica se existe cliente logado
-        if(!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])){
+        if(!isset($_SESSION['client'])){
             Store::redirect();
         }
 
-        $order = [];
-
-        foreach($_SESSION['cart'] as $key => $qtd){
-            
-            array_push($order, [
-                "id_cliente" => $_SESSION['client'],
-                "id_produto" => $key,
-                "quantidade" => $qtd,
-                "codigo" => $_SESSION['purchase_code'],
-                "cupom" => isset($_SESSION['discount_coupon']) ? $_SESSION['discount_coupon'] : NULL,
-            ]);
+        $c = new Client;
+        $client = $c->update_client();
+        
+        if(!$client){
+            $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
+            Store::redirect("cart");
+            return;
         }
 
-        Store::printData($order);
+        $cart = [];
+        foreach($_SESSION['cart'] as $key => $qtd){
+            
+            array_push($cart, [
+                "pdp_id_cliente" => $_SESSION['client'],
+                "pdp_id_produto" => $key,
+                "pdp_qtd" => $qtd,
+                "pdp_codigo" => $_SESSION['purchase_code'],
+            ]);
+        }
+        $order['cart'] = $cart;
 
-        // $c = new Client;
-        // $client = $c->search_client($_SESSION['email']);
+        $info = [];
+        array_push($info, [
+            "pd_id_cliente" => $_SESSION['client'],
+            "pd_codigo" => $_SESSION['purchase_code'],
+            "pd_cupom" => isset($_SESSION['discount_coupon']) ? $_SESSION['discount_coupon'] : NULL,
+            "pd_observacao" => $_POST['observacao'],
+            "pd_status" => 1,
+            "pd_pagamento" => $_POST['pagamento'],
+        ]);
 
-        // $c_id = $client->c_id;
-        // $c_nome =  $client->c_nome;
-        // $c_email = $client->c_email;
+        $order['info'] = $info;
+        $client = $c->search_client($_SESSION['email']);
+        $order['client'] = $client;
 
+        $ct = new ModelsCart;
+        $result = $ct->inset_order($order['cart'], $order['info']);
+
+        if(!$result){
+            $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
+            Store::redirect("cart");
+            return;
+        }else{
+
+            unset($_SESSION['cart']);
+            unset($_SESSION['purchase_code']);
+            unset($_SESSION['discount_coupon']);
+            unset($_SESSION['total']);
+            
+            Store::Layout([
+                'layouts/html_header',
+                'layouts/header',
+                'success_new_order',
+                'layouts/footer',
+                'layouts/html_footer'
+            ], $order);
+
+        }
     }
 }

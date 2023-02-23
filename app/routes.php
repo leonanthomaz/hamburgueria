@@ -15,6 +15,7 @@ $routes = [
     //Boas vindas
     "success_new_client" => "client@success_new_client",
     "success_email_link_confirm" => "client@success_email_link_confirm",
+    "success_new_order" => "client@success_new_order",
 
     //Carrinho
     "add_cart" => "cart@add_cart",
