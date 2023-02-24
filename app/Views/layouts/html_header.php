@@ -37,6 +37,11 @@
     <script src="public/js/cart.js"></script>
     <script src="public/js/login.js"></script>
     <script src="public/js/products.js"></script>
+    <script src="public/js/pagseguro.js"></script>
 
+
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v16.0&appId=728484408832296&autoLogAppEvents=1" nonce="cixhZeZF"></script>
+    <!-- <script type="text/javascript" src=
+    "https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script> -->
 </head>
 <body>

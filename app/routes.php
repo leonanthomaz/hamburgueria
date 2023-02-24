@@ -2,6 +2,7 @@
 
 //Definindo bloco de classes predefinidas para montagem da logica a partir da URL
 $routes = [
+    "teste" => "teste@teste",
 
     //Principal
     "maintenance" => "main@maintenance",

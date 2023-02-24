@@ -46,24 +46,12 @@
           data-theme="outline"
           data-text="sign_in_with"
           data-shape="rectangular"
+          data-width="100"
           data-logo_alignment="left">
       </div>
-      </button>
-
-      <!-- Botão Google -->
-      <button type="button" class="btn btn-link btn-floating mx-1">
-      <div id="g_id_onload"
-          data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
-          data-login_uri="http://localhost/sistema/hamburgueria/?a=login_google_submit"
-          data-auto_prompt="false">
-      </div>
-      <div class="g_id_signin"
-          data-type="standard"
-          data-size="large"
-          data-theme="outline"
-          data-text="sign_in_with"
-          data-shape="rectangular"
-          data-logo_alignment="right">
-      </div>
     </button>
+
+   <!-- Botão Facebook -->
+   <div id="fb-root"></div>
+    <div class="fb-login-button" data-width="100" data-size="" data-button-type="" data-layout="" data-auto-logout-link="true" data-use-continue-as="true"></div>
 </div>

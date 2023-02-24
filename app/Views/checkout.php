@@ -132,6 +132,7 @@ if(isset($_SESSION['discount_coupon'])){
                   <label class="custom-control-label" for="dinheiro">Dinheiro</label>
                 </div>
               </div>
+
               <hr class="mb-4">
 
               <div class="mb-3">
@@ -141,6 +142,39 @@ if(isset($_SESSION['discount_coupon'])){
                   Insira uma observação
                 </div>
               </div>
+
+              <hr class="mb-4">
+
+              <!-- <div class="row">
+                <div class="col-sm-4"> 
+                  <div>
+                  <label for="creditCardNumber"<b>Número do cartão:</b></label> 
+                  <input type="text" class="form-control" id="creditCardNumber" class="creditcard" name="creditCardNumber">
+                  </div>
+                  <div>
+                  <label for="creditCardBrand"<b>Bandeira:</b></label>
+                  <input type="text" class="form-control" id="creditCardBrand" class="creditcard" name="creditCardBrand" disabled>
+                  </div></div>
+                  <div class="col-sm-4">
+                  <label for="creditCardExpMonth"<b>Validade Mês (mm):</b></label>
+                  <input type="text" class="form-control" id="creditCardExpMonth" class="creditcard" name="creditCardExpMonth" size="2"> &nbsp;
+
+                  
+                  <label for="creditCardExpYear"<b>Ano (yyyy):</b></label>
+                  <input type="text" class="form-control" id="creditCardExpYear" class="creditcard" name="creditCardExpYear" size="4">
+                  </div>
+
+                  <div class="col-sm-4">
+                  <label for="creditCardCvv"<b>CVV:</b></label>
+                  <input type="text" class="form-control" id="creditCardCvv" class="creditcard" name="creditCardCvv">
+                
+                  <label <b>Token:</b></label>
+                  <input type="text" id="creditCardToken" class="form-control" name="creditCardToken" disabled>
+                  <button  class="btn btn-info" id="generateCreditCardToken">Gerar Token</button>
+                
+                
+                </div>
+              </div> -->
 
               <button class="btn btn-primary btn-lg btn-block" type="submit">Finalizar compra</button>
 

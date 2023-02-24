@@ -1,7 +1,7 @@
 <?php
-echo "<pre>";
-print_r($data);
-echo "********";
+// echo "<pre>";
+// print_r($data);
+// echo "********";
 ?>
 
 <h1>Compra finalizada com sucesso!</h1>
