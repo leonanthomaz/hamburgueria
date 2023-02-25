@@ -18,6 +18,10 @@ class Client {
         unset($_SESSION['name']);
         unset($_SESSION['discount_coupon']);
         unset($_SESSION['google_token']);
+        
+        unset($_SESSION['oauth2state']);
+        unset($_SESSION['facebook_token']);
+
         // redireciona para o início da loja
         Store::redirect();
     }
@@ -34,23 +38,38 @@ class Client {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             Store::redirect();
             return;
-        }     
-        
-        if(empty($_POST['c_nome'] 
-        || $_POST['c_email']  
-        || $_POST['c_senha'] 
-        || $_POST['c_confirmar_senha']
-        )){
+        } 
 
-            $_SESSION['erro'] = 'Campos vazios';
+        
+        if(!$_POST['c_nome'] || !$_POST['c_email'] || !$_POST['c_senha'] || !$_POST['c_confirma_senha']){
+            $_SESSION['erro'] = 'Preencha todos os campos!';
             Store::redirect("register");
             return;
         }
 
-        if ($_POST['c_senha'] !== $_POST['c_confirma_senha']) {
+        function isValidPassword() {
+            $pattern = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$/';
+            // $pattern = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/';
+            return preg_match($pattern, $_POST['c_senha']) ? true : false;
+        }
 
+        if ($_POST['c_senha'] !== $_POST['c_confirma_senha']) {
             $_SESSION['erro'] = 'As senhas não estão iguais.';
             Store::redirect("register");
+            return;
+        }
+
+        if(!isValidPassword()){
+            $_SESSION['erro'] = '
+            <p>A senha precisa ser composta por 6 a 12 caracteres e pelo ao menos uma letra maúscula, uma minúscula e um número!</p>
+            ';
+            Store::redirect("register");
+            return;
+        }
+
+        if(!filter_input(INPUT_POST, "c_email", FILTER_VALIDATE_EMAIL)){
+            $_SESSION['erro'] = 'Conta de email inválida. Verifique e tente novamente.';
+            Store::redirect("register");            
             return;
         }
         
@@ -63,18 +82,15 @@ class Client {
             return;
         }
 
-        // inserir novo cliente na base de dados e devolver o purl
-
-        if(!filter_input(INPUT_POST, "c_email", FILTER_VALIDATE_EMAIL)){
-            $_SESSION['erro'] = 'Conta de email inválida. Verifique e tente novamente.';
-            Store::redirect("register");            
-            return;
-        }else{
-            $email = filter_input(INPUT_POST, "c_email", FILTER_VALIDATE_EMAIL);
-            $c = new MC;
-            $purl = $c->register_validate();
-        }
+        $email = $_POST['c_email'];
+        $c = new MC;
+        $purl = $c->register_validate();
         
+        if(!$purl){
+            $_SESSION['erro'] = 'Falha ao completar cadastro. Tente novamente!';
+            Store::redirect("register");            
+            return; 
+        }
 
         // envio do email para o cliente
         $e = new Email();
@@ -118,13 +134,6 @@ class Client {
             !filter_var(trim($_POST['c_email']), FILTER_VALIDATE_EMAIL)
         ) {
             // erro de preenchimento do formulário
-            $_SESSION['erro'] = 'Login inválido';
-            Store::redirect('login');
-            return;
-        }
-
-        if(empty($_POST['c_email']) || empty($_POST['c_senha'])){
-            // erro de preenchimento do formulário
             $_SESSION['erro'] = 'Preencha todos os campos!';
             Store::redirect('login');
             return;
@@ -140,14 +149,12 @@ class Client {
 
         // analisa o resultado
         if(is_bool($result)){
-         
             // login inválido
-            $_SESSION['erro'] = 'Erro ao validar...';
+            $_SESSION['erro'] = 'Falha na requisição. Tente novamente mais tarde.';
             Store::redirect('login');
             return;
 
         } else {
-
             // login válido. Coloca os dados na sessão
             $_SESSION['client'] = $result->c_id;
             $_SESSION['email'] = $result->c_email;
@@ -155,15 +162,13 @@ class Client {
 
             // redirecionar para o local correto
             if(isset($_SESSION['tmp_cart'])){
-                
                 // remove a variável temporária da sessão
                 unset($_SESSION['tmp_cart']);
-
                 // redireciona para resumo da encomenda
                 Store::redirect('checkout');
-
             }
-        }
+
+            Store::redirect();        }
     }
 
     public function login_google_submit()
@@ -205,34 +210,137 @@ class Client {
         // verifica na base de dados se existe cliente com mesmo email
         $c = new MC;
 
-        if ($c->db_verify_email($payload['email'])) {
+        $client = $c->db_verify_email($payload['email']);
 
+        if($client){
             $client = $c->search_client($payload['email']);
 
-            $_SESSION['client'] = $client->c_id;
+            $_SESSION['client'] =  $client->c_id;
             $_SESSION['name'] =  $client->c_nome;
             $_SESSION['email'] = $client->c_email;
             $_SESSION['google_token'] = $client->c_id_google;
 
             Store::redirect();
         }else{
-
-            $_SESSION['client'] = $payload['sub'];
-            $_SESSION['name'] =  $payload['name'];
+            // Use these details to create a new profile
+            $_SESSION['name'] = $payload['name'];
             $_SESSION['email'] = $payload['email'];
-            $_SESSION['google_token'] = $id_token;
+            $_SESSION['google_token'] = $payload['sub'];
 
             $c->insert_client_google();
+            $client = $c->search_client($payload['email']);
+
+            $_SESSION['client'] =  $client->c_id;
+            $_SESSION['name'] =  $client->c_nome;
+            $_SESSION['email'] = $client->c_email;
+            $_SESSION['google_token'] = $client->c_id_google;
+
+            Store::redirect();
         }
 
         // redirecionar para o local correto
         if(isset($_SESSION['tmp_cart'])){
-
             // remove a variável temporária da sessão
             unset($_SESSION['tmp_cart']);
             // redireciona para resumo da encomenda
             Store::redirect('checkout');
         }
+
+    }
+
+    public function login_facebook_submit()
+    {
+        
+        $provider = new \League\OAuth2\Client\Provider\Facebook([
+            'clientId' => FACEBOOK_LOGIN['FB_ID'],
+            'clientSecret'      => FACEBOOK_LOGIN['FB_SECRET'],
+            'redirectUri'       => FACEBOOK_LOGIN['FB_REDIRECT'],
+            'graphApiVersion'   => FACEBOOK_LOGIN['FB_VERSION'],
+        ]);
+        
+        $httpClient = new \GuzzleHttp\Client([
+            'base_uri' => 'http://localhost/sistema/hamburgueria/?a=index',
+            'verify' => false
+        ]);
+        $provider->setHttpClient($httpClient);
+        
+        if (!isset($_GET['code'])) {
+        
+            // If we don't have an authorization code then get one
+            $authUrl = $provider->getAuthorizationUrl([
+                'scope' => ['email'],
+            ]);
+
+            $_SESSION['oauth2state'] = $provider->getState();
+
+            echo '<a href="'.$authUrl.'">Log in with Facebook!</a>';
+            exit;
+        
+            // Check given state against previously stored one to mitigate CSRF attack
+        }else if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+        
+            unset($_SESSION['oauth2state']);
+            echo 'Estado inválido!';
+            exit;
+        
+        }
+        
+        // Try to get an access token (using the authorization code grant)
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+        
+        // Optional: Now you have a token you can look up a users profile data
+        try {
+        
+            // We got an access token, let's now get the user's details
+            $user = $provider->getResourceOwner($token);
+
+            $c = new MC;
+            $client = $c->db_verify_email($user->getEmail());
+
+            if($client){
+                $client = $c->search_client($user->getEmail());
+
+                $_SESSION['client'] =  $client->c_id;
+                $_SESSION['name'] =  $client->c_nome;
+                $_SESSION['email'] = $client->c_email;
+                $_SESSION['facebook_token'] = $client->c_id_facebook;
+
+                Store::redirect();
+            }else{
+                // Use these details to create a new profile
+                $_SESSION['name'] = $user->getName();
+                $_SESSION['email'] = $user->getEmail();
+                $_SESSION['facebook_token'] = $user->getId();
+
+                $c->insert_client_facebook();
+                $client = $c->search_client($user->getEmail());
+
+                $_SESSION['client'] =  $client->c_id;
+                $_SESSION['name'] =  $client->c_nome;
+                $_SESSION['email'] = $client->c_email;
+                $_SESSION['facebook_token'] = $client->c_id_facebook;
+                
+                Store::redirect();
+
+            }
+
+            // redirecionar para o local correto
+            if(isset($_SESSION['tmp_cart'])){
+                // remove a variável temporária da sessão
+                unset($_SESSION['tmp_cart']);
+                // redireciona para resumo da encomenda
+                Store::redirect('checkout');
+            }
+
+            Store::redirect();
+         
+        } catch (\Exception $e) {
+            // Failed to get user details
+            exit($e->getMessage());
+        }
+
     }
 
     //**** email ***/
@@ -279,5 +387,4 @@ class Client {
             Store::redirect();
         }
     }
-
 }

@@ -4,7 +4,7 @@
 
 //Configurações do Sistema
 DEFINE('APP_NAME', 'Projeto Hamburgueria');
-DEFINE("APP_VERSION", "1.0.0");
+DEFINE("APP_VERSION", "1.2.0");
 DEFINE("APP_DESCRIPTION", "A melhor Hamburgueria da cidade!");
 DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 
@@ -30,7 +30,7 @@ DEFINE("DB_CHARSET", "UTF8");
 
 // Email - insira seu email e senha. No caso aqui, inserir email e senha do Gmail.
 DEFINE('EMAIL_HOST', 'smtp.gmail.com');
-DEFINE('EMAIL_FROM', '');
+DEFINE('EMAIL_FROM', '@gmail.com');
 DEFINE('EMAIL_PASS', '');
 DEFINE('EMAIL_PORT', '587');
 DEFINE('EMAIL_CHARSET', 'UTF-8');
@@ -45,8 +45,8 @@ DEFINE('CART_COUPON', 'BURGUER10');
 //**************/
 
 // Login com Google - insira suas chaves Google Client e Secret Key
-DEFINE('GOOGLE_CLIENT_ID', '');
-DEFINE('GOOGLE_SECRET_KEY', '');
+DEFINE('GOOGLE_CLIENT_ID', '-.apps.googleusercontent.com');
+DEFINE('GOOGLE_SECRET_KEY', 'GOCSPX-');
 
 //**************/
 
@@ -54,14 +54,18 @@ DEFINE('GOOGLE_SECRET_KEY', '');
 DEFINE('FACEBOOK_LOGIN', [
     'FB_ID'          => '',
     'FB_SECRET'      => '',
-    'FB_REDIRECT'       => BASE_URL."?a=teste",
+    'FB_REDIRECT'       => BASE_URL."?a=login_facebook_submit",
     'FB_VERSION'   => 'v2.10',
 ]);
 
 //**************/
-// Integração Pagseguro - insira suas credenciais do Sanbox
+// Integração Pagseguro PRODUÇÃO - insira suas credenciais do Sanbox
 DEFINE('PAGSEGURO_ENDPOINT', '');
 DEFINE('PAGSEGURO_TOKEN', '');
 
+// Integração Pagseguro SANDBOX - insira suas credenciais do Sanbox
+DEFINE('PAGSEGURO_APPID', '');
+DEFINE('PAGSEGURO_APPKEY', '');
 
-
+DEFINE('WHATSAPP_API_TOKEN', '');
+DEFINE('WHATSAPP_API_INSTANCE', '');

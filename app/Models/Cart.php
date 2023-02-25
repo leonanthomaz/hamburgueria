@@ -7,7 +7,7 @@ use App\Factorys\Store;
 
 class Cart {
 
-    public function inset_order($cart, $info)
+public function order_submit($cart, $info)
     {
         // regista o novo cliente na base de dados
         $db = new Connect();
@@ -37,6 +37,7 @@ class Cart {
             $params = [
                 ':pd_id_client' => intval($item_cart["pdp_id_cliente"]),
                 ':pd_codigo' => trim($item_info["pd_codigo"]),
+                ':pd_total' => trim($item_info["pd_total"]),
                 ':pd_cupom' => $item_info["pd_cupom"],
                 ':pd_observacao' => trim($item_info["pd_observacao"]),
                 ':pd_status' => intval($item_info["pd_status"]),
@@ -46,6 +47,7 @@ class Cart {
                 NULL,
                 :pd_id_client,
                 :pd_codigo,
+                :pd_total,
                 :pd_cupom,
                 :pd_observacao,
                 :pd_status,

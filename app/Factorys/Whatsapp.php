@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Factorys;
 
-use App\Factorys\Store;
-
-class Teste
+class Whatsapp
 {
 
-    public function teste()
+public function whatsapp_send_msg($client, $codigo)
     {
-
         $params = array(
             'token' => WHATSAPP_API_TOKEN,
-            'to' => '+5521967622266',
-            'body' => 'Testando disparo de mensagem para meu amor!'
+            'to' => $client->c_telefone,
+            'body' => "Oi, ".$client->c_nome."! Sua compra realizada com sucesso! Segue o código da compra: '.$codigo.'."
         );
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -38,9 +35,9 @@ class Teste
         curl_close($curl);
         
         if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            echo $response;
-        }
+            return false;
+        } 
+
+        return $response;
     }
 }

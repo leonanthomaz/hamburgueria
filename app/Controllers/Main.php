@@ -6,28 +6,29 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Factorys\Store;
 
-class Main {
+class Main
+{
 
     // *** Páginas ****
 
     //Página de manutenção
-    public function maintenance(){
-        
+    public function maintenance()
+    {
+
         Store::Layout([
             'layouts/html_header',
             'maintenance',
             'layouts/html_footer'
         ]);
     }
-    
-    //Página Inicial
-    public function index(){
 
-        
+    //Página Inicial
+    public function index()
+    {
 
         $p = new Product;
         $products = $p->product_list_available();
-    
+
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -38,8 +39,9 @@ class Main {
     }
 
     //Página de Login
-    public function login(){
-        
+    public function login()
+    {
+
         // verifica se já existe um utilizador logado
         if (Store::logged()) {
             Store::redirect();
@@ -56,14 +58,15 @@ class Main {
     }
 
     //Página de Registro
-    public function register(){
-        
+    public function register()
+    {
+
         // verifica se já existe um utilizador logado
         if (Store::logged()) {
             Store::redirect();
             return;
         }
-        
+
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -74,17 +77,18 @@ class Main {
     }
 
     //Página do Carrinho
-    public function cart(){
+    public function cart()
+    {
 
         if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
             $data = [
                 'cart' => null
             ];
-        }else{
+        } else {
             $cart = new Cart;
             $data = $cart->get_products_by_cart();
         }
-        
+
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -94,17 +98,17 @@ class Main {
     }
 
     //Página de Checkout
-    public function checkout(){
+    public function checkout()
+    {
 
-    
         // verifica se existe cliente logado
-        if(!isset($_SESSION['client'])){
+        if (!isset($_SESSION['client'])) {
             Store::redirect();
             return;
         }
 
         // verifica se pode avançar para a gravação da encomenda
-        if(!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0){
+        if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
             Store::redirect();
             return;
         }
@@ -122,7 +126,7 @@ class Main {
 
         $data_temp = [];
 
-        foreach($_SESSION['cart'] as $p_id => $qtd_cart){
+        foreach ($_SESSION['cart'] as $p_id => $qtd_cart) {
 
             // imagem do produto
             foreach ($results as $product) {
@@ -158,12 +162,12 @@ class Main {
         // buscar informações do cliente
         // -------------------------------------------------------
         $c = new Client();
-        $data_c = $c->search_client($_SESSION['email']);       
+        $data_c = $c->search_client($_SESSION['email']);
         $data['client'] =  $data_c;
 
         // -------------------------------------------------------
         // gerar o código da encomenda
-        if(!isset($_SESSION['purchase_code'])){
+        if (!isset($_SESSION['purchase_code'])) {
             $purchase_code = Store::generate_purchase_code();
             $_SESSION['purchase_code'] = $purchase_code;
         }
@@ -176,11 +180,11 @@ class Main {
             'layouts/footer',
             'layouts/html_footer',
         ], $data);
-
     }
 
     //Página de listagem de todos os produtos
-    public function products(){
+    public function products()
+    {
 
         $id = 0;
 
@@ -196,5 +200,4 @@ class Main {
             'layouts/html_footer',
         ], ["products" => $products]);
     }
-
 }

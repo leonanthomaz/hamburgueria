@@ -2,11 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Factorys\Email;
 use App\Models\Product;
 use App\Factorys\Store;
 use App\Models\Cart as ModelsCart;
 use App\Models\Client;
 use App\Models\Connect;
+use App\Factorys\Pix;
+use App\Factorys\Whatsapp;
 
 class Cart {
 
@@ -295,16 +298,7 @@ class Cart {
     {
         // verifica se existe cliente logado
         if(!isset($_SESSION['client'])){
-            Store::redirect();
-        }
-
-        $c = new Client;
-        $client = $c->update_client();
-        
-        if(!$client){
-            $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
             Store::redirect("cart");
-            return;
         }
 
         $cart = [];
@@ -323,24 +317,66 @@ class Cart {
         array_push($info, [
             "pd_id_cliente" => $_SESSION['client'],
             "pd_codigo" => $_SESSION['purchase_code'],
+            "pd_total" => $_SESSION['total'],
             "pd_cupom" => isset($_SESSION['discount_coupon']) ? $_SESSION['discount_coupon'] : NULL,
             "pd_observacao" => $_POST['observacao'],
             "pd_status" => 1,
             "pd_pagamento" => $_POST['pagamento'],
         ]);
-
         $order['info'] = $info;
+
+        $c = new Client;
+        $client = $c->update_client();
+        
+        if(!$client){
+            $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
+            Store::redirect("checkout");
+            return;
+        }
+        
         $client = $c->search_client($_SESSION['email']);
         $order['client'] = $client;
 
         $ct = new ModelsCart;
-        $result = $ct->inset_order($order['cart'], $order['info']);
+        $result = $ct->order_submit($order['cart'], $order['info']);
 
         if(!$result){
             $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
-            Store::redirect("cart");
+            Store::redirect("checkout");
             return;
         }else{
+
+            if($_POST['pagamento'] == "pix"){
+                $pix = new Pix();
+                $response = $pix->generate_pix($order['client'], $order['info']);
+
+                if(!$response){
+                    $_SESSION['erro'] = 'Falha ao registrar o pix!';
+                    Store::redirect("checkout");
+                    return;
+                }else{
+                    $_SESSION['qrcode_pix'] = $response;
+                }
+            }
+
+            $email = new Email;
+            $confirm_email = $email->confirmation_email_new_order($_SESSION['email'], $order['info']);
+
+            if(!$confirm_email){
+                $_SESSION['erro'] = 'Falha ao enviar email de compra!';
+                Store::redirect("checkout");
+                return;
+            }
+
+            $whatsapp = new Whatsapp;
+
+            $send_whatsapp = $whatsapp->whatsapp_send_msg($order['client'], $_SESSION['purchase_code']);
+
+            if(!$send_whatsapp){
+                $_SESSION['erro'] = 'Falha ao enviar dados da compra pelo whatsapp!';
+                Store::redirect("checkout");
+                return;
+            }
 
             unset($_SESSION['cart']);
             unset($_SESSION['purchase_code']);

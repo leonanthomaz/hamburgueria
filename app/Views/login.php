@@ -1,10 +1,3 @@
-<?php include "includes/alerts.php" ?>
-<?php
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "********";
-?>
-
 <div class="text-center mb-3">
     <h4>Acessar sua conta</h4>
 </div>
@@ -12,19 +5,19 @@
     <form action="?a=login_submit" method="POST" class="needs-validation" novalidate>
 
         <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="c_email" placeholder="Insira seu email" >
-        <div class="invalid-feedback">
-            Insira um email válido
-        </div>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="c_email" placeholder="Insira seu email">
+            <div class="invalid-feedback">
+                Insira um email válido
+            </div>
         </div>
 
         <div class="mb-3">
-        <label for="password">Senha</label>
-        <input type="password" class="form-control" id="senha" name="c_senha" placeholder="Insira sua senha">
-        <div class="invalid-feedback">
-            Insira sua senha
-        </div>
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" id="senha" name="c_senha" placeholder="Insira sua senha">
+            <div class="invalid-feedback">
+                Insira sua senha
+            </div>
         </div>
 
         <hr class="mb-4">
@@ -35,23 +28,16 @@
     <p>Login com:</p>
     <!-- Botão Google -->
     <button type="button" class="btn btn-link btn-floating mx-1">
-      <div id="g_id_onload"
-          data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
-          data-login_uri="http://localhost/sistema/hamburgueria/?a=login_google_submit"
-          data-auto_prompt="false">
-      </div>
-      <div class="g_id_signin"
-          data-type="standard"
-          data-size="large"
-          data-theme="outline"
-          data-text="sign_in_with"
-          data-shape="rectangular"
-          data-width="100"
-          data-logo_alignment="left">
-      </div>
+        <div id="g_id_onload" data-client_id="<?php echo GOOGLE_CLIENT_ID ?>" data-login_uri="http://localhost/sistema/hamburgueria/?a=login_google_submit" data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-width="100" data-logo_alignment="left">
+        </div>
     </button>
 
-   <!-- Botão Facebook -->
-   <div id="fb-root"></div>
-    <div class="fb-login-button" data-width="100" data-size="" data-button-type="" data-layout="" data-auto-logout-link="true" data-use-continue-as="true"></div>
+    <!-- Botão Facebook -->
+    <!-- <div id="fb-root"></div>
+    <a href="<?php echo $authUrl ?>">
+        <div class="fb-login-button" data-width="100" data-size="" data-button-type="" data-layout="" data-use-continue-as="true"></div>
+    </a> -->
+    <a href="?a=login_facebook_submit">Logar com Facebook</a>
 </div>

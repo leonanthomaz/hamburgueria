@@ -16,7 +16,7 @@ $routes = [
     //Boas vindas
     "success_new_client" => "client@success_new_client",
     "success_email_link_confirm" => "client@success_email_link_confirm",
-    "success_new_order" => "client@success_new_order",
+    "success_new_order" => "cart@success_new_order",
 
     //Carrinho
     "add_cart" => "cart@add_cart",
@@ -30,13 +30,15 @@ $routes = [
     "send_order" => "cart@send_order",
 
     //Cliente
-    "cep" => "client@cep",
     "register_submit" => "client@register_submit",
     "login_submit" => "client@login_submit",
     "login_google_submit" => "client@login_google_submit",
+    "login_facebook_submit" => "client@login_facebook_submit",
+    "logout" => "client@logout",
+
+    //Serviços de Email
     'email_validate_purl' => 'client@email_validate_purl',
     'email_link_confirm' => 'client@email_link_confirm',
-    "logout" => "client@logout",
 ];
 
 //Definindo rota padrão

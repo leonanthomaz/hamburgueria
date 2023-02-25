@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 19-Fev-2023 às 19:17
+-- Tempo de geração: 24-Fev-2023 às 18:50
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.2.0
 
@@ -30,27 +30,64 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE IF NOT EXISTS `clientes` (
   `c_id` int NOT NULL AUTO_INCREMENT,
-  `c_nome` text NOT NULL,
+  `c_id_google` int DEFAULT NULL,
+  `c_id_facebook` int DEFAULT NULL,
+  `c_nome` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `c_email` varchar(50) NOT NULL,
-  `c_telefone` text NOT NULL,
-  `c_senha` binary(60) NOT NULL,
-  `c_cep` int NOT NULL,
-  `c_logradouro` varchar(50) NOT NULL,
-  `c_bairro` text NOT NULL,
-  `c_purl` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `c_telefone` text,
+  `c_senha` binary(60) DEFAULT NULL,
+  `c_cep` int DEFAULT NULL,
+  `c_logradouro` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `c_numero` int DEFAULT NULL,
+  `c_bairro` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `c_purl` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `c_ativo` tinyint NOT NULL DEFAULT '0',
-  `c_created_at` datetime NOT NULL,
-  `c_updated_at` datetime NOT NULL,
+  `c_ofertas` tinyint NOT NULL DEFAULT '0',
+  `c_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `c_updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `c_deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`c_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
 
 --
--- Extraindo dados da tabela `clientes`
+-- Estrutura da tabela `pedidos`
 --
 
-INSERT INTO `clientes` (`c_id`, `c_nome`, `c_email`, `c_telefone`, `c_senha`, `c_cep`, `c_logradouro`, `c_bairro`, `c_purl`, `c_ativo`, `c_created_at`, `c_updated_at`, `c_deleted_at`) VALUES
-(1, 'Leonan', 'leonan.email@gmail.com', '21999999999', 0x2432792431302446496538644b5458654b314f71654433632f4e66484f32315369503558467a352e6f507774586d757869514b59426e67747a344836, 20531390, 'Estrada Tijuacu', 'Alto da Boa Vista', '', 1, '2023-02-19 10:53:21', '2023-02-19 10:53:58', NULL);
+DROP TABLE IF EXISTS `pedidos`;
+CREATE TABLE IF NOT EXISTS `pedidos` (
+  `pd_id` int NOT NULL AUTO_INCREMENT,
+  `pd_id_cliente` int NOT NULL,
+  `pd_codigo` varchar(12) DEFAULT NULL,
+  `pd_cupom` varchar(12) DEFAULT NULL,
+  `pd_observacao` text NOT NULL,
+  `pd_status` tinyint NOT NULL DEFAULT '0',
+  `pd_pagamento` text,
+  `pd_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pd_updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pd_deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`pd_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pedidos_produtos`
+--
+
+DROP TABLE IF EXISTS `pedidos_produtos`;
+CREATE TABLE IF NOT EXISTS `pedidos_produtos` (
+  `pdp_id` int NOT NULL AUTO_INCREMENT,
+  `pdp_id_cliente` int NOT NULL,
+  `pdp_id_produto` int NOT NULL,
+  `pdp_qtd` int NOT NULL,
+  `pdp_codigo` varchar(12) DEFAULT NULL,
+  `pdp_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pdp_updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pdp_deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`pdp_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -80,11 +117,11 @@ CREATE TABLE IF NOT EXISTS `produtos` (
 
 INSERT INTO `produtos` (`p_id`, `p_nome`, `p_descricao`, `p_imagem`, `p_preco`, `p_categoria`, `p_disponivel`, `p_estoque`, `p_created_at`, `p_updated_at`, `p_deleted_at`) VALUES
 (1, 'Hamburguer Junior', 'Hamburguer simples com pão e carne', 'hamburguer1', '15', 0, '1', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
-(2, 'Disco completo', 'Calabresa, fritas e salgadinhos', 'hamburguer2', '25', 0, '1', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
+(2, 'Disco completo', 'Calabresa, fritas e salgadinhos', 'hamburguer2', '25', 0, '0', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
 (3, 'X Egg', 'Pão, ovo, bacon', 'hamburguer3', '35', 0, '1', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
-(4, 'X Egg', 'Pão, ovo, bacon', '', '35', 0, '0', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
-(5, 'X Duplo Bacon', 'Bacon, ovo, carne', '', '40', 0, '0', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
-(6, 'X Duplo Bacon', 'Bacon, ovo, carne', '', '40', 0, '0', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12');
+(4, 'X Egg', 'Pão, ovo, bacon', 'hamburguer4', '35', 0, '0', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
+(5, 'X Duplo Bacon', 'Bacon, ovo, carne', 'hamburguer5', '40', 0, '1', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12'),
+(6, 'X Duplo Bacon', 'Bacon, ovo, carne', 'hamburguer6', '40', 0, '1', 0, '2023-02-18 10:47:12', '2023-02-18 10:47:12', '2023-02-18 10:47:12');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,4 +1,4 @@
-#menu{
+#menu {
     background-color: #920d0d;
     height: 80px;
     display: flex;
@@ -10,79 +10,77 @@
     padding: 2rem;
 }
 
-
-
-.menu-link:hover{
+.menu-link:hover {
     border-bottom: 3px solid whitesmoke;
 }
 
-.logo{
+.logo {
     width: 100px;
 }
 
-.logo img{
+.logo img {
     width: 100%;
 }
 
-.menu-cart{
+.menu-cart {
     display: flex;
     /* border: 2px solid whitesmoke; */
     border-radius: 20px;
     padding: 10px;
 }
 
-#menu-container{
+#menu-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
-.menu-wrapper{
+.menu-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
 }
 
-.menu-cart{
+.menu-cart {
     display: flex;
 
 }
 
-.menu-cart > a, .menu-cart i{
+.menu-cart>a, .menu-cart i {
     color: white;
     text-decoration: none;
 }
 
-.menu-cart i{
+.menu-cart i {
     font-size: 18px;
 }
 
-#count_cart i, span{
+#count_cart i, span {
     color: white;
     font-weight: bold;
 }
 
-.menu-wrapper > li{
+.menu-wrapper>li {
     list-style: none;
     margin: 10px;
     font-size: 16px;
 
 }
 
-.menu-wrapper > li > a{
+.menu-wrapper>li>a {
     color: white;
     text-decoration: none;
 }
 
-.menu-user{
+.menu-user {
     display: block;
     font-size: 16px;
     margin: 10px;
 }
 
-.menu-user > a{
+.menu-user>a {
     margin: 3px;
     color: white;
     text-decoration: none;
@@ -91,58 +89,58 @@
     padding: 10px;
 }
 
-#icon{
+#icon {
     display: none;
     cursor: pointer;
 }
 
-@media(max-width: 760px){
+@media(max-width: 760px) {
 
-    #menu{
+    #menu {
         padding: 10px;
         justify-content: space-around;
     }
 
-    .logo{
+    .logo {
         width: 80px;
         margin-left: 45px;
     }
 
-    .menu-link{
+    .menu-link {
         border-bottom: 1px solid whitesmoke;
     }
 
-    .menu-user{
+    .menu-user {
         font-size: 12px;
     }
 
-    .menu-user > a{
+    .menu-user>a {
         padding: 5px;
     }
 
-    .menu-user i{
+    .menu-user i {
         border: 2px solid whitesmoke;
         background-color: whitesmoke;
         color: black;
         border-radius: 20px;
     }
 
-    #icon{
+    #icon {
         display: block;
         color: white;
         font-size: 25px;
         cursor: pointer;
     }
 
-    #icon-open{
+    #icon-open {
         cursor: pointer;
     }
 
-    #icon-close{
+    #icon-close {
         cursor: pointer;
     }
 
-    .menu-wrapper{
+    .menu-wrapper {
         display: block;
         position: absolute;
         width: 100%;
@@ -164,4 +162,3 @@
         background: #b11414;
     }
 }
-

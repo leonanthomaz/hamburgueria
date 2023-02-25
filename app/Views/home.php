@@ -1,11 +1,20 @@
 
-<?php include "includes/alerts.php" ?> 
 <?php include_once "app/Views/includes/carousel.php"; ?>
-<?php
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "********";
+
+<!-- <?php
+
+echo "<pre>";
+print_r($_SESSION['qrcode_pix']);
+echo "****";
+
+$qrcode = $_SESSION['qrcode_pix'];
+
+echo $qrcode->id;
+
 ?>
+
+<img src="<?php echo $qrcode->qr_codes[0]->links[0]->href ?>" alt=""> -->
+
 <main role="main">
   <div class="container marketing">
 

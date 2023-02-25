@@ -30,13 +30,14 @@ class Client {
         $db->insert("INSERT INTO clientes VALUES(
             NULL,
             NULL,
+            NULL,
             :c_nome,
             :c_email,
             NULL,
             :c_senha, 
             NULL,
             NULL,
-            NULL, 
+            NULL,
             NULL, 
             :c_purl,
             :c_ativo,
@@ -192,6 +193,7 @@ class Client {
             c_id,
             c_nome,
             c_id_google,
+            c_id_facebook,
             c_email,
             c_telefone,
             c_cep,
@@ -242,34 +244,69 @@ class Client {
 
         // regista o novo cliente na base de dados
         $db = new Connect();
-        
-        // parametros
+
         $params = [
-            ':c_id_google' => intval($_SESSION['client']),
+            ':c_id_google' => intval($_SESSION['google_token']),
             ':c_nome' => $_SESSION['name'],
-            ':c_email' => strtolower(trim($_SESSION['email'])),
+            ':c_email' => $_SESSION['email'],
             ':c_ativo' => 1,
             ':c_ofertas' => 1,
         ];
 
         $db->insert("INSERT INTO clientes VALUES(
-            NULL,
+            NULL, 
             :c_id_google,
-            :c_nome,
-            :c_email,
+            NULL, 
+            :c_nome, 
+            :c_email, 
+            NULL, 
+            NULL, 
             NULL,
             NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            :c_ativo,
-            :c_ofertas,
+            NULL, 
+            NULL, 
+            NULL, 
+            :c_ativo, 
+            :c_ofertas, 
             NOW(),
             NOW(),
             NULL
         )", $params);
-       
-    }    
+    }
+
+    public function insert_client_facebook()
+    {
+
+        // regista o novo cliente na base de dados
+        $db = new Connect();
+
+        // parametros
+        $params = [
+            ':c_id_facebook' => intval($_SESSION['facebook_token']),
+            ':c_nome' => $_SESSION['name'],
+            ':c_email' => $_SESSION['email'],
+            ':c_ativo' => 1,
+            ':c_ofertas' => 1,
+        ];
+        
+        $db->insert("INSERT INTO clientes VALUES(
+            NULL, 
+            NULL,
+            :c_id_facebook, 
+            :c_nome, 
+            :c_email, 
+            NULL, 
+            NULL, 
+            NULL,
+            NULL,
+            NULL, 
+            NULL, 
+            NULL, 
+            :c_ativo, 
+            :c_ofertas, 
+            NOW(),
+            NOW(),
+            NULL
+        )", $params);
+    }
 }
