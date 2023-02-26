@@ -1,9 +1,0 @@
-#introMain .carousel-inner, #introMain .carousel-item {
-    height: 90vh;
-}
-
-@media (max-width: 760px) {
-    #introMain .carousel-inner, #introMain .carousel-item {
-        height: auto;
-    }
-}

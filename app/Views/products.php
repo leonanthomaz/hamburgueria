@@ -15,11 +15,11 @@
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
                 <div class="card-header bg-danger text-white text-uppercase "><i class="fa fa-list" onclick="open_products()"></i> Categorias</div>
-                <ul class="list-group category_block">
-                    <li class="list-group-item"><a href="category.html">Hamburguer</a></li>
-                    <li class="list-group-item"><a href="category.html">Discos</a></li>
-                    <li class="list-group-item"><a href="category.html">Salgadinhos</a></li>
-                    <li class="list-group-item"><a href="category.html">Bebidas</a></li>
+                <ul id="list-group" class="list-group category_block">
+                    <li class="list-group-item"><a href="?a=products&id=0">Todos</a></li>
+                    <li class="list-group-item"><a href="?a=products&id=1">Hamburguer</a></li>
+                    <li class="list-group-item"><a href="?a=products&id=2">Discos</a></li>
+                    <li class="list-group-item"><a href="?a=products&id=3">Bebidas</a></li>
                 </ul>
             </div>
             <!-- <div class="card bg-light mb-3">
@@ -42,39 +42,21 @@
                         <div class="card">
                             <img class="card-img-top" src="public/img/<?php echo $product->p_imagem . ".jpg" ?>" alt="Card image cap">
                             <div class="card-body">
-                                <h4 class="card-title text-center"><a href="product.html" title="View Product">Product title</a></h4>
+                                <h4 class="card-title text-center"><a href="product.html" title="View Product"><?php echo $product->p_nome ?></a></h4>
                                 <hr class="featurette-divider">
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <p class="card-text"><?php echo $product->p_descricao ?></p>
                                 <div class="row">
-                                    <!-- <div class="col">
-                                    <p class="btn btn-danger btn-block">99.00 $</p>
-                                </div> -->
+                                    <div class="col">
+                                        <p class="btn btn-danger btn-sm btn-block"><?php echo 'R$ ' . number_format($product->p_preco, 2, ',', '.') ?></p>
+                                    </div>
                                     <div class="col text-center">
-                                        <a href="#" role="button" onclick="add_cart(<?php echo $product->p_id ?>)" class="btn btn-secondary btn-md btn-block">Add to cart</a>
+                                    <p><button class="btn btn-dark btn-sm btn-block" role="button" onclick="add_cart(<?php echo $product->p_id ?>)"><?php echo isset($_SESSION['cart']) && key_exists($product->p_id, $_SESSION['cart']) ? "Adicionado" : "Adicionar" ?></button></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
-
-                <div class="col-12">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
             </div>
         </div>
 

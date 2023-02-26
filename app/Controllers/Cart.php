@@ -123,7 +123,7 @@ class Cart {
         }
     }
 
-    //Pegar total do carrinho
+    //Pegar subtotal do itens carrinho
     public function get_subtotal()
     {
         $ids = [];
@@ -161,7 +161,7 @@ class Cart {
         return $data_temp;    
     }
 
-    //Pegar total do carrinho
+    //Pegar total geral do carrinho
     public function get_total()
     {
         $ids = [];
@@ -214,6 +214,7 @@ class Cart {
         echo json_encode($data);    
     }
 
+    //Pega os id's dos produtos e verifica no banco para detalhes
     public function get_products_by_cart()
     {
         $ids = [];
@@ -294,13 +295,39 @@ class Cart {
         Store::redirect('cart');
     }
 
+    //Gerar pedido
     public function send_order()
     {
+
         // verifica se existe cliente logado
         if(!isset($_SESSION['client'])){
             Store::redirect("cart");
         }
 
+        //*** FILTRO DOS ITENS DO CARRINHO **//
+        // $cart_itens = $this->get_products_by_cart();
+        // $cart = [];
+        // foreach($cart_itens["cart"] as $item){
+        //     $pdp_id = $item["p_id"];
+        //     $pdp_nome = $item["p_nome"];
+        //     $pdp_imagem = $item["p_imagem"];
+        //     $pdp_qtd = $item["qtd"];
+        //     $pdp_subtotal = $item["subtotal"];
+
+        //     array_push($cart, [
+        //         "pdp_id" => $pdp_id,
+        //         "pdp_nome" => $pdp_nome,
+        //         "pdp_imagem" => $pdp_imagem,
+        //         "pdp_qtd" => $pdp_qtd,
+        //         "pdp_subtotal" => $pdp_subtotal,
+        //     ]);
+        // }
+        // $order['cart_itens'] = $cart;
+        // Store::printData($order['cart_itens']);
+
+        //*****//
+
+        //*** ITENS DO CARRINHO POR ID E QTD **//
         $cart = [];
         foreach($_SESSION['cart'] as $key => $qtd){
             
@@ -311,20 +338,28 @@ class Cart {
                 "pdp_codigo" => $_SESSION['purchase_code'],
             ]);
         }
-        $order['cart'] = $cart;
+        $order['cart_order'] = $cart;
+        // Store::printData($order['cart_order']);
 
+        //*****//
+
+        //*** INFORMAÇÕES DA COMPRA **//
         $info = [];
         array_push($info, [
             "pd_id_cliente" => $_SESSION['client'],
             "pd_codigo" => $_SESSION['purchase_code'],
-            "pd_total" => $_SESSION['total'],
+            "pd_total" => intval($_SESSION['total']),
             "pd_cupom" => isset($_SESSION['discount_coupon']) ? $_SESSION['discount_coupon'] : NULL,
             "pd_observacao" => $_POST['observacao'],
             "pd_status" => 1,
             "pd_pagamento" => $_POST['pagamento'],
         ]);
         $order['info'] = $info;
+        // Store::printData($order['info']);
 
+        //*****//
+
+        //*** ATUALIZANDO CLIENTE NA BASE DE DADOS **//
         $c = new Client;
         $client = $c->update_client();
         
@@ -334,11 +369,16 @@ class Cart {
             return;
         }
         
+        //*** PUXANDO INFORMAÇÕES DO CLIENTE ATUALIZADAS **//
         $client = $c->search_client($_SESSION['email']);
         $order['client'] = $client;
 
+        //*****//
+
+
+        //*** INSERINDO O PEDIDO NO BANCO **//
         $ct = new ModelsCart;
-        $result = $ct->order_submit($order['cart'], $order['info']);
+        $result = $ct->order_submit($order['cart_order'], $order['info']);
 
         if(!$result){
             $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
@@ -346,6 +386,7 @@ class Cart {
             return;
         }else{
 
+            //*** SE O PEDIDO FOR EM PIX, GERAR O QRCODE **//
             if($_POST['pagamento'] == "pix"){
                 $pix = new Pix();
                 $response = $pix->generate_pix($order['client'], $order['info']);
@@ -359,6 +400,7 @@ class Cart {
                 }
             }
 
+            //*** ENVIO DA COMPRA POR EMAIL **//
             $email = new Email;
             $confirm_email = $email->confirmation_email_new_order($_SESSION['email'], $order['info']);
 
@@ -368,8 +410,8 @@ class Cart {
                 return;
             }
 
+            //*** PREPARANDO WHATSAPP PARA DISPARO COM INFORMAÇÕES DE COMPRA **//
             $whatsapp = new Whatsapp;
-
             $send_whatsapp = $whatsapp->whatsapp_send_msg($order['client'], $_SESSION['purchase_code']);
 
             if(!$send_whatsapp){
@@ -378,11 +420,16 @@ class Cart {
                 return;
             }
 
+
+            //*** LIMPANDO SEÇÕES **//
+            unset($_SESSION['qrcode_pix']);
             unset($_SESSION['cart']);
             unset($_SESSION['purchase_code']);
             unset($_SESSION['discount_coupon']);
             unset($_SESSION['total']);
             
+
+            //*** FINALIZANDO NA PÁGINA DE CONFIRMAÇÃO DE PEDIDO **//
             Store::Layout([
                 'layouts/html_header',
                 'layouts/header',

@@ -5,31 +5,40 @@
 
 
 body {
-  background-color: #eeeeee;
+  font-family: 'Montserrat', sans-serif;
 }
 
-h1 {
+h1, h2 {
   font-weight: 900;
 }
 
-.modal {
-  text-align: center;
+h2{
+  font-size: 30px;
 }
 
-.modal:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -4px;
-}
+/* #alert{
+  width: 300px;
+  background-color: #920d0d;
+  position: absolute;
+  position: fixed;
+  z-index: 100000;
+  right: 0;
+  transition: all ease-in-out 0.5s;
+  visibility: visible;
+} */
 
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-}
+/* #alert.active{
+  visibility: visible;
+  transition: all ease-in-out 0.5s;
+  visibility: hidden;
+} */
 
 .footer {
   background-color: #920d0d;
 }
+
+
+
+
+
+

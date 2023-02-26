@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Client as ControllersClient;
 use App\Models\Client;
 use App\Models\Product;
 use App\Factorys\Store;
@@ -27,7 +28,7 @@ class Main
     {
 
         $p = new Product;
-        $products = $p->product_list_available();
+        $products = $p->product_by_top();
 
         Store::Layout([
             'layouts/html_header',
@@ -48,13 +49,19 @@ class Main
             return;
         }
 
+        //*** GERANDO CODIGO DE ESTADO, CASO O CLIENTE FAÇA LOGIN COM FACEBOOK **//
+        //*** COM A URL DISPONÍVEL, ENVIO PARA A PÁGINA DE LOGIN  **//
+        $login = new ControllersClient;
+        $authUrl = $login->login_facebook_submit();
+
+
         // apresentação do formulário de login
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
             'login',
             'layouts/html_footer',
-        ]);
+        ], $authUrl);
     }
 
     //Página de Registro
@@ -67,13 +74,18 @@ class Main
             return;
         }
 
+        //*** GERANDO CODIGO DE ESTADO, CASO O CLIENTE FAÇA CADASTRO COM FACEBOOK **//
+        //*** COM A URL DISPONÍVEL, ENVIO PARA A PÁGINA DE CADASTRO  **//
+        $login = new ControllersClient;
+        $authUrl = $login->login_facebook_submit();
+
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
             'register',
             'layouts/footer',
             'layouts/html_footer'
-        ]);
+        ], $authUrl);
     }
 
     //Página do Carrinho
@@ -186,11 +198,10 @@ class Main
     public function products()
     {
 
-        $id = 0;
+        isset($_GET['id']) ? $id = $_GET['id']: $id = 0;
 
         $p = new Product;
         $products = $p->products_by_category($id);
-
 
         Store::Layout([
             'layouts/html_header',

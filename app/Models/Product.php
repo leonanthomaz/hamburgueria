@@ -34,14 +34,16 @@ class Product {
     public function products_by_category($ct)
     {
         $database = new Connect;
-        $products = $database->select("SELECT * FROM produtos WHERE p_categoria IN ($ct)");
+        $products = $database->select("SELECT * FROM produtos WHERE p_categoria = '$ct'");
         return $products;
     }
 
     //Listar produtos por destaque
     public function product_by_top()
     {
-        
+        $database = new Connect;
+        $products = $database->select("SELECT * FROM produtos WHERE p_destaque = '1'");
+        return $products;
     }
 
 }

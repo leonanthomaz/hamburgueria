@@ -60,16 +60,16 @@
             Produtos
           </h6>
           <p>
-            <a href="#!" class="text-reset">Hamburguer</a>
+            <a href="?a=products&id=0" class="text-reset">Hamburguer</a>
           </p>
           <p>
-            <a href="#!" class="text-reset">Discos</a>
+            <a href="?a=products&id=1" class="text-reset">Discos</a>
           </p>
           <p>
-            <a href="#!" class="text-reset">Salgadinhos</a>
+            <a href="?a=products&id=2" class="text-reset">Salgadinhos</a>
           </p>
           <p>
-            <a href="#!" class="text-reset">Bebidas</a>
+            <a href="?a=products&id=3" class="text-reset">Bebidas</a>
           </p>
         </div>
         <!-- Grid column -->

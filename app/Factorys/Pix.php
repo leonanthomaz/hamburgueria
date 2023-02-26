@@ -33,13 +33,13 @@ class Pix
                 [
                     "name" => $info[0]["pd_codigo"],
                     "quantity" => 1,
-                    "unit_amount" => $info[0]["pd_total"]
+                    "unit_amount" => $info[0]["pd_total"] * 1000
                 ]
             ],
             "qr_codes" => [
                 [
                     "amount" => [
-                        "value" => 500
+                        "value" => $info[0]["pd_total"] * 1000
                     ],
                     "expiration_date" => date('Y-m-d\TH:i:s.vP', strtotime($today . '+ 3 days')),
                 ]

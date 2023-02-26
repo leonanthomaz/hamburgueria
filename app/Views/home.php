@@ -1,41 +1,29 @@
 
+<?php print_r($_SESSION) ?>
+
 <?php include_once "app/Views/includes/carousel.php"; ?>
-
-<!-- <?php
-
-echo "<pre>";
-print_r($_SESSION['qrcode_pix']);
-echo "****";
-
-$qrcode = $_SESSION['qrcode_pix'];
-
-echo $qrcode->id;
-
-?>
-
-<img src="<?php echo $qrcode->qr_codes[0]->links[0]->href ?>" alt=""> -->
-
 <main role="main">
   <div class="container marketing">
 
-    <h1>Destaques</h1>
+    <h2 class="mt-3 p-2 mb-5 featurette-heading">Destaques</h2>
+
     <div class="row text-center">
       <?php 
       foreach($products as $product):
       ?>
       <div class="col-lg-4">
-        
+
         <img class="rounded-circle" src="public/img/<?php echo $product->p_imagem.".jpg" ?>" alt="Generic placeholder image" width="140" height="140">
         <h2><?php echo $product->p_nome ?></h2>
         <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-        <p><button class="btn btn-secondary" role="button" onclick="add_cart(<?php echo $product->p_id ?>)">Adicionar ao carrinho</button></p>
-      </div><!-- /.col-lg-4 -->
+        <p><button class="btn btn-secondary" role="button" onclick="add_cart(<?php echo $product->p_id ?>)"><?php echo isset($_SESSION['cart']) && key_exists($product->p_id, $_SESSION['cart']) ? "Produto Adicionado" : "Adicionar ao carrinho" ?></button></p>
+      </div>
       <?php endforeach; ?>
-    </div><!-- /.row -->
+    </div>
 
     <hr class="featurette-divider">
 
-    <h1>Nosso Cardapio</h1>
+    <h2>Nosso Cardapio</h2>
     <div class="row featurette">
       <div class="col-md-7">
         <h2 class="featurette-heading">Primeiro título de featurezinhas. <span class="text-muted">Supreendente, não?!</span></h2>

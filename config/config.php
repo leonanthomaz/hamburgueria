@@ -4,7 +4,7 @@
 
 //Configurações do Sistema
 DEFINE('APP_NAME', 'Projeto Hamburgueria');
-DEFINE("APP_VERSION", "1.2.0");
+DEFINE("APP_VERSION", "1.1.2");
 DEFINE("APP_DESCRIPTION", "A melhor Hamburgueria da cidade!");
 DEFINE("APP_KEYWORDS", "Hamburguer, hamburgueria, lanchonete, delivery");
 
@@ -28,9 +28,9 @@ DEFINE("DB_CHARSET", "UTF8");
 
 //**************/
 
-// Email - insira seu email e senha. No caso aqui, inserir email e senha do Gmail.
+// Email - insira seu email e senha (Modo "Apps não seguros obsoleta. Crie uma conta de app para utilizar no GMAIL").
 DEFINE('EMAIL_HOST', 'smtp.gmail.com');
-DEFINE('EMAIL_FROM', '@gmail.com');
+DEFINE('EMAIL_FROM', '.projetos@gmail.com');
 DEFINE('EMAIL_PASS', '');
 DEFINE('EMAIL_PORT', '587');
 DEFINE('EMAIL_CHARSET', 'UTF-8');
@@ -54,18 +54,20 @@ DEFINE('GOOGLE_SECRET_KEY', 'GOCSPX-');
 DEFINE('FACEBOOK_LOGIN', [
     'FB_ID'          => '',
     'FB_SECRET'      => '',
-    'FB_REDIRECT'       => BASE_URL."?a=login_facebook_submit",
+    'FB_REDIRECT'       => BASE_URL."?a=login",
     'FB_VERSION'   => 'v2.10',
 ]);
 
 //**************/
-// Integração Pagseguro PRODUÇÃO - insira suas credenciais do Sanbox
-DEFINE('PAGSEGURO_ENDPOINT', '');
+// Integração Pagseguro - insira suas credenciais
+DEFINE('PAGSEGURO_ENDPOINT', 'https://sandbox.api.pagseguro.com/orders');
 DEFINE('PAGSEGURO_TOKEN', '');
 
-// Integração Pagseguro SANDBOX - insira suas credenciais do Sanbox
 DEFINE('PAGSEGURO_APPID', '');
 DEFINE('PAGSEGURO_APPKEY', '');
 
+//**************/
+
+// API Ultramsg - https://api.ultramsg.com - insira suas credenciais
 DEFINE('WHATSAPP_API_TOKEN', '');
 DEFINE('WHATSAPP_API_INSTANCE', '');

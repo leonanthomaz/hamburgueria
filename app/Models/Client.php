@@ -29,8 +29,6 @@ class Client {
 
         $db->insert("INSERT INTO clientes VALUES(
             NULL,
-            NULL,
-            NULL,
             :c_nome,
             :c_email,
             NULL,
@@ -137,9 +135,7 @@ class Client {
         $params = [
             ':c_email' => strtolower(trim($email))
         ];
-        $results = $bd->select("
-            SELECT c_email FROM clientes WHERE c_email = :c_email
-        ", $params);
+        $results = $bd->select("SELECT c_email FROM clientes WHERE c_email = :c_email", $params);
 
         // se o cliente já existe...
         if (count($results) != 0) {
@@ -192,8 +188,6 @@ class Client {
         $results = $db->select("SELECT 
             c_id,
             c_nome,
-            c_id_google,
-            c_id_facebook,
             c_email,
             c_telefone,
             c_cep,
@@ -246,7 +240,6 @@ class Client {
         $db = new Connect();
 
         $params = [
-            ':c_id_google' => intval($_SESSION['google_token']),
             ':c_nome' => $_SESSION['name'],
             ':c_email' => $_SESSION['email'],
             ':c_ativo' => 1,
@@ -254,8 +247,6 @@ class Client {
         ];
 
         $db->insert("INSERT INTO clientes VALUES(
-            NULL, 
-            :c_id_google,
             NULL, 
             :c_nome, 
             :c_email, 
@@ -282,7 +273,6 @@ class Client {
 
         // parametros
         $params = [
-            ':c_id_facebook' => intval($_SESSION['facebook_token']),
             ':c_nome' => $_SESSION['name'],
             ':c_email' => $_SESSION['email'],
             ':c_ativo' => 1,
@@ -291,8 +281,6 @@ class Client {
         
         $db->insert("INSERT INTO clientes VALUES(
             NULL, 
-            NULL,
-            :c_id_facebook, 
             :c_nome, 
             :c_email, 
             NULL, 

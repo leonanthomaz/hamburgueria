@@ -2,6 +2,7 @@
 
 namespace App\Factorys;
 
+use App\Models\Cart;
 use Exception;
 
 class Store {
@@ -43,12 +44,12 @@ class Store {
 
     //Gerando código de compra
     public static function generate_purchase_code(){
-        // gerar um código de encomenda
-        $code = "";
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        $code .= substr(str_shuffle($chars),0,2);
-        $code .= rand(100000,999999);
-        return $code;
+       // gerar um código de encomenda
+       $code = "";
+       $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+       $code .= substr(str_shuffle($chars),0,4);
+       $code .= rand(1000000,99999999);
+       return $code;
     }
 
     //Verificar se existe cliente logado

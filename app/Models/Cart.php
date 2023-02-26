@@ -7,7 +7,8 @@ use App\Factorys\Store;
 
 class Cart {
 
-public function order_submit($cart, $info)
+
+    public function order_submit($cart, $info)
     {
         // regista o novo cliente na base de dados
         $db = new Connect();
@@ -59,6 +60,20 @@ public function order_submit($cart, $info)
         }
 
         return true;
+
+    }
+
+    public function verify_purchase_code($code)
+    {
+        $db = new Connect;
+        $params = [
+            ':pd_codigo' => $code,
+        ];
+        $code_verify = $db->select("SELECT pd_codigo FROM pedidos WHERE pd_codigo = ':pd_codigo", $params);
+
+        if(count($code_verify) != 0){
+            return false;
+        }
 
     }
 }

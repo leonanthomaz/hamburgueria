@@ -8,12 +8,18 @@ if (isset($_SESSION['total'])) {
 include_once "app/Views/includes/login_modal.php";
 ?>
 
+<?php print_r($_SESSION) ?>
 
 <?php if ($cart === null) : ?>
-  <p class="text-center">Não existem produtos no carrinho.</p>
-  <div class="mt-4 text-center">
-    <a href="?a=index" class="btn btn-primary">Voltar</a>
-  </div>
+
+  <div class="text-center d-flex justify-content-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <section role="section" class="inner cover">
+            <h2 class="cover-heading">Carrinho vazio :C</h2>
+            <a href="?a=index" class="btn btn-primary">Voltar</a>
+        </section>
+    </div>
+</div>
 
 <?php else : ?>
 
@@ -109,12 +115,6 @@ include_once "app/Views/includes/login_modal.php";
                     </div>
 
                     <a href="?a=checkout_cart" class="btn btn-dark btn-block btn-lg">Checkout</a>
-
-                    <!-- <?php if (isset($_SESSION['client'])) : ?>
-                    <a href="?a=checkout_cart" class="btn btn-dark btn-block btn-lg">Checkout</a>
-                  <?php else : ?>
-                    <a onclick="handleLogin()" data-bs-toggle="modal" data-bs-target="#menuModal" class="btn btn-dark btn-block btn-lg">Checkout</a>
-                  <?php endif; ?> -->
 
                   </div>
                 </div>

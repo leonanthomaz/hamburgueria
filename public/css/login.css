@@ -1,17 +1,40 @@
-.divider:after,
-.divider:before {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #eee;
+
+.login-form{
+    max-width: 500px;  
+    margin: 0 auto; 
 }
 
-.h-custom {
-    height: calc(100% - 73px);
+/* Código para botão facebook */
+.facebook    { background-color: #3B5998; }
+
+.long-share-btn > i{
+  font-size: 15px;
+  font-weight: bold;
 }
 
-@media (max-width: 450px) {
-    .h-custom {
-        height: 100%;
-    }
-}
+.long-share-btn {
+    font-size: 14px;
+    display: inline-block;
+    color: #ffffff;
+    border: none;
+    padding: 0.4em 1.2em;
+    box-shadow: 0 2px 0 0 rgba(0,0,0,0.2);
+    outline: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  .long-share-btn:hover {
+    color: #eeeeee;
+  }
+  .long-share-btn:active {
+    position: relative;
+    top: 2px;
+    box-shadow: none;
+    color: #e2e2e2;
+    outline: none;
+  }
+  a.long-share-btn {
+    text-decoration: none;
+  }

@@ -20,3 +20,4 @@ const register = () => {
     $("#login-form").hide()
 
 }
+

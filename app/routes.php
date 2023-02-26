@@ -9,6 +9,7 @@ $routes = [
     "index" => "main@index",
     "products" => "main@products",
     "login" => "main@login",
+    "login_facebook" => "main@login_facebook",
     "register" => "main@register",
     "cart" => "main@cart",
     "checkout" => "main@checkout",

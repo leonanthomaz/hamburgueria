@@ -1,4 +1,4 @@
-<header id="menu">
+<header id="menu" class="text-uppercase">
     <div id="icon" aria-label="Abrir Menu" aria-haspopup="true" aria-controls="menu" aria-expanded="false">
         <i id="icon-open" class="fa-solid fa-bars"></i>
         <i id="icon-close" class="fa-solid fa-xmark"></i>
@@ -11,22 +11,38 @@
         </div>
         <ul class="menu-wrapper">
             <li class="menu-link" role="menuitem">
-                <i class="fa-solid fa-burger-soda"></i><a href="?a=products">Ver Cardápio</a>
+                <a href="?a=products">
+                <i class="fa-sharp fa-solid fa-burger"></i>                 
+                <strong>Cardápio</strong>
+                </a>
             </li>
             <li class="menu-link" role="menuitem">
-                <div class="menu-cart">
-                    <a href="?a=cart">
-                        <div id="count_cart">Carrinho
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span><?php if (isset($_SESSION['cart'])) echo $_SESSION['cart'] ? count($_SESSION['cart']) : "" ?></span>
+                <a href="?a=cart">
+                    <div class="menu-cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div id="count_cart">
+                            <span><?php echo isset($_SESSION['cart']) && count($_SESSION['cart']) > 0 ? count($_SESSION['cart']) :  "" ?></span>
                         </div>
-                    </a>
-                </div>
+                        <strong>Carrinho</strong>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-link" role="menuitem">
+                <a href="?a=products">
+                <i class="fa-solid fa-building"></i>                
+                <strong>Quem somos</strong>
+                </a>
+            </li>
+            <li class="menu-link" role="menuitem">
+                <a href="?a=products">
+                <i class="fa-solid fa-phone"></i>                
+                <strong>Contato</strong>
+                </a>
             </li>
         </ul>
     </nav>
     <div class="menu-user">
-        <?php if (!isset($_SESSION['client']) && !isset($_SESSION['client_google_token'])) : ?>
+        <?php if (!isset($_SESSION['client'])) : ?>
             <a href="?a=login">
                 <i class="fa-solid fa-user"></i> Acessar
             </a>
@@ -43,3 +59,8 @@
         <?php unset($_SESSION['erro']) ?>
     </div>
 <?php endif; ?>
+<!-- <div id="alert">
+  <div class="alert-container">
+    <span>Um alerta</span>
+  </div>
+</div> -->

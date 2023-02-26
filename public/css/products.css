@@ -7,13 +7,14 @@
 }
 
 @media(max-width: 760px){
-    .category_block{
+
+    .list-group{
         visibility: hidden;
         transition: all ease 0.5s;
         height: 0px;
     }
 
-    .category_block.active{
+    .list-group.active{
         visibility: visible;
         transition: 0.5s;
         overflow-y: auto;
@@ -21,7 +22,7 @@
     }
 }
 
-.card-header > i{
+.card-header{
     cursor: pointer;
 }
 

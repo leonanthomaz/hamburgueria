@@ -171,8 +171,10 @@ class Client {
             Store::redirect();        }
     }
 
+    //*** LOGIN COM GOOGLE **//
     public function login_google_submit()
     {
+
         if(!isset($_POST['credential']) || !isset($_POST['g_csrf_token'])){
             $_SESSION['erro'] = 'Erro ao validar seu login com Google.!';
             Store::redirect("login");
@@ -211,31 +213,40 @@ class Client {
         $c = new MC;
 
         $client = $c->db_verify_email($payload['email']);
-
+        
         if($client){
             $client = $c->search_client($payload['email']);
 
             $_SESSION['client'] =  $client->c_id;
             $_SESSION['name'] =  $client->c_nome;
             $_SESSION['email'] = $client->c_email;
-            $_SESSION['google_token'] = $client->c_id_google;
+
+            unset($_SESSION['oauth2state']);
 
             Store::redirect();
         }else{
             // Use these details to create a new profile
             $_SESSION['name'] = $payload['name'];
             $_SESSION['email'] = $payload['email'];
-            $_SESSION['google_token'] = $payload['sub'];
 
-            $c->insert_client_google();
-            $client = $c->search_client($payload['email']);
+            if(!$_SESSION['email']){
+                $_SESSION['erro'] = 'Falha ao logar com o Google. Tente novamente!';
+                Store::redirect();
+                return;
+            }else{
+                $c->insert_client_google();
+                $client = $c->search_client($payload['email']);
+    
+                $_SESSION['client'] =  $client->c_id;
+                $_SESSION['name'] =  $client->c_nome;
+                $_SESSION['email'] = $client->c_email;
+    
+                unset($_SESSION['oauth2state']);
 
-            $_SESSION['client'] =  $client->c_id;
-            $_SESSION['name'] =  $client->c_nome;
-            $_SESSION['email'] = $client->c_email;
-            $_SESSION['google_token'] = $client->c_id_google;
+                Store::redirect();
+            }
 
-            Store::redirect();
+            
         }
 
         // redirecionar para o local correto
@@ -248,6 +259,7 @@ class Client {
 
     }
 
+    //*** LOGIN COM FACEBOOK **//
     public function login_facebook_submit()
     {
         
@@ -271,10 +283,8 @@ class Client {
                 'scope' => ['email'],
             ]);
 
-            $_SESSION['oauth2state'] = $provider->getState();
-
-            echo '<a href="'.$authUrl.'">Log in with Facebook!</a>';
-            exit;
+            $_SESSION['oauth2state'] = $provider->getState();            
+            return $authUrl;
         
             // Check given state against previously stored one to mitigate CSRF attack
         }else if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
@@ -283,6 +293,14 @@ class Client {
             echo 'Estado inválido!';
             exit;
         
+        }
+
+        $error = filter_input(INPUT_GET, "error", FILTER_UNSAFE_RAW);
+
+        if(isset($error)){
+            $_SESSION['erro'] = 'Falha ao logar com Facebook. Tente novamente!';
+            Store::redirect("register");
+            return;
         }
         
         // Try to get an access token (using the authorization code grant)
@@ -305,24 +323,31 @@ class Client {
                 $_SESSION['client'] =  $client->c_id;
                 $_SESSION['name'] =  $client->c_nome;
                 $_SESSION['email'] = $client->c_email;
-                $_SESSION['facebook_token'] = $client->c_id_facebook;
+
+                unset($_SESSION['oauth2state']);
 
                 Store::redirect();
             }else{
                 // Use these details to create a new profile
                 $_SESSION['name'] = $user->getName();
                 $_SESSION['email'] = $user->getEmail();
-                $_SESSION['facebook_token'] = $user->getId();
 
-                $c->insert_client_facebook();
-                $client = $c->search_client($user->getEmail());
+                if(!$_SESSION['email']){
+                    $_SESSION['erro'] = 'Falha ao logar com o Facebook. Tente novamente!';
+                    Store::redirect();
+                    return;
+                }else{
+                    $c->insert_client_facebook();
+                    $client = $c->search_client($user->getEmail());
+    
+                    $_SESSION['client'] =  $client->c_id;
+                    $_SESSION['name'] =  $client->c_nome;
+                    $_SESSION['email'] = $client->c_email;
+                    
+                    unset($_SESSION['oauth2state']);
 
-                $_SESSION['client'] =  $client->c_id;
-                $_SESSION['name'] =  $client->c_nome;
-                $_SESSION['email'] = $client->c_email;
-                $_SESSION['facebook_token'] = $client->c_id_facebook;
-                
-                Store::redirect();
+                    Store::redirect();
+                }
 
             }
 
