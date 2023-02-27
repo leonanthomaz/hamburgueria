@@ -7,6 +7,8 @@ $routes = [
     //Principal
     "maintenance" => "main@maintenance",
     "index" => "main@index",
+    "about" => "main@about",
+    "contact" => "main@contact",
     "products" => "main@products",
     "login" => "main@login",
     "login_facebook" => "main@login_facebook",

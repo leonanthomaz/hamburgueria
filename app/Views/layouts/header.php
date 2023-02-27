@@ -28,13 +28,13 @@
                 </a>
             </li>
             <li class="menu-link" role="menuitem">
-                <a href="?a=products">
+                <a href="?a=about">
                 <i class="fa-solid fa-building"></i>                
                 <strong>Quem somos</strong>
                 </a>
             </li>
             <li class="menu-link" role="menuitem">
-                <a href="?a=products">
+                <a href="?a=contact">
                 <i class="fa-solid fa-phone"></i>                
                 <strong>Contato</strong>
                 </a>

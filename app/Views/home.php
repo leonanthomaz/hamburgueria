@@ -1,12 +1,10 @@
-
-<?php print_r($_SESSION) ?>
-
 <?php include_once "app/Views/includes/carousel.php"; ?>
 <main role="main">
   <div class="container marketing">
 
-    <h2 class="mt-3 p-2 mb-5 featurette-heading">Destaques</h2>
-
+    <div class="col-md-7">
+      <h2 class="featurette-heading text-center d-flex mt-3 mb-3">Produtos <span class="text-muted"> em destaque!</span></h2>
+    </div>
     <div class="row text-center">
       <?php 
       foreach($products as $product):
@@ -23,14 +21,13 @@
 
     <hr class="featurette-divider">
 
-    <h2>Nosso Cardapio</h2>
     <div class="row featurette">
       <div class="col-md-7">
         <h2 class="featurette-heading">Primeiro título de featurezinhas. <span class="text-muted">Supreendente, não?!</span></h2>
         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
       </div>
       <div class="col-md-5">
-        <img class="featurette-image img-fluid mx-auto" src="public/img/hamburguer1.jpg" ?>" alt="Generic placeholder image">
+        <img class="featurette-image img-fluid mx-auto" src="public/img/hamburguer1.jpg" alt="Generic placeholder image">
       </div>
     </div>
 

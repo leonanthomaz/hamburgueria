@@ -299,31 +299,12 @@ class Cart {
     public function send_order()
     {
 
+        //*****//
+
         // verifica se existe cliente logado
         if(!isset($_SESSION['client'])){
             Store::redirect("cart");
         }
-
-        //*** FILTRO DOS ITENS DO CARRINHO **//
-        // $cart_itens = $this->get_products_by_cart();
-        // $cart = [];
-        // foreach($cart_itens["cart"] as $item){
-        //     $pdp_id = $item["p_id"];
-        //     $pdp_nome = $item["p_nome"];
-        //     $pdp_imagem = $item["p_imagem"];
-        //     $pdp_qtd = $item["qtd"];
-        //     $pdp_subtotal = $item["subtotal"];
-
-        //     array_push($cart, [
-        //         "pdp_id" => $pdp_id,
-        //         "pdp_nome" => $pdp_nome,
-        //         "pdp_imagem" => $pdp_imagem,
-        //         "pdp_qtd" => $pdp_qtd,
-        //         "pdp_subtotal" => $pdp_subtotal,
-        //     ]);
-        // }
-        // $order['cart_itens'] = $cart;
-        // Store::printData($order['cart_itens']);
 
         //*****//
 
@@ -339,7 +320,6 @@ class Cart {
             ]);
         }
         $order['cart_order'] = $cart;
-        // Store::printData($order['cart_order']);
 
         //*****//
 
@@ -375,14 +355,12 @@ class Cart {
 
         //*****//
 
-
         //*** INSERINDO O PEDIDO NO BANCO **//
         $ct = new ModelsCart;
         $result = $ct->order_submit($order['cart_order'], $order['info']);
 
         if(!$result){
             $_SESSION['erro'] = 'Erro ao processar seu pedido. Tente novamente!';
-            Store::redirect("checkout");
             return;
         }else{
 
@@ -391,6 +369,8 @@ class Cart {
                 $pix = new Pix();
                 $response = $pix->generate_pix($order['client'], $order['info']);
 
+                // Store::printData($response);
+                // die("aqui");
                 if(!$response){
                     $_SESSION['erro'] = 'Falha ao registrar o pix!';
                     Store::redirect("checkout");
@@ -400,7 +380,7 @@ class Cart {
                 }
             }
 
-            //*** ENVIO DA COMPRA POR EMAIL **//
+            // *** ENVIO DA COMPRA POR EMAIL **//
             $email = new Email;
             $confirm_email = $email->confirmation_email_new_order($_SESSION['email'], $order['info']);
 
@@ -422,7 +402,7 @@ class Cart {
 
 
             //*** LIMPANDO SEÇÕES **//
-            unset($_SESSION['qrcode_pix']);
+            // unset($_SESSION['qrcode_pix']);
             unset($_SESSION['cart']);
             unset($_SESSION['purchase_code']);
             unset($_SESSION['discount_coupon']);
@@ -439,5 +419,27 @@ class Cart {
             ], $order);
 
         }
+    }
+
+    public function teste_cart()
+    {
+        $cart_itens = $this->get_products_by_cart();
+        $cart = [];
+        foreach($cart_itens["cart"] as $item){
+            $pdp_id = $item["p_id"];
+            $pdp_nome = $item["p_nome"];
+            $pdp_imagem = $item["p_imagem"];
+            $pdp_qtd = $item["qtd"];
+            $pdp_subtotal = $item["subtotal"];
+
+            array_push($cart, [
+                "pdp_id" => $pdp_id,
+                "pdp_nome" => $pdp_nome,
+                "pdp_imagem" => $pdp_imagem,
+                "pdp_qtd" => $pdp_qtd,
+                "pdp_subtotal" => $pdp_subtotal,
+            ]);
+        }
+        $order['cart_itens'] = $cart;
     }
 }

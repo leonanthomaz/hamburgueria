@@ -67,7 +67,7 @@ class Email{
     //Criação do email para envio
     public function confirmation_email_new_order($email_cliente, $info_order){
 
-        // if($info_order[0]['pd_pagamento'] == "pix"){}
+        $qrcode = $_SESSION['qrcode_pix'];
 
         // envia um email para o novo cliente no sentido de confirmar o email
         $mail = new PHPMailer(true);
@@ -105,21 +105,26 @@ class Email{
             // mensagem
             $html = '<p>Segue os dados da sua compra: .</p>';
             $html .= '<hr>';
-            $html .= '<p>DADOS DA COMPRA:</p>';
+            $html .= '<p>DADOS:</p>';
             $html .= '<p>Número da conta: <strong>'.$info_order[0]['pd_codigo'].'</strong></p>';
             $html .= '<p>Cupom: <strong>'.$info_order[0]['pd_cupom'] ? $info_order[0]['pd_cupom'] : "Não utilizado".'</strong></p>';
             $html .= '<p>Valor a pagar: <strong>R$'.number_format($info_order[0]['pd_total'], 2, ',', '.').'</strong></p>';
-            $html .= '<p>observacao: <strong>'.$info_order[0]['pd_observacao'] ? $info_order[0]['pd_observacao'] : "Sem observação".'</strong></p>';
+            $html .= '<p>Observacao: <strong>'.$info_order[0]['pd_observacao'] ? $info_order[0]['pd_observacao'] : "Sem observação".'</strong></p>';
             $html .= '<p>status: <strong>'.$info_order[0]['pd_status'] == 1 ? "PENDENTE" : "PROCESSANDO" .'</strong></p>';
-            $html .= '<p>pagamento: <strong>'.$info_order[0]['pd_pagamento'].'</strong></p>';
+            $html .= '<p>Pagamento: <strong>'.$info_order[0]['pd_pagamento'].'</strong></p>';
             $html .= '<hr>';
             
             if(isset($_SESSION['qrcode_pix'])){
-                $qrcode = $_SESSION['qrcode_pix'];
-                $html .= '<p>QRCode Pix:</p>';
+                $html .= '<p>CÓDIGO PIX:</p>';
+                $html .= '<p>Escaneie o código PIX:</p>';
                 $html .= '<img src='.$qrcode->qr_codes[0]->links[0]->href.' alt="qr_codes" width="200">';
-                $html .= '<span>'.$qrcode->id.'</span>';
+                $html .= '<p>ou copie o código abaixo e abra no seu app:</p>';
+                $html .= '<strong>'.$qrcode->qr_codes[0]->text.'</strong>';
             }
+            $html .= '<hr>';
+            $html .= '<p>Agradecemos a sua compra e não se preocupe, você será comunicado sobre atualizações da sua compra!</p>';
+            $html .= '<hr>';
+            $html .= '<span>'.APP_NAME.'</span>';
 
             $mail->Body = $html;
 

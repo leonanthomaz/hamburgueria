@@ -1,22 +1,30 @@
 
-const handleLogin = () => {
+$(document).ready(()=>{
     $("#register-form").hide()
-    $("#login-form").hide()
-}
+})
 
 const login = () => {
-    $("#tab-login").toggleClass("active")
+    $("#tab-login").addClass("active")
     $("#tab-register").removeClass("active")
 
-    $("#login-form").show('fast')
+    $('#login-form').show().fadeIn(function(){ 
+        $('#content').animate({
+            left: "80px"
+        }, 500); 
+    },1500).css('left' ,'0');
     $("#register-form").hide()
 }
 
 const register = () => {
-    $("#tab-register").toggleClass("active")
+    $("#tab-register").addClass("active")
     $("#tab-login").removeClass("active")
 
-    $("#register-form").show('fast')
+    // $("#register-form").show('fast')
+    $('#register-form').show().fadeIn(function(){ 
+        $('#content').animate({
+            left: "80px"
+        }, 500); 
+    },1500).css('left' ,'0');
     $("#login-form").hide()
 
 }

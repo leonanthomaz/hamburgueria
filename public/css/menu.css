@@ -101,7 +101,13 @@
     cursor: pointer;
 }
 
-@media(max-width: 760px) {
+@media(max-width: 1000px) and (min-width: 900px) {
+    .menu-wrapper{
+        font-size: 12px;
+    }
+}
+
+@media(max-width: 900px) {
 
     #menu {
         padding: 10px;
@@ -112,14 +118,10 @@
         width: 80px;
         margin-left: 45px;
     }
-
+    
     .menu-link {
         border-bottom: 1px solid whitesmoke;
-    }
-
-    .menu-user {
-        font-size: 12px;
-    }
+    }    
 
     .menu-user>a {
         padding: 5px;

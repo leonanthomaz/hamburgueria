@@ -39,6 +39,32 @@ class Main
         ], ["products" => $products]);
     }
 
+    //Página de manutenção
+    public function about()
+    {
+
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'sobre',
+            'layouts/footer',
+            'layouts/html_footer'
+        ]);
+    }
+
+    //Página de manutenção
+    public function contact()
+    {
+
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'contato',
+            'layouts/footer',
+            'layouts/html_footer'
+        ]);
+    }
+
     //Página de Login
     public function login()
     {

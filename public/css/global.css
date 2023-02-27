@@ -37,6 +37,12 @@ h2{
   background-color: #920d0d;
 }
 
+@media(max-width: 760px){
+  .footer-wrapper .footer-produtos, .footer-wrapper .footer-links-uteis{
+    display: none;
+  }
+}
+
 
 
 

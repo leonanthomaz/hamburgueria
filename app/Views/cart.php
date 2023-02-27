@@ -8,7 +8,7 @@ if (isset($_SESSION['total'])) {
 include_once "app/Views/includes/login_modal.php";
 ?>
 
-<?php print_r($_SESSION) ?>
+<!-- <?php print_r($_SESSION) ?> -->
 
 <?php if ($cart === null) : ?>
 

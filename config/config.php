@@ -62,6 +62,7 @@ DEFINE('FACEBOOK_LOGIN', [
 // Integração Pagseguro - insira suas credenciais
 DEFINE('PAGSEGURO_ENDPOINT', 'https://sandbox.api.pagseguro.com/orders');
 DEFINE('PAGSEGURO_TOKEN', '');
+DEFINE('PAGSEGURO_COBRANCA_ENDPOINT', '');
 
 DEFINE('PAGSEGURO_APPID', '');
 DEFINE('PAGSEGURO_APPKEY', '');

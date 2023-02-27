@@ -10,7 +10,7 @@ public function whatsapp_send_msg($client, $codigo)
         $params = array(
             'token' => WHATSAPP_API_TOKEN,
             'to' => $client->c_telefone,
-            'body' => "Oi, ".$client->c_nome."! Sua compra realizada com sucesso! Segue o código da compra: '.$codigo.'."
+            'body' => "Oi, ".$client->c_nome."! Sua compra foi solicitada com sucesso! Guarde o código da sua compra: ".$codigo." . Ao confirmar seu pagamento iremos notificá-lo novamente. Abraços!"
         );
         $curl = curl_init();
         curl_setopt_array($curl, array(
